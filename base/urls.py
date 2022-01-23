@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 from .views import UserSignUp, LoginView, LogoutView, LandingPage, DashboardView
@@ -7,5 +8,6 @@ urlpatterns = [
     path('', LandingPage.as_view(), name='home'),
     path('login', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('dashboard/', DashboardView.as_view(), name='dashboard'),
+    path('dashboard/', login_required(DashboardView.as_view()), name='dashboard'),
+    path('dashboard/<path:resource>/', login_required(DashboardView.as_view()), name="dashboard")
 ]

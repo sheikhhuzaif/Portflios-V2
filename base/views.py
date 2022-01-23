@@ -87,4 +87,4 @@ class UserSignUp(FormView):
 
 
 class DashboardView(TemplateView):
-    template_name = "dashboard_base.html"
+    template_name = "dashboard.html"

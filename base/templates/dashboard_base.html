@@ -4,10 +4,21 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Base Template</title>
+   <title>{% block title %}Base Template{% endblock %}</title>
    {% render_bundle_css  %}
+   {% block extend_css %}
+   {% endblock %}
 </head>
 <body>
+   {% block body %}
+   {% endblock %}
+
+   {% block preloaded_state %}
+   {% endblock %}
+
    {% render_bundle_js %}
+
+   {% block extend_js %}
+   {% endblock %}
 </body>
 </html>
