@@ -1,0 +1,10 @@
+{% extends "dashboard_base.html" %}
+{% block body %}
+<div id="root"></div>
+{% endblock %}
+{% block preloaded_state %}
+<script>
+window.__PRELOADED_STATE__  = {{preloaded_state|safe}}
+window.__PRELOADED_STATE_APOLLO__  = {{preloaded_state|safe}}
+</script>
+{% endblock %}
