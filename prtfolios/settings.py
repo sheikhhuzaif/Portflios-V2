@@ -42,6 +42,13 @@ INSTALLED_APPS = [
     'base',
     "graphene_django",
     'create_react_app',
+    'resumes',
+    'portfolio',
+    'userprofile',
+    'versatileimagefield',
+    'django_countries',
+    'phonenumber_field',
+
 ]
 
 MIDDLEWARE = [
