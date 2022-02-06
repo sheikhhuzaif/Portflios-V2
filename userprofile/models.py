@@ -29,7 +29,7 @@ class BasicInfo(BaseModel):
 
 
 class AddressInfo(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="address")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="address")
     country = CountryField(blank=True, null=True)
     state = models.CharField(blank=True, null=True, max_length=128)
     city = models.CharField(blank=True, null=True, max_length=128)
@@ -59,12 +59,18 @@ class Education(models.Model):
     def __str__(self):
         return self.course_name + self.university
 
+    @property
+    def get_duration(self):
+        if self.end_date:
+            return '{} to {}'.format(datetime.strftime(self.start_date, "%M-%Y"), datetime.strftime(self.end_date,
+                                                                                                    "%M-%Y"))
+
 
 class Work(models.Model):
     title = models.CharField(max_length=128)
+    company = models.CharField(max_length=128)
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
-    company = models.CharField(max_length=128)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="works")
 
     def __str__(self):
