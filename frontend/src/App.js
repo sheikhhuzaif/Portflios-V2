@@ -13,7 +13,7 @@ import NewProduct from "./pages/newProduct/NewProduct";
 function App() {
   return (
     <Router>
-      <Topbar />
+      {/* <Topbar /> */}
       <div className="container">
         <Sidebar />
         <Switch>
