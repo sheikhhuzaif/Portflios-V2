@@ -1,72 +1,49 @@
-import "./userList.css";
-import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
-import { userRows } from "../../dummyData";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import temp1 from '..\\..\\images\\temp1.png';
+import temp2 from '..\\..\\images\\temp2.png';
+import temp3 from '..\\..\\images\\temp3.png';
+import { Stack } from '@mui/material';
+import { Button } from '@material-ui/core';
 
-export default function UserList() {
-  const [data, setData] = useState(userRows);
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+export default function LabTabs() {
+  const [value, setValue] = React.useState('1');
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
-  
-  const columns = [
-    { field: "id", headerName: "ID", width: 90 },
-    {
-      field: "user",
-      headerName: "User",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="userListUser">
-            <img className="userListImg" src={params.row.avatar} alt="" />
-            {params.row.username}
-          </div>
-        );
-      },
-    },
-    { field: "email", headerName: "Email", width: 200 },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 120,
-    },
-    {
-      field: "transaction",
-      headerName: "Transaction Volume",
-      width: 160,
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={"/user/" + params.row.id}>
-              <button className="userListEdit">Edit</button>
-            </Link>
-            <DeleteOutline
-              className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            />
-          </>
-        );
-      },
-    },
-  ];
-
   return (
-    <div className="userList">
-      <DataGrid
-        rows={data}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={8}
-        checkboxSelection
-      />
-    </div>
+    <Box flex={4} sx={{ typography: 'body1' }}>
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList  onChange={handleChange} aria-label="lab API tabs example">
+            <Tab label="Template 1" value="1" />
+            <Tab label="Template 2" value="2" />
+            <Tab label="Template 3" value="3" />
+          </TabList>
+        </Box>
+        <TabPanel value="1">
+          <Stack spacing={2}>
+            <img src={temp1} />
+            <Button href="#text-buttons">Use This Template</Button>
+          </Stack>
+        </TabPanel>
+        <TabPanel value="2">
+          <Stack spacing={2}>
+            <img src={temp2} />
+            <Button href="#text-buttons">Use This Template</Button>
+          </Stack>
+        </TabPanel>
+        <TabPanel value="3">
+          <Stack spacing={2}>
+            <img src={temp3} />
+            <Button  href="#text-buttons">Use This Template</Button>
+          </Stack>
+        </TabPanel>
+      </TabContext>
+    </Box>
   );
 }

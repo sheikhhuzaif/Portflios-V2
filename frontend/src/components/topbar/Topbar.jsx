@@ -66,7 +66,10 @@ const Topbar = () => {
   return (
     <div className="topbar">
       <div className="topbarWrapper">
-    <AppBar>
+    <AppBar position= "sticky"
+            top="0"
+            z-index="999"
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
