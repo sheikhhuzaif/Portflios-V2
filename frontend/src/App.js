@@ -9,16 +9,21 @@ import NewUser from "./pages/newUser/NewUser";
 import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
+import FormComponent from "./form/FormComponent";
 
 function App() {
   return (
+    // <div>
+    //   <FormComponent />
+    // </div>
     <Router>
       {/* <Topbar /> */}
       <div className="container">
         <Sidebar />
         <Switch>
           <Route exact path="/">
-            <Home />
+          <FormComponent />
+            {/* <Home /> */}
           </Route>
           <Route path="/users">
             <UserList />
