@@ -31,7 +31,7 @@ export const renderSelect = ({ name, label, options, state, onChange }) => {
       select
       label={label}
       variant='outlined'
-      color='primary'
+      color='inherit'
       size='small'
       fullWidth={true}
       name={name}

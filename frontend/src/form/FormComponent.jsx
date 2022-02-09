@@ -17,6 +17,16 @@ import Step5 from "./Steps/step5";
 import FinalStep from "./Steps/FinalStep";
 import { renderText } from "./common/DisplayComponent";
 import { styles } from "./common/styles";
+import { styled, useTheme } from '@mui/material/styles';
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
 
 class FormComponent extends Component {
   state = {
@@ -141,8 +151,9 @@ class FormComponent extends Component {
     };
 
     return (
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <DrawerHeader />
       <Grid container className={classes.formContainer}>
-        <Grid item md="2"></Grid>
         <Grid item md={10}>
           <form onSubmit={this.handleSubmit} className={classes.form}>
             <Paper component={Box} mb={1}>
@@ -166,6 +177,7 @@ class FormComponent extends Component {
           </form>
         </Grid>
       </Grid>
+      </Box>
     );
   }
 }
