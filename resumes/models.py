@@ -1,7 +1,7 @@
 from django.db import models
 from versatileimagefield.fields import VersatileImageField
 
-from prtfolios.base.models import BaseModel
+from base.models import BaseModel
 
 
 class Resumes(BaseModel):

@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 from versatileimagefield.fields import VersatileImageField
 
-from prtfolios.base.models import BaseModel
+from base.models import BaseModel
 
 
 class Portfolio(BaseModel):

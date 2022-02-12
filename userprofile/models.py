@@ -6,7 +6,7 @@ from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
 from versatileimagefield.fields import VersatileImageField
 
-from prtfolios.base.models import BaseModel
+from base.models import BaseModel
 from .utils import Gender, Socials
 
 
