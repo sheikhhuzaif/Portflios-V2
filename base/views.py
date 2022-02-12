@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic import FormView, TemplateView
@@ -88,3 +89,10 @@ class UserSignUp(FormView):
 
 class DashboardView(TemplateView):
     template_name = "dashboard.html"
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_authenticated and request.path == '/':
+            redirect('dashboard')
+        return self.render_to_response({})
+
