@@ -17,6 +17,7 @@ class BasicInfoManager(models.Manager):
         if dob:
             info.dob = dob
         info.save()
+        return info
 
     def create_info(self, user, about=None, phone=None, gender=None, picture=None, profession=None, dob=None):
         info, created = self.get_or_create(user=user)
@@ -52,6 +53,7 @@ class SkillManager(models.Manager):
         if name:
             skill.name = name
         skill.save()
+        return skill
 
     def create_skill(self, user, name):
         skill, created = self.get_or_create(user=user, name=name)
