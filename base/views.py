@@ -60,9 +60,6 @@ class UserSignUp(FormView):
         context = {"form": self.form_class()}
         return self.render_to_response(context)
 
-    # def send_activation_mail(self, user):
-    #     user_activation_email(user.id)
-
     def check_user(self, email):
         user = User.objects.filter(username=email).first()
         return user
@@ -92,7 +89,7 @@ class DashboardView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
-        if user.is_authenticated and request.path == '/':
+        if user.is_authenticated:
             redirect('dashboard')
         return self.render_to_response({})
 

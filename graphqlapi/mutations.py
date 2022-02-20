@@ -160,11 +160,14 @@ class UpdateWork(graphene.Mutation):
         if pk:
             work = Work.objects.filter(id=pk).first()
             if work and work.user == user:
-                Work.objects.update_work(pk, title=title, company=company, start_date=start_date, end_date=end_date)
+                Work.objects.update_work(pk, title=title, company=company,
+                                         start_date=create_date(start_date, DJANGO_FORMAT),
+                                         end_date=create_date(end_date, DJANGO_FORMAT))
                 return UpdateWork(work, True)
         else:
-            work = Work.objects.create_work(user, title=title, company=company, start_date=start_date,
-                                            end_date=end_date)
+            work = Work.objects.create_work(user, title=title, company=company,
+                                            start_date=create_date(start_date, DJANGO_FORMAT),
+                                            end_date=create_date(end_date, DJANGO_FORMAT))
             if work:
                 return UpdateWork(work, True)
 

@@ -1,12 +1,12 @@
 import graphene
 from .mutations import UpdateBasicInfo, UpdateAddress, UpdateEducation, UpdateWork, UpdateSkill, UpdateSocial, \
     DeleteEducation, DeleteWork, DeleteSkill, DeleteSocial
-from .types import UserType, BasicInfoType, AddressType, SkillType, EducationType, WorkType, SocialType
+from .types import UserType, BasicInfoType, AddressType, SkillType, EducationType, WorkType, SocialType, BaseDataType
 from userprofile.models import AddressInfo
 
 
 class Query(graphene.ObjectType):
-    hello = graphene.String(default_value="Hi!")
+    base_data = graphene.Field(BaseDataType)
     user_data = graphene.Field(UserType)
     basic_info = graphene.Field(BasicInfoType)
     address = graphene.Field(AddressType)
@@ -14,6 +14,9 @@ class Query(graphene.ObjectType):
     educations = graphene.List(EducationType)
     works = graphene.List(WorkType)
     socials = graphene.List(SocialType)
+
+    def resolve_base_data(self, info):
+        return "ABC"
 
     def resolve_socials(self, info):
         user = info.context.user

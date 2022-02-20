@@ -1,7 +1,7 @@
 import Sidebar from "./components/sidebar/Sidebar";
 import "./App.css";
 import Home from "./pages/home/Home";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FormComponent from "./form/FormComponent";
 
 function App() {
@@ -10,14 +10,10 @@ function App() {
     <Router>
       <div className="container">
         <Sidebar />
-        <Switch>
-          <Route exact path="/dashboard">
-            <Home />
-          </Route>
-          <Route path="/edit">
-            <FormComponent />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/dashboard" element={<Home/>}/>
+          <Route path="/dashboard/edit" element={<FormComponent/>}/>
+        </Routes>
       </div>
     </Router>
   );

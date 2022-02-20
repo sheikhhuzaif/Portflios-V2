@@ -27,6 +27,7 @@ import StarBorder from '@mui/icons-material/StarBorder';
 import Collapse from '@mui/material/Collapse';
 import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
+import { useNavigate } from "react-router-dom";
 
 
 const drawerWidth = 240;
@@ -97,9 +98,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function Sidebar() {
+  let navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
+
+  const handleLogout = () => {
+    navigate('/logout')
+    window.location.reload();
+  };
 
   const handleClick = () => {
     setOpen1(!open1);
@@ -144,7 +151,7 @@ export default function Sidebar() {
         <Divider />
         <List>
           {/* HOME */}
-          <Link to="/" className="link">
+          <Link to="/dashboard" className="link">
             <ListItem button key="Home">
               <ListItemIcon>
                 <HomeIcon />
@@ -174,7 +181,7 @@ export default function Sidebar() {
 
           {/* Profile */}
 
-          <ListItem button onClick={handleClick} key="Proflie">
+          <ListItem button onClick={handleClick} key="Profile">
             <ListItemIcon>
               <AccountBoxIcon />
             </ListItemIcon>
@@ -184,7 +191,7 @@ export default function Sidebar() {
 
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Link to="/edit" className="link">
+              <Link to="/dashboard/edit" className="link">
                 <ListItem button sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <EditIcon />
@@ -202,7 +209,7 @@ export default function Sidebar() {
           </Collapse>
 
           {/* Logout */}
-          <ListItem button key="Logout">
+          <ListItem button key="Logout" onClick={handleLogout}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>

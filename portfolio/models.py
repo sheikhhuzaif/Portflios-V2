@@ -9,4 +9,4 @@ from base.models import BaseModel
 class Portfolio(BaseModel):
     template_name = models.CharField(max_length=32)
     demo_image = VersatileImageField(upload_to='portfolio-demos')
-    paid = models.BooleanField(default=0)
+    paid = models.BooleanField(default=False)
