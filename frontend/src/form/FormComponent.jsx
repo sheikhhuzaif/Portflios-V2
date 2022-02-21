@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./FormComponent.css"
 import PropTypes from "prop-types";
 import {
   Box,
@@ -14,12 +15,15 @@ import Step2 from "./Steps/step2";
 import Step3 from "./Steps/step3";
 import Step4 from "./Steps/step4";
 import Step5 from "./Steps/step5";
+import Step6 from "./Steps/step6";
 import FinalStep from "./Steps/FinalStep";
 import { renderText } from "./common/DisplayComponent";
 import { styles } from "./common/styles";
+import { color } from "@mui/system";
 
 class FormComponent extends Component {
   state = {
+    
     data: {
       firstName: "",
       lastName: "",
@@ -27,6 +31,7 @@ class FormComponent extends Component {
       phone: "",
       email: "",
 
+      
       highestDegree: "",
       issuedBy: "",
       yearOfPassing: "",
@@ -40,6 +45,7 @@ class FormComponent extends Component {
     errors: {},
     steps: [
       { label: "Personal Details" },
+      { label: "Address" },
       { label: "Qualifications" },
       { label: "Skills" },
       { label: "Work Experience" },
@@ -127,7 +133,17 @@ class FormComponent extends Component {
               handleSubmit={handleSubmit}
             />
           );
-        case 5:
+          case 5:
+          return (
+            <Step6
+              state={this.state}
+              handleChange={handleOnChange}
+              handleNext={handleNextStep}
+              handlePrev={handleBackStep}
+              handleSubmit={handleSubmit}
+            />
+          );
+        case 6:
           return <FinalStep data={this.state.data} />;
         default:
           return (
@@ -141,31 +157,33 @@ class FormComponent extends Component {
     };
 
     return (
-      <Grid container className={classes.formContainer}>
-        <Grid item md="2"></Grid>
-        <Grid item md={10}>
-          <form onSubmit={this.handleSubmit} className={classes.form}>
-            <Paper component={Box} mb={1}>
-              <Box pt={2}>
-                {renderText({
+      // <Grid container className={classes.formContainer}>
+      //   <Grid item md={10}>
+      <div  className="formContainer" >
+          <div  className="form">
+            <div className="formHead " component={Box} mb={1}>
+              <div className="font" pt={2} style={{marginBottom:"10px"}}>
+              Enter your details
+                {/* {renderText({
                   type: "h6",
                   color: "primary",
                   label: "Enter your details",
                   align: "center",
-                })}
-              </Box>
-              <Stepper activeStep={this.state.stepCount} alternativeLabel>
+                })} */}
+              </div>
+              <Stepper className="borderRadius " activeStep={this.state.stepCount} alternativeLabel>
                 {this.state.steps.map((item) => (
                   <Step key={item.label}>
                     <StepLabel>{item.label}</StepLabel>
                   </Step>
                 ))}
               </Stepper>
-            </Paper>
+            </div>
             {getStepContent(this.state.stepCount)}
-          </form>
-        </Grid>
-      </Grid>
+          </div>
+          </div>
+      //   </Grid>
+      // </Grid>
     );
   }
 }

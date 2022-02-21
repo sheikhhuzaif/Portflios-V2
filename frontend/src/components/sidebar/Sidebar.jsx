@@ -56,10 +56,12 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Profile</h3>
           <ul className="sidebarList">
+          <Link to="/edit" className="link"> 
             <li className="sidebarListItem">
               <MailOutline className="sidebarIcon" />
               Edit
             </li>
+            </Link>
           </ul>
         </div>
         

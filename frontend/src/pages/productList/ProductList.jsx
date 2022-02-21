@@ -16,7 +16,7 @@ export default function LabTabs() {
     setValue(newValue);
   };
   return (
-    <Box flex={4} sx={{ typography: 'body1' }}>
+    <Box className='' flex={4} sx={{ typography: 'body1' }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList  onChange={handleChange} aria-label="lab API tabs example">
@@ -27,19 +27,19 @@ export default function LabTabs() {
         </Box>
         <TabPanel value="1">
           <Stack spacing={2}>
-            <img src={temp1} />
+            <img src={temp1}  alt="template 1"/>
             <Button href="#text-buttons">Use This Template</Button>
           </Stack>
         </TabPanel>
         <TabPanel value="2">
           <Stack spacing={2}>
-            <img src={temp2} />
+            <img src={temp2}  alt="template 2"/>
             <Button href="#text-buttons">Use This Template</Button>
           </Stack>
         </TabPanel>
         <TabPanel value="3">
           <Stack spacing={2}>
-            <img src={temp3} />
+            <img src={temp3}  alt="template 3"/>
             <Button  href="#text-buttons">Use This Template</Button>
           </Stack>
         </TabPanel>

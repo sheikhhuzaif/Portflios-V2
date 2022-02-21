@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Grid, IconButton, Paper, TextField } from "@material-ui/core";
+import { Box, Grid, IconButton, Paper } from "@material-ui/core";
 import { styles } from "../common/styles";
 import {
   renderButton,
@@ -10,47 +10,61 @@ import {
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import { v4 as uuidv4 } from 'uuid';
-import DatePicker from "react-datepicker";
-// WORK exp STEP
+import TextField from '@mui/material/TextField'
 
-const Step3 = ({
+// SKILLS STEP
+
+
+
+
+const Step4 = ({
   state,
   handleChange,
   handleNext,
   handlePrev,
-  handleSubmit,
 }) => {
-
-  const [experience, setExperience] = useState([
-    { id: uuidv4(), title: '', company: '' },
+ 
+  const [skills, setSkills] = useState([
+    { id: uuidv4(), skillname: '' },
   ]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("form submitted");
+  };
+
+  function handle(e) {
+    handleSubmit(e);
+    handleNext();
+  }
+
   const handleChangeInput = (id, event) => {
-    const newExp = experience.map(i => {
-      if (id === i.id) {
+    const newSkill = skills.map(i => {
+      if(id === i.id) {
         i[event.target.name] = event.target.value
       }
       return i;
     })
-
-    setExperience(newExp);
+    
+    setSkills(newSkill);
   }
 
-  const handleAddExp = () => {
-    setExperience([...experience, { id: uuidv4(), title: '', company: '' }])
+  const handleAddSkill = () => {
+    setSkills([...skills, { id: uuidv4(),  skillname: '' }])
   }
 
-  const handleRemoveExp = id => {
-    const values = [...experience];
+  const handleRemoveSkills = id => {
+    const values  = [...skills];
     values.splice(values.findIndex(value => value.id === id), 1);
-    setExperience(values);
+    setSkills(values);
   }
 
   return (
-    <Paper style={styles.steps}>
+    <form className="formHead"  onSubmit={handleSubmit}>
+      <Paper className="steps">
       <Box mt={2} mb={2}>
         {renderText({
-          label: "Work Experience",
+          label: "SKills you have",
           type: "h6",
           color: "textPrimary",
           align: "center",
@@ -60,37 +74,34 @@ const Step3 = ({
       workExperence: "",
       expectedSalary: "", */}
 
-      {experience.map((exp, id) => (
-        <Grid container style={{ marginBottom: "16px" }} key={id}>
+      {skills.map((skill, id) => (
+        <Grid container  style={{ marginBottom: "16px" }} key={id}>
 
-          <Grid item xs={5} >
-          <TextField
-              name="title"
-              label="Job Title"
-              value={experience.title}
-              onChange={event => handleChangeInput(experience.id, event)}
-            />
-          </Grid>
-          
-          <Grid item xs={5} >
+
+          <Grid item fullwidth  md={4}>
             <TextField
-              name="company"
-              label="Company Name"
-              value={experience.company}
-              onChange={event => handleChangeInput(experience.id, event)}
+              
+              name="skillname"
+              label="Skill Name"
+              value={skill.skillname}
+              onChange={event => handleChangeInput(skill.id, event)}
             />
+
           </Grid>
-         
-          <Grid item xs={2}>
-            <IconButton disabled={experience.length === 1} onClick={() => handleRemoveExp(experience.id)}>
-              <RemoveIcon />
-            </IconButton>
-            <IconButton
-              onClick={handleAddExp}
-            >
-              <AddIcon />
-            </IconButton>
+
+          <Grid item>
+          <IconButton disabled={skills.length === 1} onClick={() => handleRemoveSkills(skill.id)}>
+            <RemoveIcon />
+          </IconButton>
+          <IconButton
+            onClick={handleAddSkill}
+          >
+            <AddIcon />
+          </IconButton>
           </Grid>
+          <Grid item md={5}></Grid>
+
+
         </Grid>
       ))}
 
@@ -103,11 +114,12 @@ const Step3 = ({
           })}
         </Box>
         <Box ml={2}>
-          {renderButton({ label: "Next", onClick: handleNext })}
+        {renderButton({ label: "Next", onClick: handle })}
         </Box>
       </Grid>
     </Paper>
+    </form>
   );
 };
 
-export default Step3;
+export default Step4;

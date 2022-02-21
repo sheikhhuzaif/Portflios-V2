@@ -7,7 +7,9 @@ export const styles = {
     // flexFlow: "row Wrap",
     justifyContent: "center",
     alignItems: "center",
-    height: "70vh", 
+    // height: "80vh", 
+    // width:"150vh",
+    margin: "40px",
     
   },
 

@@ -10,20 +10,29 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import FormComponent from "./form/FormComponent";
+import a from '.\\images\\a.jpg';
+import b from '.\\images\\b.jpg';
+import c from '.\\images\\c.jpg';
+import d from '.\\images\\d.jpg';
+
 
 function App() {
   return (
     // <div>
     //   <FormComponent />
     // </div>
+    // <div style={{backgroundImage:`url(${d})`}}>
     <Router>
       <Topbar />
       <div className="container">
         <Sidebar />
         <Switch>
           <Route exact path="/">
+          {/* <FormComponent /> */}
+            <Home />
+          </Route>
+          <Route path="/edit">
           <FormComponent />
-            {/* <Home /> */}
           </Route>
           <Route path="/users">
             <UserList />
@@ -46,6 +55,7 @@ function App() {
         </Switch>
       </div>
     </Router>
+    // </div>
   );
 }
 
