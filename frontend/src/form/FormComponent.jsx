@@ -185,10 +185,6 @@ class FormComponent extends Component {
             {getStepContent(this.state.stepCount)}
           </div>
           </div>
-          </form>
-        </Grid>
-      </Grid>
-      </Box>
     );
   }
 }

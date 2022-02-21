@@ -3,10 +3,7 @@ import "./App.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FormComponent from "./form/FormComponent";
-import a from '.\\images\\a.jpg';
-import b from '.\\images\\b.jpg';
-import c from '.\\images\\c.jpg';
-import d from '.\\images\\d.jpg';
+
 
 
 function App() {

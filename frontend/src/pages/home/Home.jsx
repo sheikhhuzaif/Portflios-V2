@@ -24,7 +24,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function Home() {
   return (
-    <div className="home " >
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <DrawerHeader />
+      <div className="home " >
       <div className="type mt-10">
 
         <Link to="" className="typeItem font bg-gray-100 hover:shadow-2xl p-28 m-2" >
@@ -36,19 +38,7 @@ export default function Home() {
 
         </Link>
       </div>
-
-     <div className="typeItem font bg-gray-100 hover:shadow-2xl p-28 m-11">
-
-     </div>
     </div>
-    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-      <DrawerHeader />
-      <FeaturedInfo />
-      <Chart data={userData} title="User Analytics" grid dataKey="Active User"/>
-      <div className="homeWidgets">
-        <WidgetSm/>
-        <WidgetLg/>
-      </div>
     </Box>
-  );
+);
 }
