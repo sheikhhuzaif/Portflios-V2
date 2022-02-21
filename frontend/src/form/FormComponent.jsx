@@ -20,6 +20,17 @@ import FinalStep from "./Steps/FinalStep";
 import { renderText } from "./common/DisplayComponent";
 import { styles } from "./common/styles";
 import { color } from "@mui/system";
+import { styled, useTheme } from '@mui/material/styles';
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
 
 class FormComponent extends Component {
   state = {
@@ -157,19 +168,11 @@ class FormComponent extends Component {
     };
 
     return (
-      // <Grid container className={classes.formContainer}>
-      //   <Grid item md={10}>
       <div  className="formContainer" >
           <div  className="form">
             <div className="formHead " component={Box} mb={1}>
               <div className="font" pt={2} style={{marginBottom:"10px"}}>
               Enter your details
-                {/* {renderText({
-                  type: "h6",
-                  color: "primary",
-                  label: "Enter your details",
-                  align: "center",
-                })} */}
               </div>
               <Stepper className="borderRadius " activeStep={this.state.stepCount} alternativeLabel>
                 {this.state.steps.map((item) => (
@@ -182,8 +185,10 @@ class FormComponent extends Component {
             {getStepContent(this.state.stepCount)}
           </div>
           </div>
-      //   </Grid>
-      // </Grid>
+          </form>
+        </Grid>
+      </Grid>
+      </Box>
     );
   }
 }

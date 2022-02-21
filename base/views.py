@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic import FormView, TemplateView
@@ -59,9 +60,6 @@ class UserSignUp(FormView):
         context = {"form": self.form_class()}
         return self.render_to_response(context)
 
-    # def send_activation_mail(self, user):
-    #     user_activation_email(user.id)
-
     def check_user(self, email):
         user = User.objects.filter(username=email).first()
         return user
@@ -88,3 +86,10 @@ class UserSignUp(FormView):
 
 class DashboardView(TemplateView):
     template_name = "dashboard.html"
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_authenticated:
+            redirect('dashboard')
+        return self.render_to_response({})
+

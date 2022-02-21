@@ -9,7 +9,17 @@ import a from '..\\..\\images\\a.jpg';
 import b from '..\\..\\images\\b.jpg';
 import c from '..\\..\\images\\c.jpg';
 import d from '..\\..\\images\\d.jpg';
+import Box from '@mui/material/Box';
+import { styled, useTheme } from '@mui/material/styles';
 
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
 
 
 export default function Home() {
@@ -31,13 +41,14 @@ export default function Home() {
 
      </div>
     </div>
-    // <div className="home">
-    //   <FeaturedInfo />
-    //   <Chart data={userData} title="User Analytics" grid dataKey="Active User"/>
-    //   <div className="homeWidgets">
-    //     <WidgetSm/>
-    //     <WidgetLg/>
-    //   </div>
-    // </div>
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <DrawerHeader />
+      <FeaturedInfo />
+      <Chart data={userData} title="User Analytics" grid dataKey="Active User"/>
+      <div className="homeWidgets">
+        <WidgetSm/>
+        <WidgetLg/>
+      </div>
+    </Box>
   );
 }
