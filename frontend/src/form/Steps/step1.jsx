@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import {  Grid, MenuItem  } from "@material-ui/core";
+import { Grid, MenuItem } from "@material-ui/core";
 import { styles } from "../common/styles";
 import {
   renderButton,
@@ -10,17 +10,20 @@ import {
   renderText,
 } from "../common/DisplayComponent";
 import TextField from '@mui/material/TextField'
-import { Input, Paper, Select,Box } from "@mui/material";
+import { Input, Paper, Select, Box } from "@mui/material";
 import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import "../FormComponent.css"
 import { useForm, Controller } from "react-hook-form";
+import { useMutation, gql } from "@apollo/client";
+
+
 
 
 
 // PERSONAL DETAILS STEP
-const Step1 = ({ state, handleNext }) => {
+export default function Step1({ state, handleNext }) {
   const [errors, setErrors] = useState({ fname: '', lname: '', gender: '', phone: '', email: '', profession: '' });
 
 
@@ -29,6 +32,26 @@ const Step1 = ({ state, handleNext }) => {
   const [personal, setPersonal] = useState([
     { fname: '', lname: '', gender: '', phone: '', email: '', profession: '' },
   ]);
+
+  const UPDATE_BASIC_INFO = gql`
+    mutation updateBasicInfo($gender: String){
+    updateBasicInfo(
+        gender: $gender,  
+    )
+    {
+      success
+    }
+    }
+  `
+
+
+let input;
+const [updateBasicInfo, { data, loading, error }] = useMutation(UPDATE_BASIC_INFO, {
+  variables: {}
+});
+if (loading) return 'Submitting...';
+if (error) return `Submission error! ${error.message}`;
+
 
   const handleChange = (event) => {
 
@@ -48,6 +71,9 @@ const Step1 = ({ state, handleNext }) => {
     e.preventDefault();
     console.log("form submitted");
   };
+
+
+
 
   function handle(e) {
     handleSubmit(e);
@@ -75,7 +101,16 @@ const Step1 = ({ state, handleNext }) => {
   // };
 
   return (
-    <form className="formHead" onSubmit={handleSubmit}>
+    <form className="formHead"
+      // onSubmit={handle}
+    onSubmit={e => {
+      e.preventDefault();
+      console.log("abcdsabjdhsahjgdgasjukfgkujsa: ", personal[0].gender);
+      updateBasicInfo({ variables: { gender: personal[0].gender } });
+
+      // input.value = '';
+    }}
+    >
       <Paper className="steps">
         <div className="font" mt={2} mb={5}>
           Please Fill personal Data
@@ -90,18 +125,18 @@ const Step1 = ({ state, handleNext }) => {
         <Grid container spacing={2} style={{ marginBottom: "16px" }}>
           <Grid item md={3}>
             <TextField fullWidth
-            variant="outlined"
+              variant="outlined"
               name="fname"
               label="First Name"
               value={personal.fname}
               onChange={handleChange}
-              
+
             />
 
           </Grid>
           <Grid item md={3}>
             <TextField fullWidth
-            variant="outlined"
+              variant="outlined"
               name="lname"
               label="Last Name"
               value={personal.lname}
@@ -221,11 +256,11 @@ const Step1 = ({ state, handleNext }) => {
         {/* </Grid> */}
 
         <Grid container component={Box} justify='flex-end' mt={2} p={2}>
-          {renderButton({ label: "Next", onClick: handle })}
+          {renderButton({ label: "Next",  type: "submit" })}
         </Grid>
       </Paper>
     </form>
   );
 };
 
-export default Step1;
+// export default Step1;

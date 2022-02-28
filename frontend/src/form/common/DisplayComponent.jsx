@@ -48,12 +48,14 @@ export const renderSelect = ({ name, label, options, state, onChange }) => {
   );
 };
 
-export const renderButton = ({ label, variant, color, fullWidth, onClick }) => (
+export const renderButton = ({ label, variant, color, fullWidth, onClick, type }) => (
   <Button
     variant={variant ? variant : "outlined"}
     color={color ? color : "primary"}
     fullWidth={fullWidth ? fullWidth : false}
-    onClick={onClick}>
+    onClick={onClick}
+    type={type}
+    >
     {label}
   </Button>
 );
