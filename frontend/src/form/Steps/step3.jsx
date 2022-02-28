@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Grid, IconButton, Paper } from "@material-ui/core";
+import { Box, Grid, Paper } from "@material-ui/core";
 import { styles } from "../common/styles";
 import {
   renderButton,
@@ -10,6 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { v4 as uuidv4 } from 'uuid';
 import DatePicker from '@mui/lab/DatePicker';
 import TextField from '@mui/material/TextField'
+import { Button, IconButton } from "@mui/material";
 
 // Qual STEP
 
@@ -55,38 +56,38 @@ const Step3 = ({
   }
 
   return (
-    <form className="formHead"  onSubmit={handleSubmit}>
+    <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps">
-      <Box mt={2} mb={2}>
-        {renderText({
-          label: "Your Qualifications",
-          type: "h6",
-          color: "textPrimary",
-          align: "center",
-        })}
-      </Box>
+        <Box mt={2} mb={2}>
+          {renderText({
+            label: "Your Qualifications",
+            type: "h6",
+            color: "textPrimary",
+            align: "center",
+          })}
+        </Box>
 
 
-      {Qualifications.map((Qualification) => (
-        <Grid container spacing={2} style={{ marginBottom: "16px" }} key={Qualification.id}>
+        {Qualifications.map((Qualification) => (
+          <Grid container spacing={2} style={{ marginBottom: "16px" }} key={Qualification.id}>
 
-          <Grid item md={2} >
-            <TextField
-              name="degree"
-              label="Degree Name"
-              value={Qualification.degree}
-              onChange={event => handleChangeInput(Qualification.id, event)}
-            />
-          </Grid>
+            <Grid item md={2} >
+              <TextField
+                name="degree"
+                label="Degree Name"
+                value={Qualification.degree}
+                onChange={event => handleChangeInput(Qualification.id, event)}
+              />
+            </Grid>
 
-          <Grid item md={2}>
-            <TextField
-              name="year"
-              label="Year of passing"
-              value={Qualification.year}
-              onChange={event => handleChangeInput(Qualification.id, event)}
-            />
-            {/* <DatePicker
+            <Grid item md={2}>
+              <TextField
+                name="year"
+                label="Year of passing"
+                value={Qualification.year}
+                onChange={event => handleChangeInput(Qualification.id, event)}
+              />
+              {/* <DatePicker
           views={['year']}
           label="Year only"
           value={value}
@@ -95,52 +96,60 @@ const Step3 = ({
           }}
           renderInput={(params) => <TextField {...params} helperText={null} />}
         /> */}
-          </Grid>
-          <Grid item md={2} >
-            <TextField
-              name="university"
-              label="University"
-              value={Qualification.university}
-              onChange={event => handleChangeInput(Qualification.id, event)}
-            />
-          </Grid>
-          <Grid item md={2}>
-            <TextField
-              name="GPA"
-              label="GPA"
-              value={Qualification.GPA}
-              onChange={event => handleChangeInput(Qualification.id, event)}
-            />
+            </Grid>
+            <Grid item md={2} >
+              <TextField
+                name="university"
+                label="University"
+                value={Qualification.university}
+                onChange={event => handleChangeInput(Qualification.id, event)}
+              />
+            </Grid>
+            <Grid item md={2}>
+              <TextField
+                name="GPA"
+                label="GPA"
+                value={Qualification.GPA}
+                onChange={event => handleChangeInput(Qualification.id, event)}
+              />
 
+            </Grid>
+
+            <Grid item md={2}>
+              <IconButton disabled={Qualifications.length === 1} onClick={() => handleRemoveQual(Qualification.id)}>
+                <RemoveIcon />
+              </IconButton>
+              <IconButton
+                onClick={handleAddQual}
+              >
+                <AddIcon />
+              </IconButton>
+            </Grid>
           </Grid>
 
-          <Grid item md={2}>
-            <IconButton disabled={Qualifications.length === 1} onClick={() => handleRemoveQual(Qualification.id)}>
-              <RemoveIcon />
-            </IconButton>
-            <IconButton
-              onClick={handleAddQual}
+        ))}
+
+        <Grid container component={Box} justify='flex-end' mt={2} p={2}>
+          <Box ml={2}>
+
+            <Button
+              variant="outlined"
+              onClick={handlePrev}
+              color="primary"
             >
-              <AddIcon />
-            </IconButton>
-          </Grid>
+              Back
+            </Button>
+          </Box>
+          <Box ml={2}>
+            <Button
+              variant="outlined"
+              onClick={handle}
+              color="primary">
+              Next
+            </Button>
+          </Box>
         </Grid>
-
-      ))}
-
-      <Grid container component={Box} justify='flex-end' mt={2} p={2}>
-        <Box ml={2}>
-          {renderButton({
-            label: "Back",
-            color: "default",
-            onClick: handlePrev,
-          })}
-        </Box>
-        <Box ml={2}>
-        {renderButton({ label: "Next", onClick: handle })}
-        </Box>
-      </Grid>
-    </Paper>
+      </Paper>
     </form>
   );
 };

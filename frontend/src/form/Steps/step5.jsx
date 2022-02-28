@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Grid, IconButton, Paper } from "@material-ui/core";
+import { Box, Grid, Paper } from "@material-ui/core";
 import { styles } from "../common/styles";
 import {
   renderButton,
@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField'
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
+import { Button, IconButton } from "@mui/material";
 
 // WORK exp STEP
 
@@ -25,7 +26,7 @@ const Step5 = ({
   // const [endDate, setEndDate] = useState(new Date());
 
   const [experience, setExperience] = useState([
-    { id: uuidv4(), title: '', company: '' ,startDate:'',endDate:Date()},
+    { id: uuidv4(), title: '', company: '', startDate: '', endDate: Date() },
   ]);
 
   const handleSubmit = (e) => {
@@ -50,7 +51,7 @@ const Step5 = ({
   }
 
   const handleAddExp = () => {
-    setExperience([...experience, { id: uuidv4(), title: '', company: '' ,endDate: '' }])
+    setExperience([...experience, { id: uuidv4(), title: '', company: '', endDate: '' }])
   }
 
   const handleRemoveExp = id => {
@@ -60,7 +61,7 @@ const Step5 = ({
   }
 
   return (
-    <form className="formHead"  onSubmit={handleSubmit}>
+    <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps">
         <Box mt={2} mb={2}>
           {renderText({
@@ -133,14 +134,21 @@ const Step5 = ({
 
         <Grid container component={Box} justify='flex-end' mt={2} p={2}>
           <Box ml={2}>
-            {renderButton({
-              label: "Back",
-              color: "default",
-              onClick: handlePrev,
-            })}
+            <Button
+              variant="outlined"
+              onClick={handlePrev}
+              color="primary"
+            >
+              Back
+            </Button>
           </Box>
           <Box ml={2}>
-            {renderButton({ label: "Next", onClick: handle })}
+            <Button
+              variant="outlined"
+              onClick={handle}
+              color="primary">
+              Next
+            </Button>
           </Box>
         </Grid>
       </Paper>
