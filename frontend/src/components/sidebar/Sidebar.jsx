@@ -32,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
+
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -72,7 +73,7 @@ const AppBar = styled(MuiAppBar, {
   }),
   ...(open && {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: `calc(100% px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -121,11 +122,12 @@ export default function Sidebar() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} >
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} style={{ backgroundColor: "lightblue" }}>
         <Toolbar>
           <IconButton
+            style={{ color: "black" }}
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -137,22 +139,32 @@ export default function Sidebar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" noWrap component="div">
+          <IconButton
+            style={{ color: "black" }}
+            onClick={handleDrawerClose}
+            sx={{
+              marginRight: '36px',
+              ...(!open && { display: 'none' }),
+            }}
+          >
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+          <Typography variant="h5" noWrap component="div" style={{ color: "black" }}>
             PRTFOLIOS
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} style={{ opacity: "0.6" }}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
+
         </DrawerHeader>
         <Divider />
         <List>
           {/* HOME */}
           <Link to="/dashboard" className="link">
-            <ListItem button key="Home">
+            <ListItem button key="Home" onClick={() => {
+                navigate('/dashboard')
+              }}>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
@@ -160,20 +172,28 @@ export default function Sidebar() {
             </ListItem>
           </Link>
           {/* PORTFOLIO */}
-          <ListItem button key="Portfolio">
-            <ListItemIcon>
-              <DvrIcon />
-            </ListItemIcon>
-            <ListItemText primary="Portfolio" />
-          </ListItem>
+          {/* <Link to="/dashboard/portfolio" className="link"> */}
+            <ListItem button key="Portfolio"  onClick={() => {
+                navigate('/dashboard/portfolio')
+              }}>
+              <ListItemIcon>
+                <DvrIcon />
+              </ListItemIcon>
+              <ListItemText primary="Portfolio" />
+            </ListItem>
+          {/* </Link> */}
 
           {/* RESUME */}
-          <ListItem button key="Resume">
-            <ListItemIcon>
-              <ArticleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Resume" />
-          </ListItem>
+          {/* <Link to="/dashboard/resume" className="link"> */}
+            <ListItem button key="Resume" onClick={() => {
+                navigate('/dashboard/resume')
+              }}>
+              <ListItemIcon>
+                <ArticleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Resume" />
+            </ListItem>
+          {/* </Link> */}
         </List>
         <Divider />
 
@@ -191,20 +211,22 @@ export default function Sidebar() {
 
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Link to="/dashboard/edit" className="link">
-                <ListItem button sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <EditIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Edit" />
-                </ListItem>
-              </Link>
+              {/* <Link to="/dashboard/edit" className="link"> */}
+              <ListItem button key="edit" onClick={() => {
+                navigate('/dashboard/edit')
+              }} sx={{ pl: 4 }}>
+                <ListItemIcon>
+                  <EditIcon />
+                </ListItemIcon>
+                <ListItemText primary="Edit" />
+              </ListItem>
+              {/* </Link> */}
               <ListItem button sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <PasswordIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Reset Password" />
-                </ListItem>
+                <ListItemIcon>
+                  <PasswordIcon />
+                </ListItemIcon>
+                <ListItemText primary="Reset Password" />
+              </ListItem>
             </List>
           </Collapse>
 
@@ -221,7 +243,7 @@ export default function Sidebar() {
       {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
       </Box> */}
-      
+
     </Box>
   );
 }

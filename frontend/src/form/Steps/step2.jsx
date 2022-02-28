@@ -7,7 +7,7 @@ import {
   renderText,
 } from "../common/DisplayComponent";
 import TextField from '@mui/material/TextField'
-import { Select } from "@mui/material";
+import { Button, Select } from "@mui/material";
 
 // ADDress DETAILS STEP
 const Step2 = ({ handleNext,
@@ -98,14 +98,20 @@ const Step2 = ({ handleNext,
 
       <Grid container component={Box} justify='flex-end' mt={2} p={2}>
         <Box ml={2}>
-          {renderButton({
-            label: "Back",
-            color: "default",
-            onClick: handlePrev,
-          })}
+          <Button
+            variant="outlined"
+            onClick={handlePrev}
+            color="primary">
+            Back
+          </Button>
         </Box>
         <Box ml={2}>
-          {renderButton({ label: "Next", onClick: handle })}
+          <Button
+            variant="outlined"
+            onClick={handle}
+            color="primary">
+            Next
+          </Button>
         </Box>
       </Grid>
     </Paper>
