@@ -23,10 +23,12 @@ class UpdateBasicInfo(graphene.Mutation):
         user = info.context.user
         basic_info = BasicInfo.objects.filter(user=user).first()
         if basic_info:
+            dob = create_date(dob[:10], '%Y-%m-%d')
             basic_info = BasicInfo.objects.update_info(basic_info.id, about=about, phone=phone, gender=gender, picture=picture,
                                           profession=profession, dob=dob)
             return UpdateBasicInfo(basic_info, True)
         else:
+            dob = create_date(dob[:10], '%Y-%m-%d')
             basic_info = BasicInfo.objects.create_info(user, about=about, phone=phone, gender=gender, picture=picture,
                                                        profession=profession, dob=dob)
             if basic_info:

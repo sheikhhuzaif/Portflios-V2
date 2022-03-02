@@ -5,19 +5,22 @@ from graphene_django import DjangoObjectType
 
 from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, Social
 
-from .utils import format_choices
+from .utils import format_choices, format_choices_invert
 
 
 class BaseDataType(graphene.ObjectType):
     lists = GenericScalar()
     profile = GenericScalar()
 
+
     def resolve_lists(self, info):
         final = {}
         gender_choices = BasicInfo.gender.field.choices
         socials_choices = Social.platform.field.choices
+        country_choices = AddressInfo.country.field.choices
         final['genders'] = format_choices(gender_choices)
         final['social_medias'] = format_choices(socials_choices)
+        final['countries'] = format_choices_invert(country_choices)
         return final
 
     def resolve_profile(self, info):
@@ -38,6 +41,11 @@ class BasicInfoType(DjangoObjectType):
 
 
 class AddressType(DjangoObjectType):
+    country = graphene.String()
+
+    def resole_country(self, info):
+        return self.country.name
+
     class Meta:
         model = AddressInfo
 

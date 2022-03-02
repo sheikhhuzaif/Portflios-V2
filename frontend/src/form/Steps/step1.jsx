@@ -22,13 +22,14 @@ export default function Step1({ state, handleNext }) {
   ]);
 
   const UPDATE_BASIC_INFO = gql`
-    mutation updateBasicInfo($about: String, $gender: String, $phone: String, $profession: String, $picture: GenericScalar){
+    mutation updateBasicInfo($about: String, $gender: String, $phone: String, $profession: String, $picture: GenericScalar, $dob: String){
     updateBasicInfo(
         about: $about,
         gender: $gender,
         phone: $phone,
         profession: $profession
         picture: $picture
+        dob :$dob
     )
     {
       success
@@ -48,7 +49,7 @@ export default function Step1({ state, handleNext }) {
     updateBasicInfo({
       variables: {
         about: personal[0].about,
-        // dob: DOB,
+        dob: DOB,
         gender: personal[0].gender,
         phone: personal[0].phone,
         picture: personal[0].picture,

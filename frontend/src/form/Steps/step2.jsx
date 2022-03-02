@@ -7,7 +7,27 @@ import {
 } from "../common/DisplayComponent";
 import TextField from '@mui/material/TextField'
 import { Button, Select } from "@mui/material";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql, useQuery } from "@apollo/client";
+import InputLabel from "@mui/material/InputLabel";
+
+
+function getBaseData(baseData){
+const basicData= baseData?baseData.baseData:{};
+return basicData;
+}
+
+function getLists(baseData){
+const lists = baseData?baseData.lists:{};
+return lists
+}
+function getCountries(baseData){
+const basicData = getBaseData(baseData);
+const lists = getLists(basicData);
+if (lists){
+const countries = lists?lists.countries:[];
+return countries
+}
+}
 
 // ADDress DETAILS STEP
 export default function Step2({ handleNext, handlePrev, }) {
@@ -15,6 +35,16 @@ export default function Step2({ handleNext, handlePrev, }) {
   const [personal, setPersonal] = useState([
     { city: '', state: '', pincode: '', country: '', address: '' },
   ]);
+
+  const BASIC_DATA = gql`
+  query baseData{
+  baseData
+  {
+    lists
+    profile
+  }
+  }
+`
 
   const UPDATE_ADDRESS = gql`
   mutation updateAddress($address: String, $city: String, $country: String, $pincode: String, $state: String){
@@ -33,8 +63,10 @@ export default function Step2({ handleNext, handlePrev, }) {
 const [updateAddress, { data, loading, error }] = useMutation(UPDATE_ADDRESS, {
   variables: {}
 });
-if (loading) return 'Submitting...';
-if (error) return `Submission error! ${error.message}`;
+
+const {data:baseData} = useQuery(BASIC_DATA);
+const countries = getCountries(baseData);
+console.log("countries", countries, baseData)
 
 const handleMutation = (e) => {
   e.preventDefault();
@@ -122,12 +154,13 @@ const handleMutation = (e) => {
           />
         </Grid>
         <Grid item md={6}>
-          <TextField fullWidth
-            name="country"
-            label="Country"
-            value={personal.country}
-            onChange={handleChange}
-          />
+        <InputLabel id="Countries">Countries</InputLabel>
+        <Select name="country" labelId="Countries" id="select" value={personal.country} onChange={handleChange}>
+        {countries && countries?.map((item) => (
+          <MenuItem value={item.value}>{item.label}</MenuItem>
+        ))}
+      </Select>
+
         </Grid>
 
       </Grid>

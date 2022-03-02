@@ -10,6 +10,13 @@ def create_date(date, format):
         return None
 
 
+def format_choices_invert(choices):
+    final = []
+    for choice in choices:
+        obj = { 'label': choice[1], 'value': choice[0]}
+        final.append(obj)
+    return final
+
 def format_choices(choices):
     final = []
     for choice in choices:
