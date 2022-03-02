@@ -1,0 +1,14 @@
+.portfolio{
+    flex: 4;
+}
+
+.prt {
+    justify-content: center;
+      align-items: center;
+      margin: 40px;
+      border-radius: 5px;
+  }
+
+.cardStyle {
+    height: 25%;
+}

@@ -34,25 +34,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 class FormComponent extends Component {
   state = {
-    
-    data: {
-      firstName: "",
-      lastName: "",
-      gender: "",
-      phone: "",
-      email: "",
-
-      
-      highestDegree: "",
-      issuedBy: "",
-      yearOfPassing: "",
-      jobType: "",
-
-      skill: "",
-      jobApplyFor: "",
-      workExperence: "",
-      expectedSalary: "",
-    },
     errors: {},
     steps: [
       { label: "Personal Details" },
@@ -124,7 +105,7 @@ class FormComponent extends Component {
               handleSubmit={handleSubmit}
             />
           );
-          case 3:
+        case 3:
           return (
             <Step4
               state={this.state}
@@ -134,7 +115,7 @@ class FormComponent extends Component {
               handleSubmit={handleSubmit}
             />
           );
-          case 4:
+        case 4:
           return (
             <Step5
               state={this.state}
@@ -144,7 +125,7 @@ class FormComponent extends Component {
               handleSubmit={handleSubmit}
             />
           );
-          case 5:
+        case 5:
           return (
             <Step6
               state={this.state}
@@ -168,11 +149,17 @@ class FormComponent extends Component {
     };
 
     return (
-      <div  className="formContainer" >
-          <div  className="form">
+      // <Box className="formContainer" component="main" sx={{ flexGrow: 1, p: 3 }}>
+      // <DrawerHeader />
+      <div className="head">
+        <DrawerHeader />
+        <div className="formContainer" >
+          
+
+          <div className="form">
             <div className="formHead " component={Box} mb={1}>
-              <div className="font" pt={2} style={{marginBottom:"10px"}}>
-              Enter your details
+              <div className="font" pt={2} style={{ marginBottom: "10px" }}>
+                Enter your details
               </div>
               <Stepper className="borderRadius " activeStep={this.state.stepCount} alternativeLabel>
                 {this.state.steps.map((item) => (
@@ -183,8 +170,10 @@ class FormComponent extends Component {
               </Stepper>
             </div>
             {getStepContent(this.state.stepCount)}
+            {/* <Step1/> */}
           </div>
-          </div>
+        </div>
+      </div>
     );
   }
 }

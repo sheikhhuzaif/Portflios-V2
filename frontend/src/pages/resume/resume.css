@@ -1,0 +1,14 @@
+.resume{
+    flex: 4;
+}
+
+.res {
+    justify-content: center;
+      align-items: center;
+      margin: 40px;
+      border-radius: 5px;
+  }
+
+.cardStyle {
+    height: 25%;
+}

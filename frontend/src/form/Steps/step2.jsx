@@ -1,21 +1,55 @@
 
 import React, { useState } from "react";
 import { Box, Grid, MenuItem, Paper } from "@material-ui/core";
-import { styles } from "../common/styles";
 import {
   renderButton,
   renderText,
 } from "../common/DisplayComponent";
 import TextField from '@mui/material/TextField'
-import { Select } from "@mui/material";
+import { Button, Select } from "@mui/material";
+import { useMutation, gql } from "@apollo/client";
 
 // ADDress DETAILS STEP
-const Step2 = ({ handleNext,
-  handlePrev, }) => {
+export default function Step2({ handleNext, handlePrev, }) {
 
   const [personal, setPersonal] = useState([
-    { fname: '', lname: '', gender: '', phone: '', email: '', profession: '' },
+    { city: '', state: '', pincode: '', country: '', address: '' },
   ]);
+
+  const UPDATE_ADDRESS = gql`
+  mutation updateAddress($address: String, $city: String, $country: String, $pincode: String, $state: String){
+  updateAddress(
+      address: $address,
+      city: $city,
+      country: $country,
+      pincode: $pincode
+      state: $state
+  )
+  {
+    success
+  }
+  }
+`
+const [updateAddress, { data, loading, error }] = useMutation(UPDATE_ADDRESS, {
+  variables: {}
+});
+if (loading) return 'Submitting...';
+if (error) return `Submission error! ${error.message}`;
+
+const handleMutation = (e) => {
+  e.preventDefault();
+  console.log("abcdsabjdhsahjgdgasjukfgkujsa: ", personal[0].address);
+  updateAddress({
+    variables: {
+      address: personal[0].address,
+      city: personal[0].city,
+      country: personal[0].country,
+      pincode: personal[0].pincode,
+      state: personal[0].state,
+    }
+  });
+}
+
   const handleChange = (event) => {
     const newPersonal = personal.map(i => {
       i[event.target.name] = event.target.value
@@ -31,6 +65,7 @@ const Step2 = ({ handleNext,
 
   function handle(e) {
     handleSubmit(e);
+    handleMutation(e);
     handleNext();
   }
 
@@ -49,9 +84,12 @@ const Step2 = ({ handleNext,
 
       <TextField fullWidth
         id="outlined-multiline-static"
+        name="address"
         label="Street Address"
         multiline
         rows={3}
+        value={personal.address}
+        onChange={handleChange}
       />
 
       <Grid container spacing={2} style={{ marginBottom: "16px" }, { marginTop: "16px" }}>
@@ -59,7 +97,7 @@ const Step2 = ({ handleNext,
           <TextField fullWidth
             name="city"
             label="City"
-            value={personal.fname}
+            value={personal.city}
             onChange={handleChange}
           />
         </Grid>
@@ -67,7 +105,7 @@ const Step2 = ({ handleNext,
           <TextField fullWidth
             name="state"
             label="State"
-            value={personal.lname}
+            value={personal.state}
             onChange={handleChange}
           />
         </Grid>
@@ -79,7 +117,7 @@ const Step2 = ({ handleNext,
           <TextField fullWidth
             name="pincode"
             label="Pincode"
-            value={personal.fname}
+            value={personal.pincode}
             onChange={handleChange}
           />
         </Grid>
@@ -87,7 +125,7 @@ const Step2 = ({ handleNext,
           <TextField fullWidth
             name="country"
             label="Country"
-            value={personal.lname}
+            value={personal.country}
             onChange={handleChange}
           />
         </Grid>
@@ -98,19 +136,23 @@ const Step2 = ({ handleNext,
 
       <Grid container component={Box} justify='flex-end' mt={2} p={2}>
         <Box ml={2}>
-          {renderButton({
-            label: "Back",
-            color: "default",
-            onClick: handlePrev,
-          })}
+          <Button
+            variant="outlined"
+            onClick={handlePrev}
+            color="primary">
+            Back
+          </Button>
         </Box>
         <Box ml={2}>
-          {renderButton({ label: "Next", onClick: handle })}
+          <Button
+            variant="outlined"
+            onClick={handle}
+            color="primary">
+            Next
+          </Button>
         </Box>
       </Grid>
     </Paper>
     </form>
   );
 };
-
-export default Step2;

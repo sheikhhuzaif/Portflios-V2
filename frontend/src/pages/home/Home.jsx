@@ -1,16 +1,9 @@
-import Chart from "../../components/chart/Chart";
-import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
 import "./home.css";
-import { userData } from "../../dummyData";
-import WidgetSm from "../../components/widgetSm/WidgetSm";
-import WidgetLg from "../../components/widgetLg/WidgetLg";
 import { Link } from "react-router-dom";
-import a from '..\\..\\images\\a.jpg';
-import b from '..\\..\\images\\b.jpg';
-import c from '..\\..\\images\\c.jpg';
-import d from '..\\..\\images\\d.jpg';
 import Box from '@mui/material/Box';
 import { styled, useTheme } from '@mui/material/styles';
+import BlogList from "../blog/BlogList";
+import { Grid } from "@mui/material";
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -27,18 +20,29 @@ export default function Home() {
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <DrawerHeader />
       <div className="home " >
-      <div className="type mt-10">
+        <div className="type mt-10">
 
-        <Link to="" className="typeItem font bg-gray-100 hover:shadow-2xl p-28 m-2" >
-          <h1>Download Your Resume</h1>
-        </Link>
+          <Link to="" className="typeItem font bg-gray-100 hover:shadow-2xl p-28 m-6" >
+            <h1>Download Your Resume</h1>
+          </Link>
 
-        <Link to="" className="typeItem font bg-gray-100 hover:shadow-xl p-28 m-2" >
-          <p>Go to your Portfolio</p>
+          <Link to="" className="typeItem font bg-gray-100 hover:shadow-xl p-28 m-6" >
+            <p>Go to your Portfolio</p>
+          </Link>
+        </div>
+        {/* <Grid container spacing={2}>
 
-        </Link>
+          <Grid item md={6}> */}
+            <div className=" bg-gray-300 hover:shadow-xl p-28 m-6 ">
+              <BlogList />
+
+            </div>
+          {/* </Grid>
+          <Grid item md={6}></Grid>
+        </Grid> */}
+
+
       </div>
-    </div>
     </Box>
-);
+  );
 }

@@ -1,5 +1,8 @@
+.head{
+  flex:4;
+}
+
 .formContainer {
-    flex: 4;
     justify-content: center;
       align-items: center;
       margin: 40px;
@@ -46,11 +49,11 @@
     margin-bottom: 20px;
     text-decoration: underline ;
     text-transform: capitalize ;
-    font-style:oblique;
+    /* font-style:oblique; */
     font-weight: bolder;
     text-align: center;
     font-size: larger;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
 }
 
 .shadow{
