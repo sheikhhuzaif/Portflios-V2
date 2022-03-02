@@ -24,8 +24,9 @@ class UpdateBasicInfo(graphene.Mutation):
         basic_info = BasicInfo.objects.filter(user=user).first()
         if basic_info:
             dob = create_date(dob[:10], '%Y-%m-%d')
-            basic_info = BasicInfo.objects.update_info(basic_info.id, about=about, phone=phone, gender=gender, picture=picture,
-                                          profession=profession, dob=dob)
+            basic_info = BasicInfo.objects.update_info(basic_info.id, about=about, phone=phone, gender=gender,
+                                                       picture=picture,
+                                                       profession=profession, dob=dob)
             return UpdateBasicInfo(basic_info, True)
         else:
             dob = create_date(dob[:10], '%Y-%m-%d')
@@ -102,33 +103,28 @@ class DeleteSkill(graphene.Mutation):
 
 
 class UpdateEducation(graphene.Mutation):
-    education = graphene.Field(EducationType)
+    education = graphene.List(EducationType)
     success = graphene.Boolean()
 
     class Arguments:
-        pk = graphene.UUID()
-        course_name = graphene.String()
-        university = graphene.String()
-        start_date = graphene.String()
-        end_date = graphene.String()
-        gpa = graphene.Float()
+        education_data = graphene.List(GenericScalar)
 
-    def mutate(self, info, course_name, university, start_date, end_date=None, gpa=None, pk=None):
+    def mutate(self, info, education_data):
         user = info.context.user
-        if pk:
-            education = Education.objects.filter(id=pk).first()
-            if education and education.user == user:
-                Education.objects.update_skill(pk, course_name=course_name, university=university,
-                                               start_date=create_date(start_date, DJANGO_FORMAT),
-                                               end_date=create_date(end_date, DJANGO_FORMAT), gpa=gpa)
-                return UpdateEducation(education, True)
-        else:
-            education = Education.objects.create_education(user, course_name=course_name, university=university,
-                                                           start_date=start_date, end_date=end_date, gpa=gpa)
-            if education:
-                return UpdateEducation(education, True)
+        for data in education_data:
+            if data.pk:
+                education = Education.objects.filter(id=data.pk).first()
+                if education and education.user == user:
+                    Education.objects.update_skill(data.pk, course_name=data.course_name, university=data.university,
+                                                   start_date=create_date(data.start_date, DJANGO_FORMAT),
+                                                   end_date=create_date(data.end_date, DJANGO_FORMAT), gpa=data.gpa)
+            else:
+                education = Education.objects.create_education(user, course_name=data.course_name,
+                                                               university=data.university,
+                                                               start_date=data.start_date, end_date=data.end_date,
+                                                               gpa=data.gpa)
 
-        return UpdateEducation(None, False)
+        return UpdateEducation(user.education.all(), True)
 
 
 class DeleteEducation(graphene.Mutation):
