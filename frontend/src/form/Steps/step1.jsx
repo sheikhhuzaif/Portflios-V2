@@ -18,7 +18,7 @@ export default function Step1({ state, handleNext }) {
   const [DOB, setDOB] = useState(new Date());
 
   const [personal, setPersonal] = useState([
-    { fname: '', lname: '', gender: '', phone: '', email: '', profession: '', about: '', picture: ''},
+    { fname: '', lname: '', gender: '', phone: '', email: '', profession: '', about: '', picture: '', dob: DOB},
   ]);
 
   const UPDATE_BASIC_INFO = gql`
@@ -40,8 +40,6 @@ export default function Step1({ state, handleNext }) {
   const [updateBasicInfo, { data, loading, error }] = useMutation(UPDATE_BASIC_INFO, {
     variables: {}
   });
-  if (loading) return 'Submitting...';
-  if (error) return `Submission error! ${error.message}`;
 
   const handleMutation = (e) => {
     e.preventDefault();
@@ -49,7 +47,7 @@ export default function Step1({ state, handleNext }) {
     updateBasicInfo({
       variables: {
         about: personal[0].about,
-        dob: DOB,
+        dob: personal[0].dob,
         gender: personal[0].gender,
         phone: personal[0].phone,
         picture: personal[0].picture,
