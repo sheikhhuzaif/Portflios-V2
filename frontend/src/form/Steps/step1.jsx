@@ -1,22 +1,12 @@
-
 import React, { useState } from "react";
 import { Grid, MenuItem } from "@material-ui/core";
-import { styles } from "../common/styles";
-import {
-  renderButton,
-
-  renderInputField,
-
-  renderText,
-} from "../common/DisplayComponent";
 import TextField from '@mui/material/TextField'
 import { Input, Paper, Select, Box, Button } from "@mui/material";
 import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import "../FormComponent.css"
-import { useForm, Controller } from "react-hook-form";
-import { LaptopWindows } from "@material-ui/icons";
+import { useMutation, gql } from "@apollo/client";
 
 
 
@@ -28,13 +18,17 @@ export default function Step1({ state, handleNext }) {
   const [DOB, setDOB] = useState(new Date());
 
   const [personal, setPersonal] = useState([
-    { fname: '', lname: '', gender: '', phone: '', email: '', profession: '', about: '' },
+    { fname: '', lname: '', gender: '', phone: '', email: '', profession: '', about: '', picture: ''},
   ]);
 
   const UPDATE_BASIC_INFO = gql`
-    mutation updateBasicInfo($gender: String){
+    mutation updateBasicInfo($about: String, $gender: String, $phone: String, $profession: String, $picture: GenericScalar){
     updateBasicInfo(
-        gender: $gender,  
+        about: $about,
+        gender: $gender,
+        phone: $phone,
+        profession: $profession
+        picture: $picture
     )
     {
       success
@@ -42,14 +36,26 @@ export default function Step1({ state, handleNext }) {
     }
   `
 
+  const [updateBasicInfo, { data, loading, error }] = useMutation(UPDATE_BASIC_INFO, {
+    variables: {}
+  });
+  if (loading) return 'Submitting...';
+  if (error) return `Submission error! ${error.message}`;
 
-let input;
-const [updateBasicInfo, { data, loading, error }] = useMutation(UPDATE_BASIC_INFO, {
-  variables: {}
-});
-if (loading) return 'Submitting...';
-if (error) return `Submission error! ${error.message}`;
-
+  const handleMutation = (e) => {
+    e.preventDefault();
+    console.log("abcdsabjdhsahjgdgasjukfgkujsa: ", personal[0].about);
+    updateBasicInfo({
+      variables: {
+        about: personal[0].about,
+        // dob: DOB,
+        gender: personal[0].gender,
+        phone: personal[0].phone,
+        picture: personal[0].picture,
+        profession: personal[0].profession,
+      }
+    });
+  }
 
   const handleChange = (event) => {
 
@@ -65,16 +71,14 @@ if (error) return `Submission error! ${error.message}`;
     e.preventDefault();
     console.log("form submitted");
     setErrors(validate());
-   
-    
+
+
 
   };
 
-
-
-
   function handle(e) {
     handleSubmit(e);
+    handleMutation(e);
     handleNext();
   }
 
@@ -83,8 +87,8 @@ if (error) return `Submission error! ${error.message}`;
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     console.log(personal);
     console.log(personal.fname);
- console.log(errors);
- console.log(errors.fname);
+    console.log(errors);
+    console.log(errors.fname);
 
 
     if (!personal.fname) {
@@ -94,7 +98,7 @@ if (error) return `Submission error! ${error.message}`;
     // if (personal.fname) {
     //   errors.fname = "done";
     // }
-    
+
     if (!personal.lname) {
       errors.lname = "Last name is required!";
     }
@@ -116,16 +120,7 @@ if (error) return `Submission error! ${error.message}`;
   };
 
   return (
-    <form className="formHead"
-      // onSubmit={handle}
-    onSubmit={e => {
-      e.preventDefault();
-      console.log("abcdsabjdhsahjgdgasjukfgkujsa: ", personal[0].gender);
-      updateBasicInfo({ variables: { gender: personal[0].gender } });
-
-      // input.value = '';
-    }}
-    >
+    <form className="formHead">
       <Paper className="steps">
         <div className="font" mt={2} mb={5}>
           Please Fill personal Data
@@ -151,7 +146,7 @@ if (error) return `Submission error! ${error.message}`;
               label="Last Name"
               value={personal.lname}
               onChange={handleChange}
-              // error={errors.lname}
+            // error={errors.lname}
             />
             <span style={{ color: "red" }}>{errors.lname}</span>
           </Grid>
@@ -200,7 +195,7 @@ if (error) return `Submission error! ${error.message}`;
               type={Number}
               value={personal.phone}
               onChange={handleChange}
-              // error={errors.phone}
+            // error={errors.phone}
             />
             <span style={{ color: "red" }}>{errors.phone}</span>
           </Grid>
@@ -214,7 +209,7 @@ if (error) return `Submission error! ${error.message}`;
               label="Email"
               value={personal.email}
               onChange={handleChange}
-              // error={errors.email}
+            // error={errors.email}
             />
             <span style={{ color: "red" }}>{errors.email}</span>
           </Grid>
@@ -224,7 +219,7 @@ if (error) return `Submission error! ${error.message}`;
               label="Profession"
               value={personal.profession}
               onChange={handleChange}
-              // error={errors.profession}
+            // error={errors.profession}
             />
             <span style={{ color: "red" }}>{errors.profession}</span>
 
@@ -244,13 +239,13 @@ if (error) return `Submission error! ${error.message}`;
               </Grid>
               <Grid item md={8} style={{ marginTop: "16px" }}>
                 <Input fullWidth
+                  name="picture"
                   variant="outlined"
                   accept="image/*"
                   type="file"
-                  name=""
                 // label="Upload your photo"
-                // value={personal.email}
-                // onChange={handleChange}
+                  value={personal.picture}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
@@ -263,10 +258,13 @@ if (error) return `Submission error! ${error.message}`;
         {/* <Grid container spacing={4} style={{ marginBottom: "16px" }, {marginLeft:"3px"} , {paddingRight:"80px"}}> */}
         <TextField fullWidth
           id="outlined-multiline-static"
-          label="About Yourself"
+          name="about"
+          label="About"
           multiline
           rows={4}
-          // error={errors.about}
+          value={personal.about}
+          onChange={handleChange}
+        // error={errors.about}
 
         />
         <span style={{ color: "red" }}>{errors.about}</span>
@@ -276,9 +274,8 @@ if (error) return `Submission error! ${error.message}`;
         <Grid container component={Box} justify='flex-end' mt={2} p={2}>
           <Button
             variant="outlined"
-            //onClick={handle}
+            onClick={handle}
             color="primary"
-            type= "submit"
           >
             Next
           </Button>
@@ -288,4 +285,3 @@ if (error) return `Submission error! ${error.message}`;
   );
 };
 
-// export default Step1;

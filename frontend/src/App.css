@@ -10,7 +10,7 @@
 }
 
 .backgroundImage{
-    background-image: url('.\\images\\d.jpg');
+    /* background-image: url('.\\images\\d.jpg'); */
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
