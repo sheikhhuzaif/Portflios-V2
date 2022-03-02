@@ -51,12 +51,12 @@ const Step3 = ({
   const [endDate, setendDate] = useState(new Date());
 
   const [Qualifications, setQualifications] = useState([
-    { pk: null, courseName: "", startDate: startDate, endDate: endDate, university: "", gpa: "" },
+    { id:uuidv4(), pk: null, courseName: "", startDate: startDate, endDate: endDate, university: "", gpa: "" },
   ]);
 
-  const handleChangeInput = (pk, event) => {
+  const handleChangeInput = (id, event) => {
     const newQualifications = Qualifications.map(i => {
-      if (pk === i.pk) {
+      if (id === i.id) {
         i[event.target.name] = event.target.value
       }
       return i;
@@ -77,7 +77,7 @@ const Step3 = ({
   }
 
   const handleAddQual = () => {
-    setQualifications([...Qualifications, { pk: null, courseName: "", startDate: startDate, endDate: endDate, university: "", gpa: "" }])
+    setQualifications([...Qualifications, { id:uuidv4(), pk: null, courseName: "", startDate: startDate, endDate: endDate, university: "", gpa: "" }])
   }
 
   const handleRemoveQual = pk => {
@@ -126,11 +126,14 @@ const Step3 = ({
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
+            </Grid>
+
+            <Grid item md={2}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 disableFuture
                 name="endDate"
-                label="Year of Starting"
+                label="Year of Ending"
                 openTo="year"
                 views={['year', 'month', 'day']}
                 value={Qualification.endDate}
