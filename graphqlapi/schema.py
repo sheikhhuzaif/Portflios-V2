@@ -1,8 +1,13 @@
 import graphene
 from .mutations import UpdateBasicInfo, UpdateAddress, UpdateEducation, UpdateWork, UpdateSkill, UpdateSocial, \
     DeleteEducation, DeleteWork, DeleteSkill, DeleteSocial
-from .types import UserType, BasicInfoType, AddressType, SkillType, EducationType, WorkType, SocialType, BaseDataType
+from .types import UserType, BasicInfoType, AddressType, SkillType, EducationType, WorkType, SocialType, BaseDataType, \
+    PortfolioType, ResumeType, BlogType
 from userprofile.models import AddressInfo
+
+from portfolio.models import Portfolio
+from resumes.models import Resumes
+from blogs.models import Blog
 
 
 class Query(graphene.ObjectType):
@@ -14,6 +19,56 @@ class Query(graphene.ObjectType):
     educations = graphene.List(EducationType)
     works = graphene.List(WorkType)
     socials = graphene.List(SocialType)
+    portfolios = graphene.List(PortfolioType)
+    resumes = graphene.List(ResumeType)
+    profile_completion = graphene.Int()
+    blogs = graphene.List(BlogType)
+
+    def resolve_blogs(self, info):
+        return Blog.objects.all()
+
+    def resolve_profile_completion(self, info):
+        user = info.context.user
+        if user.is_authenticated:
+            total = 0
+            if user.basicinfo:
+                total += 25
+            if user.address:
+                total += 15
+            if skill_count := user.skills.all().count():
+                skill_val = 3 * skill_count
+                if skill_count < 15:
+                    total += skill_val
+                else:
+                    total += 15
+            if education_count := user.education.all().count():
+                edu_val = 5 * education_count
+                if edu_val < 15:
+                    total += edu_val
+                else:
+                    total += 15
+            if work_count := user.works.all().count():
+                work_val = 5 * work_count
+                if work_val < 15:
+                    total += work_val
+                else:
+                    total += 15
+            if socials_count := user.socials.all().count():
+                socials_val = 4 * socials_count
+                if socials_val < 15:
+                    total += socials_val
+                else:
+                    total += 15
+            if total<100:
+                return total
+            else:
+                return 100
+
+    def resolve_resumes(self, info):
+        return Resumes.objects.all()
+
+    def resolve_portfolios(self, info):
+        return Portfolio.objects.all()
 
     def resolve_base_data(self, info):
         return "ABC"

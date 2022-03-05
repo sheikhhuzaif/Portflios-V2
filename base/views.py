@@ -91,5 +91,7 @@ class DashboardView(TemplateView):
         user = request.user
         if user.is_authenticated:
             redirect('dashboard')
-        return self.render_to_response({})
+        if not user.is_authenticated and request.path == reverse('dashboard'):
+            redirect('home')
 
+        return self.render_to_response({})

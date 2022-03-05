@@ -4,6 +4,9 @@ from graphene.types.generic import GenericScalar
 from graphene_django import DjangoObjectType
 
 from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, Social
+from portfolio.models import Portfolio
+from resumes.models import Resumes
+from blogs.models import Blog
 
 from .utils import format_choices, format_choices_invert
 
@@ -11,7 +14,6 @@ from .utils import format_choices, format_choices_invert
 class BaseDataType(graphene.ObjectType):
     lists = GenericScalar()
     profile = GenericScalar()
-
 
     def resolve_lists(self, info):
         final = {}
@@ -77,3 +79,33 @@ class WorkType(DjangoObjectType):
 class SocialType(DjangoObjectType):
     class Meta:
         model = Social
+
+
+class ResumeType(DjangoObjectType):
+    image_path = graphene.String()
+
+    def resolve_image_path(self, info):
+        return info.context.build_absolute_uri(self.demo_image.url)
+
+    class Meta:
+        model = Resumes
+
+
+class PortfolioType(DjangoObjectType):
+    image_path = graphene.String()
+
+    def resolve_image_path(self, info):
+        return info.context.build_absolute_uri(self.demo_image.url)
+
+    class Meta:
+        model = Portfolio
+
+
+class BlogType(DjangoObjectType):
+    created_at = graphene.String()
+
+    def resolve_created_at(self, info):
+        return self.created_at.strftime('%d-%m-%Y %H:%M:%S')
+
+    class Meta:
+        model = Blog

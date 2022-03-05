@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "graphene_django",
     'create_react_app',
     'resumes',
+    'blogs',
     'portfolio',
     'userprofile',
     'versatileimagefield',

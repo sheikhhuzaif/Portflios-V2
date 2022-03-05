@@ -149,7 +149,7 @@ class FormComponent extends Component {
     };
 
     return (
-      // <Box className="formContainer" component="main" sx={{ flexGrow: 1, p: 3 }}>
+      // <Box className="formContainer" component="main" sx={{ flexGrow: 1, p: 3, marginLeft:"15rem" }}>
       // <DrawerHeader />
       <div className="head">
         <DrawerHeader />
