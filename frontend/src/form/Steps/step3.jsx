@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Box, Grid, Paper } from "@material-ui/core";
-import { styles } from "../common/styles";
 import {
   renderButton,
   renderText,
@@ -18,11 +17,20 @@ import { useMutation, gql } from "@apollo/client";
 
 // Qual STEP
 
-const Step3 = ({
+export default function Step3({
   handleNext,
   handlePrev,
-}) => {
+}) {
 
+  // const [Dates, setDates] = React.useState([
+  //   { startDate: new Date(), endDate: new Date() }
+  // ]);
+  // const [startDate, setstartDate] = React.useState(new Date());
+  // const [endDate, setendDate] = React.useState(new Date());
+
+  const [Qualifications, setQualifications] = useState([
+    { id: uuidv4(), pk: null, courseName: "", startDate: "01/02/2000", endDate: "01/02/2000", university: "", gpa: "" },
+  ]);
 
   const UPDATE_EDUCATION = gql`
     mutation updateEducation($educationData: [GenericScalar]){
@@ -34,25 +42,18 @@ const Step3 = ({
     }
     }
   `
-  const [updateEducation, { data, loading, error }] = useMutation(UPDATE_EDUCATION, {
+  const [updateEducation] = useMutation(UPDATE_EDUCATION, {
     variables: {}
   });
-  
+
   const handleMutation = (e) => {
     e.preventDefault();
     updateEducation({
       variables: {
-       educationData: Qualifications,
+        educationData: Qualifications,
       }
     });
   }
-
-  const [startDate, setstartDate] = useState(new Date());
-  const [endDate, setendDate] = useState(new Date());
-
-  const [Qualifications, setQualifications] = useState([
-    { id:uuidv4(), pk: null, courseName: "", startDate: startDate, endDate: endDate, university: "", gpa: "" },
-  ]);
 
   const handleChangeInput = (id, event) => {
     const newQualifications = Qualifications.map(i => {
@@ -64,20 +65,32 @@ const Step3 = ({
 
     setQualifications(newQualifications);
   }
+
+  // const handleChangeDate = (id, event) => {
+  //   const newDates = Dates.map(i => {
+  //     if (id === i.id) {
+  //       i[event.target.name] = event.target.value
+  //     }
+  //     return i;
+  //   })
+
+  //   setDates(newDates);
+  // }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form submitted");
   };
 
   function handle(e) {
-    // handleSubmit(e);
-    // handleNext();
+    handleSubmit(e);
     handleMutation(e);
-    console.log("Qualifications",Qualifications)
+    handleNext();
   }
 
   const handleAddQual = () => {
-    setQualifications([...Qualifications, { id:uuidv4(), pk: null, courseName: "", startDate: startDate, endDate: endDate, university: "", gpa: "" }])
+   // setDates([...Dates, { startDate: new Date(), endDate: new Date() }]);
+    setQualifications([...Qualifications, { id: uuidv4(), pk: null, courseName: "", startDate: "01/02/2000", endDate: "01/02/2000", university: "", gpa: "" }])
   }
 
   const handleRemoveQual = pk => {
@@ -89,17 +102,9 @@ const Step3 = ({
   return (
     <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps">
-        <Box mt={2} mb={2}>
-          {renderText({
-            label: "Your Qualifications",
-            type: "h6",
-            color: "textPrimary",
-            align: "center",
-          })}
-        </Box>
+      <Box mt={3} mb={2} />
 
-
-        {Qualifications.map((Qualification) => (
+        {Qualifications.map((Qualification, i) => (
           <Grid container spacing={2} style={{ marginBottom: "16px" }} key={Qualification.id}>
 
             <Grid item md={2} >
@@ -112,47 +117,39 @@ const Step3 = ({
             </Grid>
 
             <Grid item md={2}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                disableFuture
-                name="startDate"
-                label="Year of Starting"
-                openTo="year"
-                views={['year', 'month', 'day']}
-                value={Qualification.startDate}
-                onChange={(newValue) => {
-                  setstartDate(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  disableFuture
+                  name="startDate"
+                  label="Year of Starting"
+                  openTo="year"
+                  views={['year', 'month', 'day']}
+                  value={Qualification.startDate}
+                  // onChange={(newValue) => {
+                  //   setstartDate(newValue);
+                  // }}
+                 onChange={event => handleChangeInput(Qualification.id, event)}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
             </Grid>
 
             <Grid item md={2}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                disableFuture
-                name="endDate"
-                label="Year of Ending"
-                openTo="year"
-                views={['year', 'month', 'day']}
-                value={Qualification.endDate}
-                onChange={(newValue) => {
-                  setendDate(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-
-              {/* <DatePicker
-          views={['year']}
-          label="Year only"
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} helperText={null} />}
-        /> */}
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  disableFuture
+                  name="endDate"
+                  label="Year of Ending"
+                  openTo="year"
+                  views={['year', 'month', 'day']}
+                  value={Qualification.endDate}
+                  // onChange={(newValue) => {
+                  //   setendDate(newValue);
+                  // }}
+                  onChange={event => handleChangeInput(Qualification.id, event)}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item md={2} >
               <TextField
@@ -210,5 +207,3 @@ const Step3 = ({
     </form>
   );
 };
-
-export default Step3;

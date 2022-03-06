@@ -81,7 +81,7 @@ class UpdateSkill(graphene.Mutation):
             else:
                 skill = Skill.objects.create_skill(user, data['name'])
 
-        return UpdateSkill(user.skills.all(), False)
+        return UpdateSkill(user.skills.all(), True)
 
 
 class DeleteSkill(graphene.Mutation):

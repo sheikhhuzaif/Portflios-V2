@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  Grid  } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { styles } from "../common/styles";
 import {
   renderButton,
@@ -11,23 +11,45 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField'
-import { Button, IconButton ,Paper, Box} from "@mui/material";
+import { Button, IconButton, Paper, Box } from "@mui/material";
+import { useMutation, gql } from "@apollo/client";
 
 // SKILLS STEP
 
-
-
-
-const Step4 = ({
+export default function Step4({
   state,
   handleChange,
   handleNext,
   handlePrev,
-}) => {
+}) {
 
   const [skills, setSkills] = useState([
-    { id: uuidv4(), skillname: '' },
+    { id: uuidv4(), pk: null, name: "" },
   ]);
+
+  const UPDATE_SKILL = gql`
+    mutation updateSkill($skillData: [GenericScalar]){
+    updateSkill(
+      skillData: $skillData
+    )
+    {
+      success
+    }
+    }
+  `
+  const [updateSkill] = useMutation(UPDATE_SKILL, {
+    variables: {}
+  });
+
+  const handleMutation = (e) => {
+    console.log("skills", skills)
+    e.preventDefault();
+    updateSkill({
+      variables: {
+        skillData: skills,
+      }
+    });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,6 +58,7 @@ const Step4 = ({
 
   function handle(e) {
     handleSubmit(e);
+    handleMutation(e);
     handleNext();
   }
 
@@ -51,31 +74,21 @@ const Step4 = ({
   }
 
   const handleAddSkill = () => {
-    setSkills([...skills, { id: uuidv4(), skillname: '' }])
+    setSkills([...skills, { id: uuidv4(), pk: null, name: "" }])
   }
 
-  const handleRemoveSkills = id => {
+  const handleRemoveSkills = pk => {
     const values = [...skills];
-    values.splice(values.findIndex(value => value.id === id), 1);
+    values.splice(values.findIndex(value => value.pk === pk), 1);
     setSkills(values);
   }
 
   return (
     <form className="formHead" onSubmit={handleSubmit}>
-      <Paper className="steps">
-        <Box mt={2} mb={2}>
-          {renderText({
-            label: "Skills you have",
-            type: "h6",
-            color: "textPrimary",
-            align: "center",
-          })}
-        </Box>
-        {/* skill: "",
-      workExperence: "",
-      expectedSalary: "", */}
+      <Paper className="steps" >
+        <Box mt={3} mb={2} />
 
-        {skills.map((skill, id) => (
+        {skills.map((skill) => (
           <Grid container spacing={2} style={{ marginBottom: "16px" }} key={skill.id}>
 
 
@@ -83,15 +96,15 @@ const Step4 = ({
               <TextField
                 fullwidth
                 varient="outlined"
-                name="skillname"
+                name="name"
                 label="Skill Name"
-                value={skill.skillname}
+                value={skill.name}
                 onChange={event => handleChangeInput(skill.id, event)}
               />
 
             </Grid>
 
-            <Grid item md={4}> 
+            <Grid item md={4}>
               <IconButton disabled={skills.length === 1} onClick={() => handleRemoveSkills(skill.id)}>
                 <RemoveIcon />
               </IconButton>
@@ -129,6 +142,5 @@ const Step4 = ({
       </Paper>
     </form>
   );
-};
 
-export default Step4;
+};
