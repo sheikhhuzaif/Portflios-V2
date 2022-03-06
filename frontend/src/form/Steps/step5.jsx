@@ -13,21 +13,46 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
 import { Button, IconButton } from "@mui/material";
+import { useMutation, gql } from "@apollo/client";
 
 // WORK exp STEP
 
-const Step5 = ({
+export default function Step5({
   state,
   handleChange,
   handleNext,
   handlePrev,
-}) => {
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [endDate, setEndDate] = useState(new Date());
+}) {
+
+  const [startDate, setstartDate] = useState(new Date());
+  const [endDate, setendDate] = useState(new Date());
 
   const [experience, setExperience] = useState([
-    { id: uuidv4(), title: '', company: '', startDate: '', endDate: Date() },
+    { id: uuidv4(), pk: null, title: '', company: '', startDate: startDate, endDate: endDate },
   ]);
+
+  const UPDATE_WORK = gql`
+    mutation updateWork($workData: [GenericScalar]){
+    updateWork(
+      workData: $workData
+    )
+    {
+      success
+    }
+    }
+  `
+  const [updateWork] = useMutation(UPDATE_WORK, {
+    variables: {}
+  });
+
+  const handleMutation = (e) => {
+    e.preventDefault();
+    updateWork({
+      variables: {
+        workData: experience,
+      }
+    });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,6 +61,7 @@ const Step5 = ({
 
   function handle(e) {
     handleSubmit(e);
+    handleMutation(e);
     handleNext();
   }
 
@@ -51,29 +77,19 @@ const Step5 = ({
   }
 
   const handleAddExp = () => {
-    setExperience([...experience, { id: uuidv4(), title: '', company: '', endDate: '' }])
+    setExperience([...experience, { id: uuidv4(), pk: null, title: '', company: '', endDate: endDate, startDate: startDate }])
   }
 
-  const handleRemoveExp = id => {
+  const handleRemoveExp = pk => {
     const values = [...experience];
-    values.splice(values.findIndex(value => value.id === id), 1);
+    values.splice(values.findIndex(value => value.pk === pk), 1);
     setExperience(values);
   }
 
   return (
     <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps">
-        <Box mt={2} mb={2}>
-          {renderText({
-            label: "Work Experience",
-            type: "h6",
-            color: "textPrimary",
-            align: "center",
-          })}
-        </Box>
-        {/* skill: "",
-      workExperence: "",
-      expectedSalary: "", */}
+        <Box mt={3} mb={2} />
 
         {experience.map((exp) => (
           <Grid container spacing={2} style={{ marginBottom: "16px" }} key={exp.id}>
@@ -95,25 +111,36 @@ const Step5 = ({
                 onChange={event => handleChangeInput(exp.id, event)}
               />
             </Grid>
-            <Grid item md={2} >
+            <Grid item md={2}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
-                  views={['year', 'month']}
-                  label="Start Date"
+                  disableFuture
+                  name="startDate"
+                  label="Year of Starting"
+                  openTo="year"
+                  views={['year', 'month', 'day']}
                   value={exp.startDate}
-                  onChange={event => handleChangeInput(exp.id, event)}
-                  renderInput={(params) => <TextField {...params} helperText={null} />}
+                  onChange={(newValue) => {
+                    setstartDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item md={2} >
+
+            <Grid item md={2}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
-                  views={['year', 'month']}
-                  label="End Date"
+                  disableFuture
+                  name="endDate"
+                  label="Year of Ending"
+                  openTo="year"
+                  views={['year', 'month', 'day']}
                   value={exp.endDate}
-                  onChange={event => handleChangeInput(exp.id, event)}
-                  renderInput={(params) => <TextField {...params} helperText={null} />}
+                  onChange={(newValue) => {
+                    setendDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
             </Grid>
@@ -155,5 +182,3 @@ const Step5 = ({
     </form>
   );
 };
-
-export default Step5;

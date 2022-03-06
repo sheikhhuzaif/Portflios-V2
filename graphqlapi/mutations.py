@@ -65,26 +65,23 @@ class UpdateAddress(graphene.Mutation):
 
 
 class UpdateSkill(graphene.Mutation):
-    skill = graphene.Field(SkillType)
+    skill = graphene.List(SkillType)
     success = graphene.Boolean()
 
     class Arguments:
-        pk = graphene.UUID()
-        name = graphene.String()
+        skill_data = graphene.List(GenericScalar)
 
-    def mutate(self, info, name, pk=None):
+    def mutate(self, info, skill_data):
         user = info.context.user
-        if pk:
-            skill = Skill.objects.filter(id=pk).first()
-            if skill and skill.user == user:
-                skill = Skill.objects.update_skill(pk, name=name)
-                return UpdateSkill(skill, True)
-        else:
-            skill = Skill.objects.create_skill(user, name)
-            if skill:
-                return UpdateSkill(skill, True)
+        for data in skill_data:
+            if data.get('pk'):
+                skill = Skill.objects.filter(id=data.get('pk')).first()
+                if skill and skill.user == user:
+                    skill = Skill.objects.update_skill(data['pk'], name=data['name'])
+            else:
+                skill = Skill.objects.create_skill(user, data['name'])
 
-        return UpdateSkill(None, False)
+        return UpdateSkill(user.skills.all(), True)
 
 
 class DeleteSkill(graphene.Mutation):
@@ -112,17 +109,20 @@ class UpdateEducation(graphene.Mutation):
     def mutate(self, info, education_data):
         user = info.context.user
         for data in education_data:
-            if data.pk:
-                education = Education.objects.filter(id=data.pk).first()
+            if data.get('pk'):
+                education = Education.objects.filter(id=data.get('pk')).first()
                 if education and education.user == user:
-                    Education.objects.update_skill(data.pk, course_name=data.course_name, university=data.university,
-                                                   start_date=create_date(data.start_date, DJANGO_FORMAT),
-                                                   end_date=create_date(data.end_date, DJANGO_FORMAT), gpa=data.gpa)
+                    Education.objects.update_skill(data.pk, course_name=data['courseName'],
+                                                   university=data['university'],
+                                                   start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
+                                                   end_date=create_date(data['endDate'][0:10], DJANGO_FORMAT),
+                                                   gpa=data['gpa'])
             else:
-                education = Education.objects.create_education(user, course_name=data.course_name,
-                                                               university=data.university,
-                                                               start_date=data.start_date, end_date=data.end_date,
-                                                               gpa=data.gpa)
+                education = Education.objects.create_education(user, course_name=data['courseName'],
+                                                               university=data['university'],
+                                                               start_date=data['startDate'][:10],
+                                                               end_date=data['endDate'][:10],
+                                                               gpa=data['gpa'])
 
         return UpdateEducation(user.education.all(), True)
 
@@ -143,33 +143,27 @@ class DeleteEducation(graphene.Mutation):
 
 
 class UpdateWork(graphene.Mutation):
-    work = graphene.Field(WorkType)
+    work = graphene.List(WorkType)
     success = graphene.Boolean()
 
     class Arguments:
-        pk = graphene.UUID()
-        title = graphene.String()
-        company = graphene.String()
-        start_date = graphene.String()
-        end_date = graphene.String()
+        work_data = graphene.List(GenericScalar)
 
-    def mutate(self, info, title, company, start_date, end_date=None, pk=None):
+    def mutate(self, info, work_data):
         user = info.context.user
-        if pk:
-            work = Work.objects.filter(id=pk).first()
-            if work and work.user == user:
-                Work.objects.update_work(pk, title=title, company=company,
-                                         start_date=create_date(start_date, DJANGO_FORMAT),
-                                         end_date=create_date(end_date, DJANGO_FORMAT))
-                return UpdateWork(work, True)
-        else:
-            work = Work.objects.create_work(user, title=title, company=company,
-                                            start_date=create_date(start_date, DJANGO_FORMAT),
-                                            end_date=create_date(end_date, DJANGO_FORMAT))
-            if work:
-                return UpdateWork(work, True)
+        for data in work_data:
+            if data.get('pk'):
+                work = Work.objects.filter(id=data.get('pk')).first()
+                if work and work.user == user:
+                    Work.objects.update_work(data['pk'], title=data['title'], company=data['company'],
+                                             start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
+                                             end_date=create_date(data['endDate'][:10], DJANGO_FORMAT))
+            else:
+                work = Work.objects.create_work(user, title=data['title'], company=data['company'],
+                                                start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
+                                                end_date=create_date(data['endDate'][:10], DJANGO_FORMAT))
 
-        return UpdateWork(None, False)
+        return UpdateWork(user.works.all(), False)
 
 
 class DeleteWork(graphene.Mutation):
@@ -192,21 +186,17 @@ class UpdateSocial(graphene.Mutation):
     success = graphene.Boolean()
 
     class Arguments:
-        pk = graphene.UUID()
-        platform = graphene.String()
-        username = graphene.String()
+        social_data = graphene.List(GenericScalar)
 
-    def mutate(self, info, platform, username, pk=None):
+    def mutate(self, info, social_data):
         user = info.context.user
-        if pk:
-            social = Social.objects.filter(id=pk).first()
-            if social and social.user == user:
-                Social.objects.update_social(pk, platform=platform, user_name=username)
-                return UpdateSocial(social, True)
-        else:
-            social = Social.objects.create_social(user, platform=platform, user_name=username)
-            if social:
-                return UpdateSocial(social, True)
+        for data in social_data:
+            if data.get('pk'):
+                social = Social.objects.filter(id=data.get('pk')).first()
+                if social and social.user == user:
+                    Social.objects.update_social(data['pk'], platform=data['platform'], user_name=data['username'])
+            else:
+                social = Social.objects.create_social(user, platform=data['platform'], user_name=data['username'])
 
         return UpdateSocial(None, False)
 

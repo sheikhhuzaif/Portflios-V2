@@ -158,9 +158,6 @@ class FormComponent extends Component {
 
           <div className="form">
             <div className="formHead " component={Box} mb={1}>
-              <div className="font" pt={2} style={{ marginBottom: "10px" }}>
-                Enter your details
-              </div>
               <Stepper className="borderRadius " activeStep={this.state.stepCount} alternativeLabel>
                 {this.state.steps.map((item) => (
                   <Step key={item.label}>
