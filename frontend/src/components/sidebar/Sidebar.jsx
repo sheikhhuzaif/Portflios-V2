@@ -23,7 +23,6 @@ import DvrIcon from '@mui/icons-material/Dvr';
 import { Link } from "react-router-dom";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
 import Collapse from '@mui/material/Collapse';
 import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
@@ -101,7 +100,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Sidebar() {
   let navigate = useNavigate();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [open1, setOpen1] = React.useState(false);
 
   const handleLogout = () => {
@@ -124,8 +123,8 @@ export default function Sidebar() {
   return (
     <Box sx={{ display: 'flex' }} >
       <CssBaseline />
-      <AppBar position="fixed" open={open} style={{ backgroundColor: "lightblue" }}>
-        <Toolbar>
+      <AppBar position="fixed" open={open} style={{ backgroundColor: "#3d91f1" }}>
+        <Toolbar >
           <IconButton
             style={{ color: "black" }}
             color="inherit"
@@ -141,7 +140,9 @@ export default function Sidebar() {
           </IconButton>
           <IconButton
             style={{ color: "black" }}
+            color="inherit"
             onClick={handleDrawerClose}
+            edge="start"
             sx={{
               marginRight: '36px',
               ...(!open && { display: 'none' }),
@@ -149,22 +150,23 @@ export default function Sidebar() {
           >
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
-          <Typography variant="h5" noWrap component="div" style={{ color: "black" }}>
+          {/* <Typography  variant="h5" noWrap component="div" style={{ color: "white" }}> */}
+          <Typography  class="text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" noWrap component="div" >
             PRTFOLIOS
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} style={{ opacity: "0.6" }}>
+      <Drawer variant="permanent" open={open} >
         <DrawerHeader>
 
         </DrawerHeader>
         <Divider />
-        <List>
+        <List >
           {/* HOME */}
           <Link to="/dashboard" className="link">
             <ListItem button key="Home" onClick={() => {
-                navigate('/dashboard')
-              }}>
+              navigate('/dashboard')
+            }}>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
@@ -173,26 +175,26 @@ export default function Sidebar() {
           </Link>
           {/* PORTFOLIO */}
           {/* <Link to="/dashboard/portfolio" className="link"> */}
-            <ListItem button key="Portfolio"  onClick={() => {
-                navigate('/dashboard/portfolio')
-              }}>
-              <ListItemIcon>
-                <DvrIcon />
-              </ListItemIcon>
-              <ListItemText primary="Portfolio" />
-            </ListItem>
+          <ListItem button key="Portfolio" onClick={() => {
+            navigate('/dashboard/portfolio')
+          }}>
+            <ListItemIcon>
+              <DvrIcon />
+            </ListItemIcon>
+            <ListItemText primary="Portfolio" />
+          </ListItem>
           {/* </Link> */}
 
           {/* RESUME */}
           {/* <Link to="/dashboard/resume" className="link"> */}
-            <ListItem button key="Resume" onClick={() => {
-                navigate('/dashboard/resume')
-              }}>
-              <ListItemIcon>
-                <ArticleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Resume" />
-            </ListItem>
+          <ListItem button key="Resume" onClick={() => {
+            navigate('/dashboard/resume')
+          }}>
+            <ListItemIcon>
+              <ArticleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Resume" />
+          </ListItem>
           {/* </Link> */}
         </List>
         <Divider />
@@ -206,10 +208,10 @@ export default function Sidebar() {
               <AccountBoxIcon />
             </ListItemIcon>
             <ListItemText primary="Profile" />
-            {open ? <ExpandLess /> : <ExpandMore />}
+            {open1 ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
 
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={open1} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {/* <Link to="/dashboard/edit" className="link"> */}
               <ListItem button key="edit" onClick={() => {
