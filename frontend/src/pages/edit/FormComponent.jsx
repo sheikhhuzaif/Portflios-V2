@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import "./FormComponent.css"
-import PropTypes from "prop-types";
 import {
   Box,
-  Grid,
-  Paper,
-  withStyles,
   Stepper,
   Step,
   StepLabel,
@@ -17,10 +13,7 @@ import Step4 from "./Steps/step4";
 import Step5 from "./Steps/step5";
 import Step6 from "./Steps/step6";
 import FinalStep from "./Steps/FinalStep";
-import { renderText } from "./common/DisplayComponent";
-import { styles } from "./common/styles";
-import { color } from "@mui/system";
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -33,8 +26,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 class FormComponent extends Component {
+  
   state = {
-    errors: {},
     steps: [
       { label: "Personal Details" },
       { label: "Address" },
@@ -46,22 +39,9 @@ class FormComponent extends Component {
     stepCount: 0,
   };
   render() {
-    const { classes } = this.props;
-
     const handleSubmit = (e) => {
       e.preventDefault();
       console.log("form submitted");
-    };
-
-    const handleOnChange = ({ target }) => {
-      const { data, errors } = this.state;
-
-      target.value.length <= 3
-        ? (errors[target.name] = `${target.name} have at least 3 letter`)
-        : (errors[target.name] = "");
-
-      data[target.name] = target.value;
-      this.setState({ data, errors });
     };
 
     const handleNextStep = () => {
@@ -82,7 +62,6 @@ class FormComponent extends Component {
           return (
             <Step1
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
             />
           );
@@ -90,7 +69,6 @@ class FormComponent extends Component {
           return (
             <Step2
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
               handlePrev={handleBackStep}
             />
@@ -99,7 +77,6 @@ class FormComponent extends Component {
           return (
             <Step3
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
               handlePrev={handleBackStep}
               handleSubmit={handleSubmit}
@@ -109,7 +86,6 @@ class FormComponent extends Component {
           return (
             <Step4
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
               handlePrev={handleBackStep}
               handleSubmit={handleSubmit}
@@ -119,7 +95,6 @@ class FormComponent extends Component {
           return (
             <Step5
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
               handlePrev={handleBackStep}
               handleSubmit={handleSubmit}
@@ -129,7 +104,6 @@ class FormComponent extends Component {
           return (
             <Step6
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
               handlePrev={handleBackStep}
               handleSubmit={handleSubmit}
@@ -141,7 +115,6 @@ class FormComponent extends Component {
           return (
             <Step1
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
             />
           );
@@ -152,13 +125,13 @@ class FormComponent extends Component {
       // <Box className="formContainer" component="main" sx={{ flexGrow: 1, p: 3 }}>
       // <DrawerHeader />
       <div className="head">
-        <DrawerHeader />
+         <DrawerHeader />
         <div className="formContainer" >
           
 
           <div className="form">
             <div className="formHead " component={Box} mb={1}>
-              <div className="font" pt={2} style={{ marginBottom: "10px" }}>
+              <div className="heading" pt={2} style={{ marginBottom: "10px" }}>
                 Enter your details
               </div>
               <Stepper className="borderRadius " activeStep={this.state.stepCount} alternativeLabel>
@@ -170,7 +143,7 @@ class FormComponent extends Component {
               </Stepper>
             </div>
             {getStepContent(this.state.stepCount)}
-            {/* <Step1/> */}
+            {/* <Step6/> */}
           </div>
         </div>
       </div>
@@ -178,8 +151,4 @@ class FormComponent extends Component {
   }
 }
 
-FormComponent.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(FormComponent);
+export default FormComponent;

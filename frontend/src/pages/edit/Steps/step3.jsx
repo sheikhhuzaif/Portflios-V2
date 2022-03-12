@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import { Box, Grid, Paper } from "@material-ui/core";
-import { styles } from "../common/styles";
-import {
-  renderButton,
-  renderText,
-} from "../common/DisplayComponent";
-import RemoveIcon from '@material-ui/icons/Remove';
-import AddIcon from '@material-ui/icons/Add';
+import {Grid, Box, Paper } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { v4 as uuidv4 } from 'uuid';
-import DatePicker from '@mui/lab/DatePicker';
 import TextField from '@mui/material/TextField'
 import { Button, IconButton } from "@mui/material";
 
@@ -20,9 +14,8 @@ const Step3 = ({
 }) => {
 
 
-
   const [Qualifications, setQualifications] = useState([
-    { id: uuidv4(), degree: "", year: "", university: "", GPA: "" },
+    { id: uuidv4(), degree: "", year: "", university: "", GPA: "", de: "", ye: "", ue: "", ge: "" },
   ]);
 
   const handleChangeInput = (id, event) => {
@@ -37,16 +30,39 @@ const Step3 = ({
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("form submitted");
+    console.log("form submitted11");
+    validate();
+
   };
 
   function handle(e) {
     handleSubmit(e);
-    handleNext();
+    if(isNext())
+    {
+      handleNext();
+    }
   }
+  const isNext = () => {
+    let isNext=true;
+
+    for (let i=0; i<Qualifications.length; i++){
+     if(Qualifications[i].de!=="" || Qualifications[i].ye!=="" || Qualifications[i].ue!=="" ||Qualifications[i].ge!=="" )
+     {
+       isNext=false;
+       break;
+     }
+   }
+    // Qualifications.map(i => {
+    //     if(i.de!="" || i.ye!="" || i.ue!="" || i.ge!="")
+    //     {
+    //       isNext=false;
+    //     }
+    // })
+    return isNext;
+  };
 
   const handleAddQual = () => {
-    setQualifications([...Qualifications, { id: uuidv4(), degree: "", year: "", university: "", GPA: "" }])
+    setQualifications([...Qualifications, { id: uuidv4(), degree: "", year: "", university: "", GPA: "", de: "", ye: "", ue: "", ge: "" }])
   }
 
   const handleRemoveQual = id => {
@@ -55,69 +71,110 @@ const Step3 = ({
     setQualifications(values);
   }
 
+  const validate = () => {
+    for (let i = 0; i < Qualifications.length; i++) {
+
+      if (!Qualifications[i].degree) {
+        Qualifications[i].de = "Degree required!";
+        setQualifications([...Qualifications]);
+      }
+      if (Qualifications[i].degree) {
+        Qualifications[i].de = "";
+        setQualifications([...Qualifications]);
+      }
+
+      if (!Qualifications[i].year) {
+        Qualifications[i].ye = "Year of passing required!";
+        setQualifications([...Qualifications]);
+      }
+      if (Qualifications[i].year) {
+        Qualifications[i].ye = "";
+        setQualifications([...Qualifications]);
+      }
+
+      if (!Qualifications[i].university) {
+        Qualifications[i].ue = "University required!";
+        setQualifications([...Qualifications]);
+      }
+      if (Qualifications[i].university) {
+        Qualifications[i].ue = "";
+        setQualifications([...Qualifications]);
+      }
+
+      if (!Qualifications[i].GPA) {
+        Qualifications[i].ge = "GPA required!";
+        setQualifications([...Qualifications]);
+      }
+      else if (i.GPA > 10) {
+        Qualifications[i].ge = "GPA should be less than 10.0";
+        setQualifications([...Qualifications]);
+      }
+      else {
+        Qualifications[i].ge = "";
+        setQualifications([...Qualifications]);
+      }
+    }
+  };
+
+
   return (
     <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps">
-        <Box mt={2} mb={2}>
-          {renderText({
-            label: "Your Qualifications",
-            type: "h6",
-            color: "textPrimary",
-            align: "center",
-          })}
-        </Box>
-
 
         {Qualifications.map((Qualification) => (
           <Grid container spacing={2} style={{ marginBottom: "16px" }} key={Qualification.id}>
 
-            <Grid item md={2} >
+            <Grid item md={3} >
               <TextField
+                fullWidth
                 name="degree"
                 label="Degree Name"
                 value={Qualification.degree}
                 onChange={event => handleChangeInput(Qualification.id, event)}
+                error={Qualification.de}
+                helperText={Qualification.de ? Qualification.de : ""}
               />
             </Grid>
 
             <Grid item md={2}>
               <TextField
+                fullWidth
                 name="year"
                 label="Year of passing"
                 value={Qualification.year}
                 onChange={event => handleChangeInput(Qualification.id, event)}
+                error={Qualification.ye}
+                helperText={Qualification.ye ? Qualification.ye : ""}
               />
-              {/* <DatePicker
-          views={['year']}
-          label="Year only"
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} helperText={null} />}
-        /> */}
+
             </Grid>
-            <Grid item md={2} >
+            <Grid item md={3} >
               <TextField
+                fullWidth
                 name="university"
                 label="University"
                 value={Qualification.university}
                 onChange={event => handleChangeInput(Qualification.id, event)}
+                error={Qualification.ue}
+                helperText={Qualification.ue ? Qualification.ue : ""}
               />
             </Grid>
             <Grid item md={2}>
               <TextField
+                fullWidth
                 name="GPA"
                 label="GPA"
                 value={Qualification.GPA}
                 onChange={event => handleChangeInput(Qualification.id, event)}
+                error={Qualification.ge}
+                helperText={Qualification.ge ? Qualification.ge : ""}
               />
 
             </Grid>
 
             <Grid item md={2}>
               <IconButton disabled={Qualifications.length === 1} onClick={() => handleRemoveQual(Qualification.id)}>
-                <RemoveIcon />
+                <DeleteIcon />
               </IconButton>
               <IconButton
                 onClick={handleAddQual}
@@ -129,7 +186,7 @@ const Step3 = ({
 
         ))}
 
-        <Grid container component={Box} justify='flex-end' mt={2} p={2}>
+        <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
           <Box ml={2}>
 
             <Button

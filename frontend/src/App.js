@@ -2,12 +2,9 @@ import Sidebar from "./components/sidebar/Sidebar";
 import "./App.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import FormComponent from "./form/FormComponent";
+import FormComponent from "./pages/edit/FormComponent";
 import Portfolio from "./pages/portfolio/Portfolio";
 import Resume from "./pages/resume/Resume";
-import d from '.\\images\\d.jpg';
-
-
 
 function App() {
 
@@ -19,7 +16,7 @@ function App() {
 
   else {
     return (
-      <div className="backgroundImage">
+      <div>
         <Router>
           <div className="container">
             <Sidebar />

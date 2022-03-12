@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-import { Box, Grid, Paper } from "@material-ui/core";
-import { styles } from "../common/styles";
-import {
-  renderButton,
-  renderText,
-} from "../common/DisplayComponent";
-import RemoveIcon from '@material-ui/icons/Remove';
-import AddIcon from '@material-ui/icons/Add';
+import {Grid, Box, Paper } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField'
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -17,27 +12,62 @@ import { Button, IconButton } from "@mui/material";
 // WORK exp STEP
 
 const Step5 = ({
-  state,
-  handleChange,
   handleNext,
   handlePrev,
 }) => {
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [endDate, setEndDate] = useState(new Date());
 
   const [experience, setExperience] = useState([
-    { id: uuidv4(), title: '', company: '', startDate: '', endDate: Date() },
+    { id: uuidv4(), title: '', company: '', startDate: new Date(), endDate: new Date(), te: "", ce: "" },
   ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form submitted");
+    validate();
+  };
+
+  const validate = () => {
+    for (let i = 0; i < experience.length; i++) {
+
+      if (!experience[i].title) {
+        experience[i].te = "Title required!";
+        setExperience([...experience]);
+      }
+      if (experience[i].title) {
+        experience[i].te = "";
+        setExperience([...experience]);
+      }
+
+      if (!experience[i].company) {
+        experience[i].ce = "Company required!";
+        setExperience([...experience]);
+      }
+      if (experience[i].company) {
+        experience[i].ce = "";
+        setExperience([...experience]);
+      }
+    }
   };
 
   function handle(e) {
     handleSubmit(e);
-    handleNext();
+    if (isNext()) {
+      console.log("in next");
+      handleNext();
+    }
   }
+
+  const isNext = () => {
+    let isNext = true;
+
+    for (let i = 0; i < experience.length; i++) {
+      if (experience[i].te !== "" || experience[i].ce !== "") {
+        isNext = false;
+        break;
+      }
+    }
+    return isNext;
+  };
 
   const handleChangeInput = (id, event) => {
     const newExp = experience.map(i => {
@@ -51,7 +81,7 @@ const Step5 = ({
   }
 
   const handleAddExp = () => {
-    setExperience([...experience, { id: uuidv4(), title: '', company: '', endDate: '' }])
+    setExperience([...experience, { id: uuidv4(), title: '', company: '', startDate: new Date(), endDate: new Date() }])
   }
 
   const handleRemoveExp = id => {
@@ -63,18 +93,6 @@ const Step5 = ({
   return (
     <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps">
-        <Box mt={2} mb={2}>
-          {renderText({
-            label: "Work Experience",
-            type: "h6",
-            color: "textPrimary",
-            align: "center",
-          })}
-        </Box>
-        {/* skill: "",
-      workExperence: "",
-      expectedSalary: "", */}
-
         {experience.map((exp) => (
           <Grid container spacing={2} style={{ marginBottom: "16px" }} key={exp.id}>
 
@@ -84,6 +102,8 @@ const Step5 = ({
                 label="Job Title"
                 value={exp.title}
                 onChange={event => handleChangeInput(exp.id, event)}
+                error={exp.te}
+                helperText={exp.te ? exp.te : ""}
               />
             </Grid>
 
@@ -93,6 +113,8 @@ const Step5 = ({
                 label="Company Name"
                 value={exp.company}
                 onChange={event => handleChangeInput(exp.id, event)}
+                error={exp.ce}
+                helperText={exp.ce ? exp.ce : ""}
               />
             </Grid>
             <Grid item md={2} >
@@ -101,7 +123,12 @@ const Step5 = ({
                   views={['year', 'month']}
                   label="Start Date"
                   value={exp.startDate}
-                  onChange={event => handleChangeInput(exp.id, event)}
+                  onChange={(newValue) => {
+                    exp.startDate = newValue
+                    setExperience([...experience]);
+                    console.log(experience);
+
+                  }}
                   renderInput={(params) => <TextField {...params} helperText={null} />}
                 />
               </LocalizationProvider>
@@ -112,7 +139,10 @@ const Step5 = ({
                   views={['year', 'month']}
                   label="End Date"
                   value={exp.endDate}
-                  onChange={event => handleChangeInput(exp.id, event)}
+                  onChange={(newValue) => {
+                    exp.endDate = newValue
+                    setExperience([...experience]);
+                  }}
                   renderInput={(params) => <TextField {...params} helperText={null} />}
                 />
               </LocalizationProvider>
@@ -121,7 +151,7 @@ const Step5 = ({
 
             <Grid item md={2}>
               <IconButton disabled={experience.length === 1} onClick={() => handleRemoveExp(exp.id)}>
-                <RemoveIcon />
+                <DeleteIcon />
               </IconButton>
               <IconButton
                 onClick={handleAddExp}
@@ -132,7 +162,7 @@ const Step5 = ({
           </Grid>
         ))}
 
-        <Grid container component={Box} justify='flex-end' mt={2} p={2}>
+        <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
           <Box ml={2}>
             <Button
               variant="outlined"
