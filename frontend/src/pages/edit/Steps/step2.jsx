@@ -1,6 +1,5 @@
-
 import * as React from 'react';
-import { Box, Grid, Paper } from "@material-ui/core";
+import { Grid, Box, Paper } from "@mui/material";
 import TextField from '@mui/material/TextField'
 import Button from "@mui/material/Button";
 import { useMutation, gql, useQuery } from "@apollo/client";
@@ -30,10 +29,6 @@ function getCountries(baseData) {
 // ADDress DETAILS STEP
 export default function Step2({ handleNext, handlePrev, }) {
 
-  const [personal, setPersonal] = React.useState([
-    { city: '', state: '', pincode: '', country: '', address: '' },
-  ]);
-
   const BASIC_DATA = gql`
   query baseData{
   baseData
@@ -43,6 +38,29 @@ export default function Step2({ handleNext, handlePrev, }) {
   }
   }
 `
+
+  const GET_ADDRESS = gql`
+  {
+  address{
+  address
+  state
+  pincode
+  city
+  country
+  }
+  }
+  `
+
+  const { loading, error, data } = useQuery(GET_ADDRESS);
+
+  const [personal, setPersonal] = React.useState(
+    { city: '', state: '', pincode: '', country: '', address: '' },
+  );
+
+  const [errors, setErrors] = React.useState({});
+
+
+
 
   const UPDATE_ADDRESS = gql`
   mutation updateAddress($address: String, $city: String, $country: String, $pincode: String, $state: String){
@@ -58,70 +76,101 @@ export default function Step2({ handleNext, handlePrev, }) {
   }
   }
 `
-  const [updateAddress, { data, loading, error }] = useMutation(UPDATE_ADDRESS, {
+  const [updateAddress, { data1}] = useMutation(UPDATE_ADDRESS, {
     variables: {}
   });
 
   const { data: baseData } = useQuery(BASIC_DATA);
   const countries = getCountries(baseData);
-  console.log("countries", countries, baseData)
+
+  React.useEffect(() => {
+    const address = data && data.address;
+    const streetAddress = address && address.address;
+    const country = address && address.country;
+    const state = address && address.state;
+    const pincode = address && address.pincode;
+    const city = address && address.city;
+
+    setPersonal({ city: city, state: state, pincode: pincode, country: country, address: streetAddress });
+
+  }, [data]);
 
   const handleMutation = (e) => {
     e.preventDefault();
-    console.log("abcdsabjdhsahjgdgasjukfgkujsa: ", personal[0].address);
     updateAddress({
       variables: {
-        address: personal[0].address,
-        city: personal[0].city,
-        country: personal[0].country,
-        pincode: personal[0].pincode,
-        state: personal[0].state,
+        address: personal.address,
+        city: personal.city,
+        country: personal.country,
+        pincode: personal.pincode,
+        state: personal.state,
       }
     });
   }
 
-  const handleChange = (event) => {
-    const newPersonal = personal.map(i => {
-      i[event.target.name] = event.target.value
-      return i;
-    })
-    setPersonal(newPersonal);
-  };
+  function handleChange(evt) {
+    const value = evt.target.value;
+    setPersonal({ ...personal, [evt.target.name]: value });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form submitted");
+    const temp = validate();
+    setErrors(temp);
+    if (Object.keys(temp).length === 0) {
+      handleNext();
+    }
+    console.log(errors);
   };
 
   function handle(e) {
     handleSubmit(e);
     handleMutation(e);
-    handleNext();
   }
+
+  const validate = () => {
+    const errors = {};
+
+    if (!personal.address) {
+      errors.address = "Street address is required!";
+    }
+    if (!personal.city) {
+      errors.city = "City is required!";
+    }
+    if (!personal.state) {
+      errors.state = "State is required!";
+    }
+    if (!personal.pincode) {
+      errors.pincode = "Pincode is required!";
+    }
+    return errors;
+  };
 
 
   return (
     <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps">
-        <Box mt={3} mb={2} />
-
         <TextField fullWidth
-          id="outlined-multiline-static"
           name="address"
           label="Street Address"
           multiline
           rows={3}
           value={personal.address}
           onChange={handleChange}
+          error={errors.address}
+          helperText={errors.address ? errors.address : ""}
         />
 
-        <Grid container spacing={2} style={{ marginBottom: "16px" }, { marginTop: "16px" }}>
+        <Grid container spacing={2} style={{ marginBottom: "16px", marginTop: "16px" }}>
           <Grid item md={6}>
             <TextField fullWidth
               name="city"
               label="City"
               value={personal.city}
               onChange={handleChange}
+              error={errors.city}
+              helperText={errors.city ? errors.city : ""}
             />
           </Grid>
           <Grid item md={6}>
@@ -130,24 +179,28 @@ export default function Step2({ handleNext, handlePrev, }) {
               label="State"
               value={personal.state}
               onChange={handleChange}
+              error={errors.state}
+              helperText={errors.state ? errors.state : ""}
             />
           </Grid>
 
         </Grid>
 
-        <Grid container spacing={2} style={{ marginBottom: "16px" }, { marginTop: "16px" }}>
+        <Grid container spacing={2} style={{ marginBottom: "16px", marginTop: "16px" }}>
           <Grid item md={6}>
             <TextField fullWidth
               name="pincode"
               label="Pincode"
               value={personal.pincode}
               onChange={handleChange}
+              error={errors.pincode}
+              helperText={errors.pincode ? errors.pincode : ""}
             />
           </Grid>
           <Grid item md={6}>
             <FormControl fullWidth>
-              <InputLabel id="Countries">Country</InputLabel>
-              <Select name="country" id="Countries" labelId="Countries" id="select" value={personal.country} onChange={handleChange}>
+              <InputLabel id="Countries-Label">Country</InputLabel>
+              <Select name="country" id="Countries" labelId="Countries-Label" value={personal.country} onChange={handleChange}>
                 {countries && countries?.map((item) => (
                   <MenuItem value={item.value}>{item.label}</MenuItem>
                 ))}
@@ -158,15 +211,15 @@ export default function Step2({ handleNext, handlePrev, }) {
 
 
 
-        <Grid container component={Box} justify='flex-end' mt={2} p={2}>
-          <Box ml={2}>
+        <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
+          {/* <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handlePrev}
               color="primary">
               Back
             </Button>
-          </Box>
+          </Box> */}
           <Box ml={2}>
             <Button
               variant="outlined"

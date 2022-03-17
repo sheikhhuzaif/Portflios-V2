@@ -1,34 +1,36 @@
 import React, { useState } from "react";
-import { Box, Grid, Paper } from "@material-ui/core";
-import { styles } from "../common/styles";
-import {
-  renderButton,
-  renderText,
-} from "../common/DisplayComponent";
-import RemoveIcon from '@material-ui/icons/Remove';
-import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField'
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
-import { Button, IconButton } from "@mui/material";
-import { useMutation, gql } from "@apollo/client";
+import { Button, IconButton, Paper, Box, Grid } from "@mui/material";
+import { useQuery, useMutation, gql } from "@apollo/client";
 
 // WORK exp STEP
 
 export default function Step5({
-  state,
-  handleChange,
   handleNext,
   handlePrev,
 }) {
 
-  const [startDate, setstartDate] = useState(new Date());
-  const [endDate, setendDate] = useState(new Date());
+  const GET_WORK = gql`
+  {
+    works{
+    id
+    title
+    company
+    startDate
+    endDate
+  }
+  }
+  `
+  const { loading, error, data } = useQuery(GET_WORK);
 
   const [experience, setExperience] = useState([
-    { id: uuidv4(), pk: null, title: '', company: '', startDate: startDate, endDate: endDate },
+    { id: uuidv4(), pk: null, title: '', company: '', startDate: new Date(), endDate: new Date() },
   ]);
 
   const UPDATE_WORK = gql`
@@ -41,9 +43,39 @@ export default function Step5({
     }
     }
   `
+
+  const DELETE_WORK = gql`
+mutation deleteWork($pk: UUID) {
+  deleteWork(pk: $pk) {
+    success
+  }
+}
+`
+
+  const [deleteWork] = useMutation(DELETE_WORK, {
+    variables: {}
+  });
+
   const [updateWork] = useMutation(UPDATE_WORK, {
     variables: {}
   });
+
+  React.useEffect(() => {
+    const works = data && data.works;
+    const length = works && works.reduce((a, obj) => a + Object.keys(obj).length, 0);
+    if (length) {
+      let work = works && works.map(obj => ({
+        pk: obj.id,
+        id: obj.id,
+        startDate: obj.startDate,
+        endDate: obj.endDate,
+        title: obj.title,
+        company: obj.company,
+      }));
+      work && setExperience(work);
+    }
+  }, [data]);
+
 
   const handleMutation = (e) => {
     e.preventDefault();
@@ -77,11 +109,12 @@ export default function Step5({
   }
 
   const handleAddExp = () => {
-    setExperience([...experience, { id: uuidv4(), pk: null, title: '', company: '', endDate: endDate, startDate: startDate }])
+    setExperience([...experience, { id: uuidv4(), pk: null, title: '', company: '', endDate: new Date(), startDate: new Date() }])
   }
 
   const handleRemoveExp = pk => {
     const values = [...experience];
+    deleteWork({ variables: { pk: pk } });
     values.splice(values.findIndex(value => value.pk === pk), 1);
     setExperience(values);
   }
@@ -89,8 +122,6 @@ export default function Step5({
   return (
     <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps">
-        <Box mt={3} mb={2} />
-
         {experience.map((exp) => (
           <Grid container spacing={2} style={{ marginBottom: "16px" }} key={exp.id}>
 
@@ -121,7 +152,9 @@ export default function Step5({
                   views={['year', 'month', 'day']}
                   value={exp.startDate}
                   onChange={(newValue) => {
-                    setstartDate(newValue);
+                    exp.startDate = newValue
+                    setExperience([...experience]);
+                    console.log(experience);
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -138,7 +171,8 @@ export default function Step5({
                   views={['year', 'month', 'day']}
                   value={exp.endDate}
                   onChange={(newValue) => {
-                    setendDate(newValue);
+                    exp.endDate = newValue
+                    setExperience([...experience]);
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -148,7 +182,7 @@ export default function Step5({
 
             <Grid item md={2}>
               <IconButton disabled={experience.length === 1} onClick={() => handleRemoveExp(exp.id)}>
-                <RemoveIcon />
+                <DeleteIcon />
               </IconButton>
               <IconButton
                 onClick={handleAddExp}
@@ -159,8 +193,8 @@ export default function Step5({
           </Grid>
         ))}
 
-        <Grid container component={Box} justify='flex-end' mt={2} p={2}>
-          <Box ml={2}>
+        <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
+          {/* <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handlePrev}
@@ -168,7 +202,7 @@ export default function Step5({
             >
               Back
             </Button>
-          </Box>
+          </Box> */}
           <Box ml={2}>
             <Button
               variant="outlined"

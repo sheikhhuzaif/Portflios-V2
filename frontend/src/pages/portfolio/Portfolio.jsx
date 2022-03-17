@@ -8,10 +8,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { styled, useTheme } from '@mui/material/styles';
 
-import temp1 from '..\\..\\images\\temp1.png';
-import temp2 from '..\\..\\images\\temp2.png';
-import temp3 from '..\\..\\images\\temp3.png';
+import Tooltip from '@mui/material/Tooltip';
 import { Grid } from '@mui/material';
+import { useQuery, gql } from "@apollo/client";
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -24,63 +23,45 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 export default function Portfolio() {
+
+    const GET_PORTFOLIOS = gql`
+    query getPortfolios{
+        portfolios{
+            templateName
+            paid
+            imagePath
+    }
+}
+`
+
+    const { data } = useQuery(GET_PORTFOLIOS);
+    console.log(data);
+    const portfolios = data && data.portfolios;
+    console.log(portfolios);
+
     return (
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
             <div className='portfolio '>
-                <Grid
-                    container
-                    spacing={5}
-                    direction="column"
-                    alignItems="center"
-                    justify="center"
-                    style={{ minHeight: '100vh' }}
-                >
-                    <Grid item>
-                        <Card className='' sx={{ maxWidth: 700 }}>
-                            <CardMedia
-                                component="img"
-                                alt="Template 1"
-                                height="140"
-                                image={temp1}
-                            />
-                            <CardActions >
-                                <Button size="small">Demo</Button>
-                                <Button size="small">Use this Template</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-
-                    <Grid item>
-                        <Card className='cardStyle' sx={{ maxWidth: 700 }}>
-                            <CardMedia
-                                component="img"
-                                alt="Template 2"
-                                height="140"
-                                image={temp2}
-                            />
-                            <CardActions>
-                                <Button size="small">Demo</Button>
-                                <Button size="small">Use this Template</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-
-                    <Grid item>
-                        <Card className='cardStyle' sx={{ maxWidth: 700 }}>
-                            <CardMedia
-                                component="img"
-                                alt="Template 3"
-                                height="140"
-                                image={temp3}
-                            />
-                            <CardActions>
-                                <Button size="small">Demo</Button>
-                                <Button size="small">Use this Template</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-
+                <Grid container spacing={2} className='p-6'>
+                    {portfolios && portfolios?.map((item) => (
+                        <Grid item md={4} className='p-5 pb-20'>
+                            <Card className='cardStyle' sx={{ maxWidth: 700 }}>
+                                <Tooltip title={item.templateName} followCursor>
+                                    <CardMedia
+                                        component="img"
+                                        alt={item.templateName}
+                                        height="140"
+                                        image={item.imagePath}
+                                    />
+                                </Tooltip>
+                                <CardActions >
+                                    <Button size="small">Demo</Button>
+                                    <Button size="small">Use this Template</Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
                 </Grid>
             </div>
         </Box>

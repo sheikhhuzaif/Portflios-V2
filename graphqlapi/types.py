@@ -38,9 +38,14 @@ class UserType(DjangoObjectType):
 
 
 class BasicInfoType(DjangoObjectType):
+    gender = graphene.String()
+
+    def resolve_gender(self, info):
+        return self.gender
+        
     class Meta:
         model = BasicInfo
-
+    
 
 class AddressType(DjangoObjectType):
     country = graphene.String()

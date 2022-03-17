@@ -1,17 +1,13 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { styled, useTheme } from '@mui/material/styles';
-
-import temp1 from '..\\..\\images\\temp1.png';
-import temp2 from '..\\..\\images\\temp2.png';
-import temp3 from '..\\..\\images\\temp3.png';
+import { styled } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
 import { Grid } from '@mui/material';
+import { useQuery, gql } from "@apollo/client";
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -23,64 +19,46 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 
-export default function Resume() {
+export default function Portfolio() {
+
+    const GET_RESUMES = gql`
+    query getResumes{
+        resumes{
+            templateName
+            paid
+            imagePath
+    }
+}
+`
+
+    const { data } = useQuery(GET_RESUMES);
+    console.log(data);
+    const resumes = data && data.resumes;
+    console.log(resumes);
+
     return (
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
-            <div className='resume '>
-                <Grid
-                    container
-                    spacing={5}
-                    direction="column"
-                    alignItems="center"
-                    justify="center"
-                    style={{ minHeight: '100vh' }}
-                >
-                    <Grid item>
-                        <Card className='' sx={{ maxWidth: 700 }}>
-                            <CardMedia
-                                component="img"
-                                alt="Template 1"
-                                height="140"
-                                image={temp1}
-                            />
-                            <CardActions >
-                                <Button size="small">Demo</Button>
-                                <Button size="small">Use this Template</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-
-                    <Grid item>
-                        <Card className='cardStyle' sx={{ maxWidth: 700 }}>
-                            <CardMedia
-                                component="img"
-                                alt="Template 2"
-                                height="140"
-                                image={temp2}
-                            />
-                            <CardActions>
-                                <Button size="small">Demo</Button>
-                                <Button size="small">Use this Template</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-
-                    <Grid item>
-                        <Card className='cardStyle' sx={{ maxWidth: 700 }}>
-                            <CardMedia
-                                component="img"
-                                alt="Template 3"
-                                height="140"
-                                image={temp3}
-                            />
-                            <CardActions>
-                                <Button size="small">Demo</Button>
-                                <Button size="small">Use this Template</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-
+            <div className='portfolio '>
+            <Grid container spacing={2} className='p-6'>
+                    {resumes && resumes?.map((item) => (
+                        <Grid item md={4} className='p-5 pb-20'>
+                            <Card className='cardStyle' sx={{ maxWidth: 700 }}>
+                                <Tooltip title={item.templateName} followCursor>
+                                    <CardMedia
+                                        component="img"
+                                        alt={item.templateName}
+                                        height="140"
+                                        image={item.imagePath}
+                                    />
+                                </Tooltip>
+                                <CardActions >
+                                    <Button size="small">Demo</Button>
+                                    <Button size="small">Use this Template</Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
                 </Grid>
             </div>
         </Box>

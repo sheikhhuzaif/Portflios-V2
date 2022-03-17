@@ -45,15 +45,13 @@
     border-radius: 20px;
 
 }
-.font {
-    margin-bottom: 20px;
-    text-decoration: underline ;
-    text-transform: capitalize ;
-    /* font-style:oblique; */
-    font-weight: bolder;
-    text-align: center;
-    font-size: larger;
-    /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
+
+.heading{
+  margin-bottom: 20px;
+  text-transform: capitalize ;
+  font-weight: bolder;
+  text-align: center;
+  font-size: larger;
 }
 
 .shadow{
@@ -64,3 +62,4 @@
 .borderRadius{
     border-radius: 15px;
 }
+

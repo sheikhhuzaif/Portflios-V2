@@ -1,49 +1,58 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import "./blog.css";
-import BlogDetails from './BlogDetails';
-import { Button } from "@mui/material";
+import { Button, List } from "@mui/material";
+import { useQuery, gql } from "@apollo/client";
 
 
 const BlogList = () => {
-    const [blogs, setBlogs] = useState([
-        { id: 1, title: "How to create resume", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum ........." },
-        { id: 2, title: "How to create portfolio", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum  ........." },
-        { id: 3, title: "How to use ml feature", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum  ........." },
-        { id: 4, title: "How to earn millions ", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum  ........." },
-        { id: 5, title: "How to do randi rona ", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum  ........." }
-    ]);
 
-    const [data, setData] = useState({});
-    
+    const GET_BLOGS = gql`
+    query getBlogs{
+        blogs{
+            id
+            author
+            title
+            content
+    }
+}
+`
+
+    const { data } = useQuery(GET_BLOGS);
+    console.log(data);
+    const blogs = data && data.blogs;
+    console.log(blogs);
+
+    const [blogData, setData] = useState({ id: null, title: "", content: "", author: "" }
+    );
+
 
     return (
         <div style={{ display: "flex" }}>
-            <div className="blog-list  mr-4" style={{ flex: "3" }}>
-                <h1 className='font-extrabold m-6'>All Blogs</h1>
-                {blogs.map(blog => (
-                    <Button
-                       
-                        onClick={() => {
-                            // setId(blog.id);
-                            setData(blog);
-                        }}
-                        color="primary"
-                    >
-                        <div className="blog-preview border-b-2" key={blog.id} >
+            <div className="bg-gray-200 blog-list p-4 mr-4 rad scrol" >
+                <h1 className='font-extrabold m-6 text-center text-2xl'>All Blogs</h1>
+                {blogs && blogs?.map((blog) => (
+                    <List key={blog.id}>
+                        <Button
 
-                            {/* <Link to={`/blogs/${blog.id}`}> */}
-                            <h2>{blog.title}</h2>
-                            {/* </Link> */}
-                        </div>
-                    </Button>
+                            onClick={() => {
+                                setData(blog && blog);
+                            }}
+                            color="primary"
+                        >
+                            <div className="blog-preview border-b-2 font-extrabold" key={blog.id} >
+                                <h2>{blog.title}</h2>
+                            </div>
+                        </Button>
+                    </List>
                 ))}
             </div>
-            <div className="blog-details  p-2" style={{ flex: "5" }}>
-                <article>
-                    <h2>{data.title}</h2>
-                    <div>{data.body}</div>
-                </article>
+            <div className="bg-gray-200 blog-details  p-4 rad" style={{ flex: "5" }}>
+                <List>
+                    <article>
+                        <h2>{blogData.title}</h2>
+                        <div>{blogData.content}</div>
+                    </article>
+                </List>
             </div>
         </div>
     );

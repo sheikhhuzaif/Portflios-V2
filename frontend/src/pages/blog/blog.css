@@ -8,7 +8,15 @@
   color: rgb(219, 95, 12);
 } */
 
+.scrol{
+  flex: 2;
+  max-height: 550px;
+  overflow: auto;
+}
 
+.rad{
+  border-radius: 25px;
+}
 
 /* blog previews / list */
 .blog-preview {
@@ -20,7 +28,7 @@
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
 }
 .blog-preview h2 {
-  font-size: 20px;
+  font-size: 15px;
   color: #06215a;
   margin-bottom: 8px;
 }
@@ -37,4 +45,3 @@
 .blog-details div {
   margin: 20px 0;
 }
-

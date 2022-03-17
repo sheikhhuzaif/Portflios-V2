@@ -1,21 +1,14 @@
 import React, { useState } from "react";
-import { Box, Grid, Paper } from "@material-ui/core";
-import { styles } from "../common/styles";
-import {
-  renderButton,
-  renderText,
-} from "../common/DisplayComponent";
-import RemoveIcon from '@material-ui/icons/Remove';
-import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField'
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Paper, Box, Grid } from "@mui/material";
 import { useMutation, gql, useQuery } from "@apollo/client";
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from "@mui/material/InputLabel";
-// import MenuItem from '@mui/material/MenuItem';
 
 function getBaseData(baseData) {
   const basicData = baseData ? baseData.baseData : {};
@@ -38,10 +31,20 @@ function getSocial(baseData) {
 // WORK exp STEP
 
 export default function Step6({
-
   handleNext,
   handlePrev,
 }) {
+
+  const GET_SOCIALS = gql`
+  {
+    socials{
+    id
+    userName
+    platform
+  }
+  }
+  `
+  const { loading, error, data } = useQuery(GET_SOCIALS);
 
   const [socials, setSocials] = useState([
     { id: uuidv4(), pk: null, platform: '', userName: '' },
@@ -68,15 +71,38 @@ export default function Step6({
     }
   `
 
+  const DELETE_SOCIAL = gql`
+mutation deleteSocial($pk: UUID) {
+  deleteSocial(pk: $pk) {
+    success
+  }
+}
+`
+
+  const [deleteSocial] = useMutation(DELETE_SOCIAL, {
+    variables: {}
+  });
+
   const [updateSocial] = useMutation(UPDATE_Social, {
     variables: {}
   });
 
   const { data: baseData } = useQuery(BASIC_DATA);
   const social_medias = getSocial(baseData);
-  console.log("social_media", social_medias, baseData);
 
-
+  React.useEffect(() => {
+    const socials = data && data.socials;
+    const length = socials && socials.reduce((a, obj) => a + Object.keys(obj).length, 0);
+    if (length) {
+      let social = socials && socials.map(obj => ({
+        pk: obj.id,
+        id: obj.id,
+        userName: obj.userName,
+        platform: obj.platform
+      }));
+      social && setSocials(social);
+    }
+  }, [data]);
 
   const handleMutation = (e) => {
     e.preventDefault();
@@ -99,6 +125,7 @@ export default function Step6({
   }
 
   const handleChangeInput = (id, event) => {
+    console.log(socials)
     const newSocial = socials.map(i => {
       if (id === i.id) {
         i[event.target.name] = event.target.value
@@ -115,6 +142,7 @@ export default function Step6({
 
   const handleRemoveSocial = pk => {
     const values = [...socials];
+    deleteSocial({ variables: { pk: pk } });
     values.splice(values.findIndex(value => value.pk === pk), 1);
     setSocials(values);
   }
@@ -122,29 +150,19 @@ export default function Step6({
   return (
     <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps">
-        <Box mt={2} mb={2}>
-          {renderText({
-            label: "Social Accounts",
-            type: "h6",
-            color: "textPrimary",
-            align: "center",
-          })}
-        </Box>
-
         {socials.map((social) => (
           <Grid container spacing={2} style={{ marginBottom: "16px" }} key={social.id}>
 
             <Grid item md={5} >
 
               <FormControl fullWidth>
-                <InputLabel id="Platform">Platform</InputLabel>
-                <Select name="platform" id="Platform" labelId="Countries" id="select" value={social.platform} onChange={handleChangeInput}>
+                <InputLabel id="Platform-Label">Platform</InputLabel>
+                <Select name="platform" id="platform" labelId="Platform-Label" value={social.platform} onChange={event => handleChangeInput(social.id, event)}>
                   {social_medias && social_medias?.map((item) => (
                     <MenuItem value={item.value}>{item.label}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
-
 
             </Grid>
 
@@ -160,7 +178,7 @@ export default function Step6({
 
             <Grid item xs={2}>
               <IconButton disabled={socials.length === 1} onClick={() => handleRemoveSocial(social.id)}>
-                <RemoveIcon />
+                <DeleteIcon />
               </IconButton>
               <IconButton
                 onClick={handleAddSocial}
@@ -171,8 +189,8 @@ export default function Step6({
           </Grid>
         ))}
 
-        <Grid container component={Box} justify='flex-end' mt={2} p={2}>
-          <Box ml={2}>
+        <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
+          {/* <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handlePrev}
@@ -180,13 +198,13 @@ export default function Step6({
             >
               Back
             </Button>
-          </Box>
+          </Box> */}
           <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handle}
               color="primary">
-              Next
+              Finish
             </Button>
           </Box>
         </Grid>

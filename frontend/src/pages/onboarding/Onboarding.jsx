@@ -1,10 +1,4 @@
-
-import { styled, useTheme } from '@mui/material/styles';
-import FormComponent from '../../form/FormComponent';
-
-
-
-
+import FormComponent from "../edit/FormComponent";
 export default function Onboarding() {
     return (
         <div>
