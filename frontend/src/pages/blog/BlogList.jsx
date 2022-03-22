@@ -1,53 +1,40 @@
-import React, { useState } from "react";
+import { useState } from 'react';
 import "./blog.css";
 import { Button, List } from "@mui/material";
-import { useQuery, gql } from "@apollo/client";
 
 
 const BlogList = () => {
-    const [blogData, setData] = useState({ id: null, title: "", content: "", author: "" }
-    );
-    const GET_BLOGS = gql`
-    query getBlogs{
-        blogs{
-            id
-            author
-            title
-            content
-    }
-}
-`
-    const { data } = useQuery(GET_BLOGS);
-    console.log(data);
-    const blogs = data && data.blogs;
+    const [blogs] = useState([
+        { id: 1, title: "How to create resume", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum ........." },
+        { id: 2, title: "How to create portfolio", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum  ........." },
+        { id: 3, title: "How to use ml feature", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum   ........." },
+        { id: 4, title: "How to earn millions ", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum  ........." },
+        { id: 5, title: "How to do randi rona ", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum  ........." }
+    ]);
 
-    React.useEffect(() => {
-        let blogs_ = blogs && blogs.map(obj => ({
-            id: obj.id,
-            title: obj.title,
-            content: obj.content,
-            author: obj.author
-          }));
-        const blog0 = blogs_ && blogs_[0];
-        console.log(blog0);
-        blog0 && setData(blog0);
-      }, [data]);
+    const [data, setData] = useState({ id: 1, title: "How to create resume", body: "Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsumLawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum Lawdem ibsum chumsum sumsum bumsum ibsum chumsum sumsum bumsum ........." }
+    );
+
 
     return (
         <div style={{ display: "flex" }}>
             <div className="bg-gray-200 blog-list p-4 mr-4 rad scrol" >
                 <h1 className='font-extrabold m-6 text-center text-2xl'>All Blogs</h1>
-                {blogs && blogs?.map((blog) => (
+                {blogs.map(blog => (
                     <List key={blog.id}>
                         <Button
 
                             onClick={() => {
-                                setData(blog && blog);
+                                // setId(blog.id);
+                                setData(blog);
                             }}
                             color="primary"
                         >
                             <div className="blog-preview border-b-2 font-extrabold" key={blog.id} >
+
+                                {/* <Link to={`/blogs/${blog.id}`}> */}
                                 <h2>{blog.title}</h2>
+                                {/* </Link> */}
                             </div>
                         </Button>
                     </List>
@@ -56,8 +43,8 @@ const BlogList = () => {
             <div className="bg-gray-200 blog-details  p-4 rad" style={{ flex: "5" }}>
                 <List>
                     <article>
-                        <h2>{blogData.title}</h2>
-                        <div>{blogData.content}</div>
+                        <h2>{data.title}</h2>
+                        <div>{data.body}</div>
                     </article>
                 </List>
             </div>

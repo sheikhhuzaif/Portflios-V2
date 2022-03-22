@@ -1,136 +1,85 @@
 import React, { useState } from "react";
+import { Grid, Box, Paper, MenuItem } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField'
-import { Button, IconButton, Paper, Box, Grid } from "@mui/material";
-import { useMutation, gql, useQuery } from "@apollo/client";
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import InputLabel from "@mui/material/InputLabel";
+import { Button, FormControl, IconButton, InputLabel } from "@mui/material";
+// import MenuItem from '@mui/material/MenuItem';
 
-function getBaseData(baseData) {
-  const basicData = baseData ? baseData.baseData : {};
-  return basicData;
-}
 
-function getLists(baseData) {
-  const lists = baseData ? baseData.lists : {};
-  return lists
-}
-function getSocial(baseData) {
-  const basicData = getBaseData(baseData);
-  const lists = getLists(basicData);
-  if (lists) {
-    const social_medias = lists ? lists.social_medias : [];
-    return social_medias
-  }
-}
+// WORK exp STEP
 
-// SOCIAL STEP
-
-export default function Step6({
+const Step6 = ({
   handleNext,
   handlePrev,
-}) {
+}) => {
 
-  const GET_SOCIALS = gql`
-  {
-    socials{
-    id
-    userName
-    platform
-  }
-  }
-  `
-  const { loading, error, data, refetch } = useQuery(GET_SOCIALS);
+  const items = ["GitHub", "LinkedIn", "Telegram", "Instagram", "Facebook"]
+  // const remove = (i) => {
 
+  // }
   const [socials, setSocials] = useState([
-    { id: uuidv4(), pk: null, platform: '', userName: '' },
+    { id: uuidv4(), social: '', link: '', se: "", le: "" },
   ]);
-
-  const BASIC_DATA = gql`
-  query baseData{
-  baseData
-  {
-    lists
-    profile
-  }
-  }
-`
-
-  const UPDATE_Social = gql`
-    mutation updateSocial($socialData: [GenericScalar]){
-    updateSocial(
-      socialData: $socialData
-    )
-    {
-      success
-    }
-    }
-  `
-
-  const DELETE_SOCIAL = gql`
-mutation deleteSocial($pk: UUID) {
-  deleteSocial(pk: $pk) {
-    success
-  }
-}
-`
-
-  const [deleteSocial] = useMutation(DELETE_SOCIAL, {
-    variables: {}
-  });
-
-  const [updateSocial] = useMutation(UPDATE_Social, {
-    variables: {}
-  });
-
-  const { data: baseData } = useQuery(BASIC_DATA);
-  const social_medias = getSocial(baseData);
-
-  React.useEffect(() => {
-    const socials = data && data.socials;
-    const length = socials && socials.reduce((a, obj) => a + Object.keys(obj).length, 0);
-    if (length) {
-      let social = socials && socials.map(obj => ({
-        pk: obj.id,
-        id: obj.id,
-        userName: obj.userName,
-        platform: obj.platform
-      }));
-      social && setSocials(social);
-    }
-  }, [data]);
-
-  const handleMutation = (e) => {
-    e.preventDefault();
-    updateSocial({
-      variables: {
-        socialData: socials,
-      }
-    });
-    refetch();
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form submitted");
+    console.log(socials);
+    validate();
   };
 
+  const validate = () => {
+    for (let i = 0; i < socials.length; i++) {
+
+      if (!socials[i].link) {
+        socials[i].le = "Link required!";
+        setSocials([...socials]);
+      }
+      if (socials[i].link) {
+        socials[i].le = "";
+        setSocials([...socials]);
+      }
+
+      if (!socials[i].social) {
+        socials[i].se = "Choose an option";
+        setSocials([...socials]);
+      }
+      if (socials[i].social) {
+        socials[i].se = "";
+        setSocials([...socials]);
+      }
+    }
+  };
   function handle(e) {
     handleSubmit(e);
-    handleMutation(e);
-    handleNext();
+    if (isNext()) {
+      console.log("in next");
+      handleNext();
+    }
   }
 
+  const isNext = () => {
+    let isNext = true;
+
+    for (let i = 0; i < socials.length; i++) {
+      if (socials[i].se !== "" || socials[i].le !== "") {
+        isNext = false;
+        break;
+      }
+    }
+    return isNext;
+  };
+
   const handleChangeInput = (id, event) => {
-    console.log(socials)
     const newSocial = socials.map(i => {
       if (id === i.id) {
         i[event.target.name] = event.target.value
       }
+
+      
+
       return i;
     })
 
@@ -138,13 +87,12 @@ mutation deleteSocial($pk: UUID) {
   }
 
   const handleAddSocial = () => {
-    setSocials([...socials, { id: uuidv4(), pk: null, platform: '', userName: '' }])
+    setSocials([...socials, { id: uuidv4(), social: '', link: '', se: "", le: "" }])
   }
 
-  const handleRemoveSocial = pk => {
+  const handleRemoveSocial = id => {
     const values = [...socials];
-    deleteSocial({ variables: { pk: pk } });
-    values.splice(values.findIndex(value => value.pk === pk), 1);
+    values.splice(values.findIndex(value => value.id === id), 1);
     setSocials(values);
   }
 
@@ -154,26 +102,37 @@ mutation deleteSocial($pk: UUID) {
         {socials.map((social) => (
           <Grid container spacing={2} style={{ marginBottom: "16px" }} key={social.id}>
 
-            <Grid item md={5} >
-
+            <Grid item md={3} >
               <FormControl fullWidth>
-                <InputLabel id="Platform-Label">Platform</InputLabel>
-                <Select name="platform" id="platform" labelId="Platform-Label" value={social.platform} onChange={event => handleChangeInput(social.id, event)}>
-                  {social_medias && social_medias?.map((item) => (
-                    <MenuItem value={item.value}>{item.label}</MenuItem>
+                <InputLabel id="social">Social Accounts</InputLabel>
+                <Select
+                  labelId="social"
+                  id="social"
+                  name="social"
+                  value={social.social}
+                  onChange={event => handleChangeInput(social.id, event)}
+                  label="Social Accounts"
+                  error={social.se}
+                  helperText={social.se ? social.se : ""}
+                >
+                  {items.map((i) => (
+                    <MenuItem value={i}>{i}</MenuItem>
+
                   ))}
+
                 </Select>
               </FormControl>
 
             </Grid>
 
             <Grid item md={5} >
-              <TextField
-                fullWidth
-                name="userName"
-                label="User Name"
+              <TextField fullWidth
+                name="link"
+                label="Profile Link"
                 value={social.link}
                 onChange={event => handleChangeInput(social.id, event)}
+                error={social.le}
+                helperText={social.le ? social.le : ""}
               />
             </Grid>
 
@@ -191,7 +150,7 @@ mutation deleteSocial($pk: UUID) {
         ))}
 
         <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
-          {/* <Box ml={2}>
+          <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handlePrev}
@@ -199,13 +158,13 @@ mutation deleteSocial($pk: UUID) {
             >
               Back
             </Button>
-          </Box> */}
+          </Box>
           <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handle}
               color="primary">
-              Finish
+              Next
             </Button>
           </Box>
         </Grid>
@@ -214,3 +173,4 @@ mutation deleteSocial($pk: UUID) {
   );
 };
 
+export default Step6;

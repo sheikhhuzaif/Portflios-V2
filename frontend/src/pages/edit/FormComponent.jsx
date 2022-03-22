@@ -14,7 +14,6 @@ import Step5 from "./Steps/step5";
 import Step6 from "./Steps/step6";
 import FinalStep from "./Steps/FinalStep";
 import { styled } from '@mui/material/styles';
-import Popup from "./Popup";
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -116,6 +115,7 @@ class FormComponent extends Component {
           return (
             <Step1
               state={this.state}
+              handleChange={handleOnChange}
               handleNext={handleNextStep}
             />
           );
@@ -126,11 +126,9 @@ class FormComponent extends Component {
       // <Box className="formContainer" component="main" sx={{ flexGrow: 1, p: 3 }}>
       // <DrawerHeader />
       <div className="head">
-        <DrawerHeader />
-        
-        <Popup/>
+         <DrawerHeader />
         <div className="formContainer" >
-
+          
 
           <div className="form">
             <div className="formHead " component={Box} mb={1}>

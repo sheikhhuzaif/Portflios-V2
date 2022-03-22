@@ -4,11 +4,10 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import BlogList from "../blog/BlogList";
 import { Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
 import PropTypes from 'prop-types';
-import { useQuery, gql } from "@apollo/client";
-
+import res from "..\\..\\images\\resume.jpg"
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -17,6 +16,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
+
 }));
 
 function LinearProgressWithLabel(props) {
@@ -37,28 +37,11 @@ LinearProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 export default function Home() {
-
-  const [progress, setProgress] = useState();
-
-  const GET_PROFILE_COMPLETION = gql`
-  query getProfileCompletion{
-    profileCompletion
-  }
-  `
-  const { loading, error, data } = useQuery(GET_PROFILE_COMPLETION);
-
-  console.log(data && data.profileCompletion);
-
-  React.useEffect(() => {
-    const profileCompletion = data && data.profileCompletion;
-    setProgress(profileCompletion);
-  }, [data]);
-  
-
+  const [progress, setProgress] = useState(69);
 
 
   return (
-    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+    <Box component="main" sx={{ flexGrow: 1, p: 3, marginLeft:"15rem" }}>
       <DrawerHeader />
       <div className="home " >
         <div className="type mt-10">
