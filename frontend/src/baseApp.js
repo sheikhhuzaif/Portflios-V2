@@ -2,11 +2,9 @@ import Sidebar from "./components/sidebar/Sidebar";
 import "./App.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Routes, Route, useRoutes } from "react-router-dom";
-import FormComponent from "./form/FormComponent";
+import FormComponent from "./pages/edit/FormComponent";
 import Portfolio from "./pages/portfolio/Portfolio";
 import Resume from "./pages/resume/Resume";
-import PortfolioView from "./pages/portfolioView/index";
-import d from '.\\images\\d.jpg';
 
 const Routing=()=>{
 
@@ -23,8 +21,8 @@ return routes
 export default function BaseApp() {
 
 
-    return (<><Sidebar/>
-    <Routing/></>);
+    return (<div className="container"><Sidebar/>
+    <Routing/></div>);
 
 
 }

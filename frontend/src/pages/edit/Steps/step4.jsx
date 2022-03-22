@@ -1,27 +1,27 @@
 import React, { useState } from "react";
-import { Grid } from "@material-ui/core";
-import { styles } from "../common/styles";
-import {
-  renderButton,
-  renderInputField,
-  renderSelect,
-  renderText,
-} from "../common/DisplayComponent";
-import RemoveIcon from '@material-ui/icons/Remove';
-import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField'
-import { Button, IconButton, Paper, Box } from "@mui/material";
-import { useMutation, gql } from "@apollo/client";
+import { Button, IconButton, Paper, Box, Grid } from "@mui/material";
+import { useQuery, useMutation, gql } from "@apollo/client";
 
 // SKILLS STEP
 
 export default function Step4({
-  state,
-  handleChange,
   handleNext,
   handlePrev,
 }) {
+
+  const GET_SKILLS = gql`
+  {
+    skills{
+    id
+    name
+  }
+  }
+  `
+  const { loading, error, data, refetch } = useQuery(GET_SKILLS);
 
   const [skills, setSkills] = useState([
     { id: uuidv4(), pk: null, name: "" },
@@ -37,9 +37,34 @@ export default function Step4({
     }
     }
   `
+  const DELETE_SKILL = gql`
+    mutation deleteSkill($pk: UUID) {
+      deleteSkill(pk: $pk) {
+        success
+      }
+    }
+  `
+
   const [updateSkill] = useMutation(UPDATE_SKILL, {
     variables: {}
   });
+
+  const [deleteSkill] = useMutation(DELETE_SKILL, {
+    variables: {}
+  });
+
+  React.useEffect(() => {
+    const skills = data && data.skills;
+    const length = skills && skills.reduce((a, obj) => a + Object.keys(obj).length, 0);
+    if (length) {
+      let skill = skills && skills.map(obj => ({
+        pk: obj.id,
+        id: obj.id,
+        name: obj.name,
+      }));
+      skill && setSkills(skill);
+    }
+  }, [data]);
 
   const handleMutation = (e) => {
     console.log("skills", skills)
@@ -49,6 +74,7 @@ export default function Step4({
         skillData: skills,
       }
     });
+    refetch();
   }
 
   const handleSubmit = (e) => {
@@ -79,6 +105,7 @@ export default function Step4({
 
   const handleRemoveSkills = pk => {
     const values = [...skills];
+    deleteSkill({ variables: { pk: pk } });
     values.splice(values.findIndex(value => value.pk === pk), 1);
     setSkills(values);
   }
@@ -86,8 +113,6 @@ export default function Step4({
   return (
     <form className="formHead" onSubmit={handleSubmit}>
       <Paper className="steps" >
-        <Box mt={3} mb={2} />
-
         {skills.map((skill) => (
           <Grid container spacing={2} style={{ marginBottom: "16px" }} key={skill.id}>
 
@@ -106,7 +131,7 @@ export default function Step4({
 
             <Grid item md={4}>
               <IconButton disabled={skills.length === 1} onClick={() => handleRemoveSkills(skill.id)}>
-                <RemoveIcon />
+                <DeleteIcon />
               </IconButton>
               <IconButton
                 onClick={handleAddSkill}
@@ -114,14 +139,11 @@ export default function Step4({
                 <AddIcon />
               </IconButton>
             </Grid>
-            {/* <Grid item md={5}></Grid> */}
-
-
           </Grid>
         ))}
 
-        <Grid container component={Box} justify='flex-end' mt={2} p={2}>
-          <Box ml={2}>
+        <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
+          {/* <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handlePrev}
@@ -129,7 +151,7 @@ export default function Step4({
             >
               Back
             </Button>
-          </Box>
+          </Box> */}
           <Box ml={2}>
             <Button
               variant="outlined"
