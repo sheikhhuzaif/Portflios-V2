@@ -7,19 +7,23 @@ import { Button } from "@mui/material";
 const Step2 = ({ handleNext,
   handlePrev, }) => {
 
-  const [address, setAddress] = useState([
+  const [address, setAddress] = useState(
     { street: '', city: '', state: '', pincode: '', country: '' },
-  ]);
+  );
 
   const [errors, setErrors] = useState({});
 
-  const handleChange = (event) => {
-    const newAddress = address.map(i => {
-      i[event.target.name] = event.target.value
-      return i;
-    })
-    setAddress(newAddress);
-  };
+  function handleChange(evt) {
+    const value = evt.target.value;
+    setAddress({ ...address, [evt.target.name]: value });
+  }
+  // const handleChange = (event) => {
+  //   const newAddress = address.map(i => {
+  //     i[event.target.name] = event.target.value
+  //     return i;
+  //   })
+  //   setAddress(newAddress);
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,6 +33,7 @@ const Step2 = ({ handleNext,
     if (Object.keys(temp).length === 0) {
       handleNext();
     }
+    console.log(address);
     console.log(errors);
   };
 
@@ -39,18 +44,18 @@ const Step2 = ({ handleNext,
   const validate = () => {
     const errors = {};
 
-    if (!address[0].street) {
+    if (!address.street) {
       errors.street = "Street address is required!";
     }
-    if (!address[0].city) {
+    if (!address.city) {
       errors.city = "City is required!";
     }
-    if (!address[0].state) {
+    if (!address.state) {
       errors.state = "State is required!";
-    } if (!address[0].pincode) {
+    } if (!address.pincode) {
       errors.pincode = "Pincode is required!";
     }
-    if (!address[0].country) {
+    if (!address.country) {
       errors.country = "Country is required!";
     }
     return errors;

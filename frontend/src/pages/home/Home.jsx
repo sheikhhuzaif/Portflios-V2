@@ -46,11 +46,11 @@ export default function Home() {
         <div className="type mt-10">
 
           <Link to="" className="res typeItem text hover:shadow-xl p-28 m-6  " >
-            <h1 className="transboxRes">Download Your Resume</h1>
+            <h1 className="transboxRes text-black">Download Your Resume</h1>
           </Link>
 
           <Link to="" className="typeItem text hover:shadow-xl p-28 m-6 port " >
-            <p className="transboxPort ">Go to your Portfolio</p>
+            <p className="transboxPort text-black">Go to your Portfolio</p>
           </Link>
         </div>
 

@@ -20,6 +20,8 @@ const Step5 = ({
     { id: uuidv4(), title: '', company: '', startDate: new Date(), endDate: new Date(), te: "", ce: "" },
   ]);
 
+  // const [date,setDate]=useState(new Date());
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form submitted");

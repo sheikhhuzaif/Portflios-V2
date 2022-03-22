@@ -52,12 +52,6 @@ const Step3 = ({
        break;
      }
    }
-    // Qualifications.map(i => {
-    //     if(i.de!="" || i.ye!="" || i.ue!="" || i.ge!="")
-    //     {
-    //       isNext=false;
-    //     }
-    // })
     return isNext;
   };
 

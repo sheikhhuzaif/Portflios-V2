@@ -151,7 +151,7 @@ export default function Sidebar() {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
           {/* <Typography  variant="h5" noWrap component="div" style={{ color: "white" }}> */}
-          <Typography  class="text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" noWrap component="div" >
+          <Typography class="text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl" noWrap component="div" >
             PRTFOLIOS
           </Typography>
         </Toolbar>
