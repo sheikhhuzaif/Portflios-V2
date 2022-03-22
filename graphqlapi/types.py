@@ -32,9 +32,7 @@ class BaseDataType(graphene.ObjectType):
         return final
 
 
-class UserType(DjangoObjectType):
-    class Meta:
-        model = User
+
 
 
 class BasicInfoType(DjangoObjectType):
@@ -114,3 +112,37 @@ class BlogType(DjangoObjectType):
 
     class Meta:
         model = Blog
+
+
+class UserType(DjangoObjectType):
+    basic_info = graphene.Field(BasicInfoType)
+    socials = graphene.List(SocialType)
+    works = graphene.List(WorkType)
+    educations = graphene.List(EducationType)
+    skills = graphene.List(SkillType)
+    address = graphene.Field(AddressType)
+    template_name = graphene.String()
+
+    def resolve_template_name(self, info):
+        return self.basic_info.portfolio.template_name
+
+    def resolve_skills(self, info):
+        return self.skills.all()
+
+    def resolve_address(self, info):
+        return AddressInfo.objects.filter(user=self).first()
+
+    def resolve_works(self, info):
+        return self.works.all()
+
+    def resolve_educations(self, info):
+        return self.education.all()
+
+    def resolve_socials(self, info):
+        return self.socials.all()
+
+    def resolve_basic_info(self, info):
+        return self.basic_info
+
+    class Meta:
+        model = User

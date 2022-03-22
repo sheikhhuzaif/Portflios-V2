@@ -10,7 +10,7 @@ import FormComponent from "./pages/edit/FormComponent";
 const Routing=()=>{
 
 const routes = useRoutes([
-{path:"/:id", element:<PortfolioView/>},
+{path:"/:username", element:<PortfolioView/>},
 
 ]);
 return routes

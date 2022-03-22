@@ -1,10 +1,17 @@
+import os
+
 import graphene
 from graphene.types.generic import GenericScalar
-
+from graphene_file_upload.scalars import Upload
+import requests
 from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, Social
 
 from .types import BasicInfoType, AddressType, SkillType, SocialType, WorkType, EducationType
 from .utils import create_date, DJANGO_FORMAT
+
+from prtfolios.settings import BASE_DIR
+
+from portfolio.models import Portfolio
 
 
 class UpdateBasicInfo(graphene.Mutation):
@@ -214,3 +221,39 @@ class DeleteSocial(graphene.Mutation):
             social.delete()
             return DeleteSkill(True)
         return DeleteSkill(False)
+
+
+file = os.path.join(BASE_DIR, "graphqlapi\\test.pdf")
+file = open(file, 'rb')
+
+
+class ParseResume(graphene.Mutation):
+    data = GenericScalar()
+
+    class Arguments:
+        input_file = Upload()
+        text = graphene.String()
+
+    def mutate(self, info, input_file=None, text=None):
+        test_url = "http://127.0.0.1:5000/predict"
+        test_response = requests.post(test_url, files={"resume": file})
+        print(test_response.text)
+        data = {"test": text, "input_file": str(input_file)}
+        return ParseResume(data=test_response.json())
+
+
+class SetTemplate(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        template_id = graphene.UUID()
+
+    def mutate(self, info, template_id):
+        template = Portfolio.objects.filter(id=template_id).first()
+        if template:
+            user = info.context.user
+            if user.is_authenticated and not user.is_superuser:
+                basicinfo = user.basicinfo
+                basicinfo.portfolio = template_id
+                basicinfo.save()
+                return SetTemplate(success=True)

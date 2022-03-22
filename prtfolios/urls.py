@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
+from graphene_file_upload.django import FileUploadGraphQLView
 
 from graphqlapi.schema import schema
 
@@ -26,5 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
     path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema)), name="graphql"),
+    path("igraphql/", FileUploadGraphQLView.as_view(graphiql=True, schema=schema))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
                                                                             document_root=settings.MEDIA_ROOT)
