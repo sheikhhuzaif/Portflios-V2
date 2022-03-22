@@ -30,7 +30,7 @@ export default function Step3({
   }
   }
   `
-  const { loading, error, data } = useQuery(GET_EDUCATION);
+  const { loading, error, data, refetch } = useQuery(GET_EDUCATION);
 
 
   const [Qualifications, setQualifications] = useState([
@@ -86,6 +86,7 @@ export default function Step3({
         educationData: Qualifications,
       }
     });
+    refetch();
   }
 
   const handleChangeInput = (id, event) => {

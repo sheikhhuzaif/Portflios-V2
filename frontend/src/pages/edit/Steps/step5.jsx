@@ -27,7 +27,7 @@ export default function Step5({
   }
   }
   `
-  const { loading, error, data } = useQuery(GET_WORK);
+  const { loading, error, data, refetch } = useQuery(GET_WORK);
 
   const [experience, setExperience] = useState([
     { id: uuidv4(), pk: null, title: '', company: '', startDate: new Date(), endDate: new Date() },
@@ -84,6 +84,7 @@ mutation deleteWork($pk: UUID) {
         workData: experience,
       }
     });
+    refetch();
   }
 
   const handleSubmit = (e) => {

@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from "react";
 import "./blog.css";
 import { Button, List } from "@mui/material";
 import { useQuery, gql } from "@apollo/client";
 
 
 const BlogList = () => {
-
+    const [blogData, setData] = useState({ id: null, title: "", content: "", author: "" }
+    );
     const GET_BLOGS = gql`
     query getBlogs{
         blogs{
@@ -16,15 +17,21 @@ const BlogList = () => {
     }
 }
 `
-
     const { data } = useQuery(GET_BLOGS);
     console.log(data);
     const blogs = data && data.blogs;
-    console.log(blogs);
 
-    const [blogData, setData] = useState({ id: null, title: "", content: "", author: "" }
-    );
-
+    React.useEffect(() => {
+        let blogs_ = blogs && blogs.map(obj => ({
+            id: obj.id,
+            title: obj.title,
+            content: obj.content,
+            author: obj.author
+          }));
+        const blog0 = blogs_ && blogs_[0];
+        console.log(blog0);
+        blog0 && setData(blog0);
+      }, [data]);
 
     return (
         <div style={{ display: "flex" }}>

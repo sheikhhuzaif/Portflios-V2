@@ -28,7 +28,7 @@ function getSocial(baseData) {
   }
 }
 
-// WORK exp STEP
+// SOCIAL STEP
 
 export default function Step6({
   handleNext,
@@ -44,7 +44,7 @@ export default function Step6({
   }
   }
   `
-  const { loading, error, data } = useQuery(GET_SOCIALS);
+  const { loading, error, data, refetch } = useQuery(GET_SOCIALS);
 
   const [socials, setSocials] = useState([
     { id: uuidv4(), pk: null, platform: '', userName: '' },
@@ -111,6 +111,7 @@ mutation deleteSocial($pk: UUID) {
         socialData: socials,
       }
     });
+    refetch();
   }
 
   const handleSubmit = (e) => {

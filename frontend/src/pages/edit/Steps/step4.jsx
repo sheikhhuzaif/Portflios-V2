@@ -21,7 +21,7 @@ export default function Step4({
   }
   }
   `
-  const { loading, error, data } = useQuery(GET_SKILLS);
+  const { loading, error, data, refetch } = useQuery(GET_SKILLS);
 
   const [skills, setSkills] = useState([
     { id: uuidv4(), pk: null, name: "" },
@@ -74,6 +74,7 @@ export default function Step4({
         skillData: skills,
       }
     });
+    refetch();
   }
 
   const handleSubmit = (e) => {
