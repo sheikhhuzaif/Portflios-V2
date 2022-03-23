@@ -5,11 +5,11 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 export default function About2() {
   return (
     // border-b-8 rounded-full
-    <section id="about2" className="text-gray-400  body-font  mb-28 pt-20 pb-28">
+    <section id="about2" className=" body-font flex flex-col h-screen">
       <div className="columns-2 px-10 py-20 mx-auto text-center lg:px-40  ">
         <div className="flex flex-col mb-20 mr-5 w-full ">
-          <PersonIcon className="mx-auto inline-block mb-4 " style={{ width: "50vw", height: "10vh" }} />
-          <h1 className="text-5xl font-bold title-font mb-4 text-white">
+          <PersonIcon className="mx-auto inline-block mb-4" style={{ width: "50vw", height: "10vh" }} />
+          <h1 className="text-5xl font-bold title-font mb-4 ">
             LEARN MORE ABOUT ME
           </h1>
           {/* <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
@@ -31,7 +31,7 @@ export default function About2() {
             </div>
           </div>
 
-          <div className="p-2 sm:w-1/2 w-full transform hover:scale-125 ease-in-out duration-500 ">
+          <div className="p-2 sm:w-1/2 w-full transform hover:scale-125 ease-in-out duration-500">
             <div className="bg-gray-800 rounded flex p-4 h-full items-center">
               <ArrowForwardIosIcon className="text-green-400 w-6 h-6 flex-shrink-0 mr-4" />
               <span className="flex title-font font-medium text-white">

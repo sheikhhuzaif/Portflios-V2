@@ -14,10 +14,10 @@ import Background from './b.jpg'
 
 export default function Temp2() {
   return (
-    <main className="text-black bg-gray-400 body-font  scroll-smooth  pb-40" style={{backgroundImage:  `url(${Background})` , backgroundAttachment:"fixed", backgroundPosition: 'center',
+    <main className="text-black bg-gray-400 body-font " style={{backgroundImage:  `url(${Background})` , backgroundAttachment:"fixed", backgroundPosition: 'center',
     backgroundSize: 'cover',}}>
       <Navbar />
-      <div className="pl-64">
+      <div style={{paddingLeft:"280px"}}>
         <About />
         <About2 />
         <Resume />
@@ -26,7 +26,6 @@ export default function Temp2() {
         <WorkExp />
         <Contact />
       </div>
-
     </main>
   );
 }

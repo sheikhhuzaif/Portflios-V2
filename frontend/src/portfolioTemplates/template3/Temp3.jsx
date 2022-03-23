@@ -12,10 +12,10 @@ import c from './c.jpg'
 
 export default function Temp3() {
   return (
-    <main className="text-gray-400 bg-gray-900 body-font flex"  style={{backgroundImage:  `url(${c})` , backgroundAttachment:"fixed", backgroundPosition: 'center',
+    <main className="text-white bg-gray-900 body-font "  style={{backgroundImage:  `url(${c})` , backgroundAttachment:"fixed", backgroundPosition: 'center',
     backgroundSize: 'cover',}}>
       <Navbar />
-      <div>
+      <div style={{paddingLeft:"280px"}}>
         <About />
         <About2 />
         <Resume />

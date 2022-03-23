@@ -8,14 +8,14 @@ export default function Skills() {
 
   
   return (
-    <section id="skills" className=" mb-28 pt-20 pb-28">
+    <section id="skills" className="flex flex-col h-screen">
       <div className="columns-2  px-10 py-20 mx-auto">
         <div className="text-center mb-20">
           <MemoryIcon style={{width:"50vw" , height:"10vh"}}  className="w-10 inline-block mb-4" />
-          <h1 className=" text-5xl font-bold title-font text-white mb-4">
+          <h1 className=" text-5xl font-bold title-font  mb-4">
             Skills &amp; Technologies
           </h1>
-          <p className="text-lg leading-relaxed mx-auto">
+          <p className="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
             Here's all what i know.
           </p>
         </div>

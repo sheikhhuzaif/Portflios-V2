@@ -5,7 +5,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 export default function About2() {
   return (
     // border-b-8 rounded-full
-    <section id="about2" className=" body-font pt-20 pb-28 bg-gray-400">
+    <section id="about2" className=" body-font flex flex-col h-screen bg-gray-400">
       <div className="columns-2 px-10 py-20 mx-auto text-center lg:px-40  ">
         <div className="flex flex-col mb-20 mr-5 w-full ">
           <PersonIcon className="mx-auto inline-block mb-4" style={{ width: "50vw", height: "10vh" }} />

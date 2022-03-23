@@ -7,10 +7,8 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 export default function Contact() {
   return (
-    <section id="contact" className=" pt-40 pb-20">
-      <div className="container py-20 mx-auto flex sm:flex-nowrap flex-wrap">
-
-
+    <section id="contact" className=" flex flex-col h-screen pt-56">
+      <div className="container py-20 ">
         <div className="flex flex-col mb-20  items-center justify-center">
           <EmailIcon className="mb-4" style={{ width: "50vw", height: "10vh" }} />
           <h1 className="text-4xl font-medium title-font mb-4 ">

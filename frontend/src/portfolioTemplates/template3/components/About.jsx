@@ -3,10 +3,10 @@ import pic from "./photo.jpg";
 export default function About() {
   return (
     // border-b-8 rounded-full
-    <section id="about" className=" mb-28 pt-20 pb-28">
+    <section id="about" className=" flex flex-col h-screen pt-36">
       <div className="container mx-auto flex px-10 py-20 md:flex-row flex-col items-center ">
         <div className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-          <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">
+          <h1 className="title-font  text-5xl mb-4 font-bold ">
             Hi, I'm Mihir.
             <br className="hidden lg:inline-block" />I love to build amazing
             websites.
@@ -35,7 +35,7 @@ export default function About() {
         </div>
         <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
           <img
-            className="object-cover object-center rounded transform hover:scale-125 ease-in-out duration-500"
+            className="object-cover object-center rounded  transform hover:scale-125 ease-in-out duration-500"
             alt="hero"
             src={pic}
           />

@@ -22,20 +22,20 @@ function App() {
   else {
     return (
       <div >
-        <Router>
-          <div className="container">
+        {/* <Router>
             <Sidebar />
-            <Routes>
-              <Route path="/dashboard" element={<Home />} />
-              <Route path="/dashboard/edit" element={<FormComponent />} />
-              <Route path="/dashboard/portfolio" element={<Portfolio />} />
-              <Route path="/dashboard/resume" element={<Resume />} />
-            </Routes>
-          </div>
-        </Router>
+            <div style={{ paddingLeft: "240px" ,paddingRight:"200px"}}>
+              <Routes>
+                <Route path="/dashboard" element={<Home />} />
+                <Route path="/dashboard/edit" element={<FormComponent />} />
+                <Route path="/dashboard/portfolio" element={<Portfolio />} />
+                <Route path="/dashboard/resume" element={<Resume />} />
+              </Routes>
+            </div>
+        </Router> */}
 
 
-        {/* <Temp1/> */}
+        <Temp1/>
         {/* <Temp2/> */}
         {/* <Temp3/> */}
         {/* <Temp4 /> */}

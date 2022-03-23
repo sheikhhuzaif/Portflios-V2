@@ -8,7 +8,7 @@ export default function Skills() {
 
   
   return (
-    <section id="skills" className="pt-20 pb-28 bg-gray-400">
+    <section id="skills" className="flex flex-col h-screen bg-gray-400">
       <div className="columns-2  px-10 py-20 mx-auto">
         <div className="text-center mb-20">
           <MemoryIcon style={{width:"50vw" , height:"10vh"}}  className="w-10 inline-block mb-4" />

@@ -8,11 +8,11 @@ export default function WorkExp() {
     { title: "Senior Manager", company: "Microsoft", year: "2010-2016"},
 ]
   return (
-    <section id="workExp" className="text-gray-400  body-font  mb-28 pt-20 pb-28">
+    <section id="workExp" className=" body-font flex flex-col h-screen">
       <div className="columns-2  px-10 py-20 mx-auto text-center lg:px-40">
         <div className="flex flex-col w-full mb-20">
           <WorkIcon style={{width:"50vw" , height:"10vh"}} className="mx-auto inline-block mb-4" />
-          <h1 className=" text-5xl font-bold title-font mb-4 text-white">
+          <h1 className="text-5xl font-bold title-font mb-4 ">
             Work Experience
           </h1>
           <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
