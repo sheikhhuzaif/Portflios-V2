@@ -35,7 +35,8 @@ def tokenize_resume(text, tokenizer, max_len):
 
 
 tags_vals = ["UNKNOWN", "O", "Name", "Degree", "Skills", "College Name", "Email Address",
-             "Designation", "Companies worked at", "Graduation Year", "Years of Experience", "Location", "Date of Birth"]
+             "Designation", "Companies worked at", "Graduation Year", "Years of Experience", "Location",
+             "Date of Birth", "Interests"]
 idx2tag = {i: t for i, t in enumerate(tags_vals)}
 resticted_lables = ["UNKNOWN", "O", "Email Address"]
 

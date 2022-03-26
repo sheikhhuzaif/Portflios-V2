@@ -13,7 +13,7 @@ from .usecase.utils import preprocess_data, predict, idx2tag
 
 
 MAX_LEN = 500
-NUM_LABELS = 12
+NUM_LABELS = 14
 DEVICE = torch.device("cpu")
 MODEL_PATH = 'bert-base-uncased'
 model = os.path.join(BASE_DIR, "resume_parser\\model-state.bin")
