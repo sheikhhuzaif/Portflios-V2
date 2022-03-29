@@ -5,7 +5,7 @@ from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, S
 
 from .types import BasicInfoType, AddressType, SkillType, SocialType, WorkType, EducationType
 from .utils import create_date, DJANGO_FORMAT
-
+from portfolio.models import Portfolio
 
 class UpdateBasicInfo(graphene.Mutation):
     basic_info = graphene.Field(BasicInfoType)
@@ -214,3 +214,19 @@ class DeleteSocial(graphene.Mutation):
             social.delete()
             return DeleteSkill(True)
         return DeleteSkill(False)
+
+class SetTemplate(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        template_id = graphene.UUID()
+
+    def mutate(self, info, template_id):
+        template = Portfolio.objects.filter(id=template_id).first()
+        if template:
+            user = info.context.user
+            if user.is_authenticated and not user.is_superuser:
+                basicinfo = user.basicinfo
+                basicinfo.portfolio = template
+                basicinfo.save()
+                return SetTemplate(success=True)
