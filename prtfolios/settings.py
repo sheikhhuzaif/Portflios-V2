@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'versatileimagefield',
     'django_countries',
     'phonenumber_field',
+    'rest_framework',
 
 ]
 
