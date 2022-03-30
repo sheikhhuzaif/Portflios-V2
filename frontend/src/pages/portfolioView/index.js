@@ -10,6 +10,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { useParams, useLocation } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import Temp1 from '../../portfolioTemplates/template1/Temp1'
+import Temp2 from '../../portfolioTemplates/template1/Temp2';
 
 export default function PortfolioView() {
     const { username } = useParams();
@@ -27,6 +28,8 @@ export default function PortfolioView() {
             picture
             profession
             about
+            age
+            email
         }
         address{
             address
@@ -67,23 +70,25 @@ export default function PortfolioView() {
           username
       }
   });
-  console.log(data);
+  const templateData = data && data.templateData;
+  const templateName = templateData && templateData.templateName;
 
   const getTemplate = (templateName) => {
     switch (templateName) {
-      case "template1":
+      case "Space Cadet":
         return (
           <Temp1
-              data= {data}
+              data = {templateData}
           />
         );
-      case "template2":
+      case "Modern Minimalist":
         return (
-          <Temp1
-            // data={this.data}
+          <Temp2
+             data = {templateData}
           />
         );
       default:
+        console.log("DEFAULT")
         return (
             <Temp1
             //   data={this.data}
@@ -93,7 +98,7 @@ export default function PortfolioView() {
   };
   
     return (<div>
-       {getTemplate("template1")}
+       {getTemplate(templateName)}
     </div>
     );
 }

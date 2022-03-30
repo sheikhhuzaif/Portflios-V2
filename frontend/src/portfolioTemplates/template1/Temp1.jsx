@@ -15,18 +15,33 @@ import b from './b.jpg'
 
 export default function Temp1({data}) {
 
-    // const basicInfo = data && data.basicinfo;
+     console.log(data)
+     const firstName = data && data.firstName;
+     const lastName = data && data.lastName;
+     const basicinfo = data && data.basicinfo;
+     const educations = data && data.educations;
+     const skills = data && data.skills;
+     const socials = data && data.socials;
+     const works = data && data.works;
+
+     console.log(works)
   
     return (
         <main className="text-gray-400 bg-gray-900 body-font " style={{backgroundImage:  `url(${a1})` , backgroundAttachment:"fixed", backgroundPosition: 'center',
         backgroundSize: 'cover',}}>
-          <Navbar />
-          <About />
-          <About2 />
-          <Resume />
-          <Skills />
-          <Education/>
-          <WorkExp/>
+          <Navbar 
+            firstName = {firstName}
+          />
+          <About 
+          firstName = {firstName}
+          basicinfo = {basicinfo}
+          />
+          <About2 
+                    basicinfo = {basicinfo}
+                    />
+          <Skills skills={skills}/>
+          <Education educations={educations}/>
+          <WorkExp experience={works}/>
           <Contact />
         </main>
       );

@@ -112,7 +112,7 @@ class UpdateEducation(graphene.Mutation):
             if data.get('pk'):
                 education = Education.objects.filter(id=data.get('pk')).first()
                 if education and education.user == user:
-                    Education.objects.update_skill(data.pk, course_name=data['courseName'],
+                    Education.objects.update_education(data.get('pk'), course_name=data['courseName'],
                                                    university=data['university'],
                                                    start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
                                                    end_date=create_date(data['endDate'][0:10], DJANGO_FORMAT),

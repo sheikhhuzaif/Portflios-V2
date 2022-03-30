@@ -2,10 +2,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import React from "react";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-export default function About2({ basicinfo }) {
+export default function About2() {
   return (
     // border-b-8 rounded-full
-    <section id="about2" className=" body-font flex flex-col h-screen bg-gray-900">
+    <section id="about2" className=" body-font flex flex-col h-screen bg-gray-400">
       <div className="columns-2 px-10 py-20 mx-auto text-center lg:px-40  ">
         <div className="flex flex-col mb-20 mr-5 w-full ">
           <PersonIcon className="mx-auto inline-block mb-4" style={{ width: "50vw", height: "10vh" }} />
@@ -26,9 +26,7 @@ export default function About2({ basicinfo }) {
               <ArrowForwardIosIcon className="text-green-400 w-6 h-6 flex-shrink-0 mr-4" />
               <span className="flex title-font font-medium text-white">
                 <p className="font-extrabold mb-1 pr-2">Birthday:</p>
-                {basicinfo &&
-                  <p> {basicinfo.dob}</p>
-                }
+                <p> June 8, 2000</p>
               </span>
             </div>
           </div>
@@ -38,9 +36,7 @@ export default function About2({ basicinfo }) {
               <ArrowForwardIosIcon className="text-green-400 w-6 h-6 flex-shrink-0 mr-4" />
               <span className="flex title-font font-medium text-white">
                 <p className="font-extrabold mb-1 pr-2">Age:</p>
-                {basicinfo &&
-                  <p>{basicinfo.age}</p>
-                }
+                <p>22</p>
               </span>
             </div>
           </div>
@@ -50,9 +46,7 @@ export default function About2({ basicinfo }) {
               <ArrowForwardIosIcon className="text-green-400 w-6 h-6 flex-shrink-0 mr-4" />
               <span className="flex title-font font-medium text-white">
                 <p className="font-extrabold mb-1 pr-2">Phone:</p>
-                {basicinfo &&
-                  <p>{basicinfo.phone}</p>
-                }
+                <p>1234567879</p>
               </span>
             </div>
           </div>
@@ -61,10 +55,8 @@ export default function About2({ basicinfo }) {
             <div className="bg-gray-800 rounded flex p-4 h-full items-center">
               <ArrowForwardIosIcon className="text-green-400 w-6 h-6 flex-shrink-0 mr-4" />
               <span className="flex title-font font-medium text-white">
-                <p className="font-extrabold mb-1 pr-2">Profession:</p>
-                {basicinfo &&
-                  <p>{basicinfo.profession}</p>
-                }
+                <p className="font-extrabold mb-1 pr-2">Degree:</p>
+                <p>B.Tech</p>
               </span>
             </div>
           </div>
@@ -74,9 +66,7 @@ export default function About2({ basicinfo }) {
               <ArrowForwardIosIcon className="text-green-400 w-6 h-6 flex-shrink-0 mr-4" />
               <span className="flex title-font font-medium text-white">
                 <p className="font-extrabold mb-1 pr-2">Gender:</p>
-                {basicinfo &&
-                  <p>{basicinfo.gender}</p>
-                }
+                <p>Male</p>
               </span>
             </div>
           </div>
@@ -86,14 +76,13 @@ export default function About2({ basicinfo }) {
               <ArrowForwardIosIcon className="text-green-400 w-6 h-6 flex-shrink-0 mr-4" />
               <span className="flex title-font font-medium text-white">
                 <p className="font-extrabold mb-1 pr-2">Email:</p>
-                {basicinfo &&
-                  <p>{basicinfo.email}</p>
-                }
+                <p>June 8, 2000</p>
               </span>
             </div>
           </div>
 
         </div>
+        
       </div>
     </section>
   );

@@ -2,10 +2,13 @@ import { Grid } from '@mui/material';
 import React from "react";
 import WorkIcon from '@mui/icons-material/Work';
 
-export default function WorkExp({experience}) {
-
+export default function WorkExp() {
+    const experience = [{ title: "CEO", company: "Google", year: "2019-"},
+    { title: "Vice ceo", company: "Apple", year: "2016-2019"},
+    { title: "Senior Manager", company: "Microsoft", year: "2010-2016"},
+]
   return (
-    <section id="workExp" className=" body-font bg-gray-900  flex flex-col h-screen">
+    <section id="workExp" className=" body-font bg-gray-400  flex flex-col h-screen">
       <div className="columns-2  px-10 py-20 mx-auto text-center lg:px-40">
         <div className="flex flex-col w-full mb-20">
           <WorkIcon style={{width:"50vw" , height:"10vh"}} className="mx-auto inline-block mb-4" />
@@ -19,7 +22,7 @@ export default function WorkExp({experience}) {
           </p>
         </div>
         <Grid container spacing={2} className="justify-center" style={{justifyContent:"center"}}>
-          {experience && experience.map((exp) => (
+          {experience.map((exp) => (
             <Grid item md={4}  className="p-4 transform hover:scale-125 ease-in-out duration-500">
               <div className="flex relative">
                 
@@ -30,7 +33,7 @@ export default function WorkExp({experience}) {
                   <h1 className="title-font text-lg font-medium text-white mb-3">
                     {exp.title}
                   </h1>
-                  <p className="leading-relaxed">{exp.startDate} to {exp.endDate}</p>
+                  <p className="leading-relaxed">{exp.year}</p>
                 </div>
               </div>
             </Grid>

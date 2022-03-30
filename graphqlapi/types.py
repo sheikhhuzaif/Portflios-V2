@@ -2,7 +2,7 @@ import graphene
 from django.contrib.auth.models import User
 from graphene.types.generic import GenericScalar
 from graphene_django import DjangoObjectType
-
+import datetime
 from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, Social
 from portfolio.models import Portfolio
 from resumes.models import Resumes
@@ -34,6 +34,17 @@ class BaseDataType(graphene.ObjectType):
 
 class BasicInfoType(DjangoObjectType):
     gender = graphene.String()
+    age = graphene.String()
+    email = graphene.String()
+
+    def resolve_email(self, info):
+        return self.user.username
+
+    def resolve_age(self, info):
+        cuur_year = datetime.date.today().year
+        dob_year = self.dob.year
+        age = cuur_year-dob_year
+        return str(age)
 
     def resolve_gender(self, info):
         return self.gender
@@ -72,6 +83,15 @@ class EducationType(DjangoObjectType):
 
 
 class WorkType(DjangoObjectType):
+    start_date = graphene.String()
+    end_date = graphene.String()
+
+    def resolve_start_date(self, info):
+        return self.start_date.strftime("%m-%Y")
+
+    def resolve_end_date(self, info):
+        return self.end_date.strftime("%m-%Y")
+
     class Meta:
         model = Work
 
