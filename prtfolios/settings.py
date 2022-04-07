@@ -27,8 +27,7 @@ SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -50,6 +49,7 @@ INSTALLED_APPS = [
     'django_countries',
     'phonenumber_field',
     'rest_framework',
+    'django_css_inline',
 
 ]
 
@@ -139,7 +139,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets"), os.path.join(BASE_DIR, "base/static/")]
 STATIC_ROOT = os.path.join(BASE_DIR, "static").replace("\\", "//")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media_root").replace("\\", "//")
 
@@ -159,5 +159,7 @@ other_settings = [
     'configurations/graphql.py',
     'configurations/react.py',
 ]
+
+DJANGO_CSS_INLINE_ENABLE = not DEBUG
 
 include(*other_settings)

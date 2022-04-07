@@ -6,6 +6,8 @@ from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, S
 from .types import BasicInfoType, AddressType, SkillType, SocialType, WorkType, EducationType
 from .utils import create_date, DJANGO_FORMAT
 from portfolio.models import Portfolio
+from resume.models import Resume
+
 
 class UpdateBasicInfo(graphene.Mutation):
     basic_info = graphene.Field(BasicInfoType)
@@ -113,10 +115,10 @@ class UpdateEducation(graphene.Mutation):
                 education = Education.objects.filter(id=data.get('pk')).first()
                 if education and education.user == user:
                     Education.objects.update_education(data.get('pk'), course_name=data['courseName'],
-                                                   university=data['university'],
-                                                   start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
-                                                   end_date=create_date(data['endDate'][0:10], DJANGO_FORMAT),
-                                                   gpa=data['gpa'])
+                                                       university=data['university'],
+                                                       start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
+                                                       end_date=create_date(data['endDate'][0:10], DJANGO_FORMAT),
+                                                       gpa=data['gpa'])
             else:
                 education = Education.objects.create_education(user, course_name=data['courseName'],
                                                                university=data['university'],
@@ -215,6 +217,7 @@ class DeleteSocial(graphene.Mutation):
             return DeleteSkill(True)
         return DeleteSkill(False)
 
+
 class SetTemplate(graphene.Mutation):
     success = graphene.Boolean()
 
@@ -230,3 +233,21 @@ class SetTemplate(graphene.Mutation):
                 basicinfo.portfolio = template
                 basicinfo.save()
                 return SetTemplate(success=True)
+
+
+class SetResume(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        resume_id = graphene.UUID()
+
+    def mutate(self, info, template_id):
+        template = Resume.objects.filter(id=template_id).first()
+        if template:
+            user = info.context.user
+            if user.is_authenticated and not user.is_superuser:
+                basicinfo = user.basicinfo
+                basicinfo.resume = template
+                basicinfo.save()
+                return SetTemplate(success=True)
+

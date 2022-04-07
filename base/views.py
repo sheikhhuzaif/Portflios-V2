@@ -9,7 +9,11 @@ from rest_framework.fields import FileField
 from rest_framework.serializers import Serializer
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
-
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.views.generic import View
 from resume_parser.app import predict_
 from .forms import LoginForm, SignupForm
 
@@ -136,3 +140,30 @@ class ResumeParserView(ViewSet):
         response = predict_(file_uploaded)
         response = self.format_data(response)
         return Response(response)
+
+
+def html_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+
+class GeneratePdf(TemplateView):
+    template_name = "resume2.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['email'] = user.username
+        return context
+    # def get(self, request, *args, **kwargs):
+    #     # getting the template
+    #     resume_info = {"email": "sheikhhuzaif007@gmail.com", 'pagesize': 'A4', }
+    #     pdf = html_to_pdf('resume_temp1.html', resume_info)
+    #
+    #     # rendering the template
+    #     return HttpResponse(pdf, content_type='application/pdf')
