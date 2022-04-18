@@ -11,13 +11,12 @@ import { useParams, useLocation } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import Temp1 from '../../portfolioTemplates/template1/Temp1'
 import Temp2 from '../../portfolioTemplates/template1/Temp2'
-import Temp5 from '../../portfolioTemplates/template5/Temp5';
-import Temp6 from '../../portfolioTemplates/template6/Temp6';
+
 
 export default function PortfolioView() {
-  const { username } = useParams();
-  console.log(username);
-  const GET_TEMPLATE_DATA = gql`
+    const { username } = useParams();
+    console.log(username);
+    const GET_TEMPLATE_DATA = gql`
     query getTemplateData($username: String){
       templateData(username: $username){
         templateName
@@ -52,25 +51,24 @@ export default function PortfolioView() {
             id
             name
         }
-        works{
-            id
-            title
-            company
-            startDate
-            endDate
-        }
-        socials{
-            id
-            userName
-            platform
-        }
+        # works{
+        #     id
+        #     title
+        #     company
+        #     startDate
+        # }
+        # socials{
+        #     id
+        #     userName
+        #     platform
+        # }
     }
   }
   `
-  const { data } = useQuery(GET_TEMPLATE_DATA, {
-    variables: {
-      username
-    }
+  const {data} = useQuery(GET_TEMPLATE_DATA, {
+      variables: {
+          username
+      }
   });
   const templateData = data && data.templateData;
   const templateName = templateData && templateData.templateName;
@@ -80,34 +78,28 @@ export default function PortfolioView() {
       case "Space Cadet":
         return (
           <Temp1
-            data={templateData}
+              data = {templateData}
           />
-          // <Temp5/>
         );
       case "Modern Minimalist":
         return (
           <Temp2
-            data={templateData}
+             data = {templateData}
           />
         );
-      case "Stay Flo":
-        return (
-          <Temp6
-            data={templateData}
-          />
-        );
+
       default:
         console.log("DEFAULT")
         return (
-          <Temp1
-          data={templateData}
-          />
-        );
+            <Temp1
+                data = {templateData}
+            />
+          );
     }
   };
-
-  return (<div>
-    {getTemplate(templateName)}
-  </div>
-  );
+  
+    return (<div>
+       {getTemplate(templateName)}
+    </div>
+    );
 }

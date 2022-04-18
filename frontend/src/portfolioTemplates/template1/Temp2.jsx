@@ -5,7 +5,6 @@ import About2 from "./components/About2";
 import Contact from "./components/Contact";
 import Education from "./components/Education";
 import Sidebar from "./components/Sidebar";
-import Resume from "./components/Resume";
 import Skills from "./components/Skills";
 import WorkExp from "./components/WorkExp";
 import Background from './b.jpg'
