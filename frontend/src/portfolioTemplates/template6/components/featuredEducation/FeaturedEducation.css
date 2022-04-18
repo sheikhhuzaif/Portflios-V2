@@ -1,0 +1,32 @@
+
+.featured-education-wrapper {
+  margin: 20px 0px;
+}
+.featured-education {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #533b3b;
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+  min-height: 120px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+.featured-education-wrapper:hover .featured-education {
+  transform: translateX(-10px);
+  background-color: #474f63;
+}
+.featured-education-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+}
+
+.featured-education > p {
+  z-index: 1;
+}
