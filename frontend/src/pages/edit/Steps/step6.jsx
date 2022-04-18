@@ -172,7 +172,7 @@ mutation deleteSocial($pk: UUID) {
                 fullWidth
                 name="userName"
                 label="User Name"
-                value={social.link}
+                value={social.userName}
                 onChange={event => handleChangeInput(social.id, event)}
               />
             </Grid>

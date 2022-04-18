@@ -22,8 +22,8 @@ export default function Step5({
     id
     title
     company
-    startDate
-    endDate
+    startDate:sDate
+    endDate:eDate
   }
   }
   `

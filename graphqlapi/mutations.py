@@ -6,7 +6,7 @@ from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, S
 from .types import BasicInfoType, AddressType, SkillType, SocialType, WorkType, EducationType
 from .utils import create_date, DJANGO_FORMAT
 from portfolio.models import Portfolio
-from resume.models import Resume
+from resumes.models import Resumes
 
 
 class UpdateBasicInfo(graphene.Mutation):
@@ -165,7 +165,7 @@ class UpdateWork(graphene.Mutation):
                                                 start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
                                                 end_date=create_date(data['endDate'][:10], DJANGO_FORMAT))
 
-        return UpdateWork(user.works.all(), False)
+        return UpdateWork(user.works.all(), True)
 
 
 class DeleteWork(graphene.Mutation):
@@ -196,11 +196,11 @@ class UpdateSocial(graphene.Mutation):
             if data.get('pk'):
                 social = Social.objects.filter(id=data.get('pk')).first()
                 if social and social.user == user:
-                    Social.objects.update_social(data['pk'], platform=data['platform'], user_name=data['username'])
+                    Social.objects.update_social(data['pk'], platform=data['platform'], user_name=data['userName'])
             else:
-                social = Social.objects.create_social(user, platform=data['platform'], user_name=data['username'])
+                social = Social.objects.create_social(user, platform=data['platform'], user_name=data['userName'])
 
-        return UpdateSocial(None, False)
+        return UpdateSocial(None, True)
 
 
 class DeleteSocial(graphene.Mutation):
@@ -242,7 +242,7 @@ class SetResume(graphene.Mutation):
         resume_id = graphene.UUID()
 
     def mutate(self, info, template_id):
-        template = Resume.objects.filter(id=template_id).first()
+        template = Resumes.objects.filter(id=template_id).first()
         if template:
             user = info.context.user
             if user.is_authenticated and not user.is_superuser:

@@ -85,12 +85,20 @@ class EducationType(DjangoObjectType):
 class WorkType(DjangoObjectType):
     start_date = graphene.String()
     end_date = graphene.String()
+    s_date = graphene.String()
+    e_date = graphene.String()
+
+    def resolve_s_date(self, info):
+        return self.start_date
+
+    def resolve_e_date(self, info):
+        return self.end_date
 
     def resolve_start_date(self, info):
-        return self.start_date.strftime("%m-%Y")
+        return self.start_date.strftime("%m-%Y") if self.start_date else None
 
     def resolve_end_date(self, info):
-        return self.end_date.strftime("%m-%Y")
+        return self.end_date.strftime("%m-%Y") if self.end_date else None
 
     class Meta:
         model = Work
@@ -98,6 +106,10 @@ class WorkType(DjangoObjectType):
 
 class SocialType(DjangoObjectType):
     link = graphene.String(source="link")
+    platform = graphene.String()
+
+    def resolve_platform(self, info):
+        return self.platform
 
     
     class Meta:
