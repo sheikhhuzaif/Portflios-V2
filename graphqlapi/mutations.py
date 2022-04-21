@@ -1,6 +1,7 @@
 import graphene
+from django.conf import settings
 from graphene.types.generic import GenericScalar
-
+from django.core.mail import send_mail
 from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, Social
 
 from .types import BasicInfoType, AddressType, SkillType, SocialType, WorkType, EducationType
@@ -251,3 +252,27 @@ class SetResume(graphene.Mutation):
                 basicinfo.save()
                 return SetTemplate(success=True)
 
+
+class SendMail(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        subject = graphene.String()
+        message = graphene.String()
+        sender = graphene.String()
+
+    def mutate(self, info, subject, message, sender):
+        user = info.context.user
+        if user.is_authenticated:
+            email = user.email
+            try:
+                send_mail(
+                    'Message on your Prtfolio by {}'.format(sender),
+                    'Subject : {} /n Message: {}'.format(subject, message),
+                    settings.EMAIL_HOST_USER,
+                    [email, ],
+                )
+            except Exception as e:
+                print(e, "email error")
+            return SendMail(True)
+        return SendMail(False)
