@@ -13,9 +13,6 @@ export default function Navbar({firstName}) {
         <a href="#about2" className="mr-5 hover:text-white transform hover:scale-125">
             About
           </a>
-          <a href="#resume" className="mr-5 hover:text-white transform hover:scale-125">
-            Resume
-          </a>
           <a href="#skills" className="mr-5 hover:text-white transform hover:scale-125">
             Skills
           </a>

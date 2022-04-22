@@ -11,7 +11,6 @@ import { useParams, useLocation } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import Temp1 from '../../portfolioTemplates/template1/Temp1'
 import Temp2 from '../../portfolioTemplates/template1/Temp2'
-import Temp5 from '../../portfolioTemplates/template5/Temp5';
 import Temp6 from '../../portfolioTemplates/template6/Temp6';
 
 export default function PortfolioView() {

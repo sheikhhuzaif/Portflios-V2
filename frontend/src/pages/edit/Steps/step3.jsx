@@ -208,7 +208,7 @@ export default function Step3({
         ))}
 
         <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
-          {/* <Box ml={2}>
+          <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handlePrev}
@@ -216,7 +216,7 @@ export default function Step3({
             >
               Back
             </Button>
-          </Box> */}
+          </Box>
           <Box ml={2}>
             <Button
               variant="outlined"

@@ -212,14 +212,14 @@ export default function Step2({ handleNext, handlePrev, }) {
 
 
         <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
-          {/* <Box ml={2}>
+          <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handlePrev}
               color="primary">
               Back
             </Button>
-          </Box> */}
+          </Box>
           <Box ml={2}>
             <Button
               variant="outlined"

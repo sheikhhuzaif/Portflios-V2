@@ -6,23 +6,28 @@ import FormComponent from "./pages/edit/FormComponent";
 import Portfolio from "./pages/portfolio/Portfolio";
 import Resume from "./pages/resume/Resume";
 
-const Routing=()=>{
+const Routing = () => {
 
-const routes = useRoutes([
-{path:"/", element:<Home/>},
-{path:"/edit", element:<FormComponent/>},
-{path:"/portfolio", element:<Portfolio/>},
-{path:"/resume", element:<Resume/>},
+    const routes = useRoutes([
+        { path: "/", element: <Home /> },
+        { path: "/edit", element: <FormComponent /> },
+        { path: "/portfolio", element: <Portfolio /> },
+        { path: "/resume", element: <Resume /> },
 
-]);
-return routes
+    ]);
+    return routes
 }
 
 export default function BaseApp() {
 
 
-    return (<div className="container"><Sidebar/>
-    <Routing/></div>);
+    return (
+        <div className="">
+            <Sidebar />
+            <div style={{ paddingLeft: "250px", paddingRight: "260px" }}>
+                <Routing />
+            </div>
+        </div>);
 
 
 }
