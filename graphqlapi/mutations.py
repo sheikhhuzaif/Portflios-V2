@@ -260,19 +260,14 @@ class SendMail(graphene.Mutation):
         subject = graphene.String()
         message = graphene.String()
         sender = graphene.String()
+        receiver = graphene.String()
 
-    def mutate(self, info, subject, message, sender):
-        user = info.context.user
-        if user.is_authenticated:
-            email = user.email
-            try:
-                send_mail(
-                    'Message on your Prtfolio by {}'.format(sender),
-                    'Subject : {} /n Message: {}'.format(subject, message),
-                    settings.EMAIL_HOST_USER,
-                    [email, ],
-                )
-            except Exception as e:
-                print(e, "email error")
-            return SendMail(True)
-        return SendMail(False)
+    def mutate(self, info, subject, message, sender, receiver):
+        email = receiver
+        sub = 'Message on your Portfolio by {}'.format(sender)
+        mes = 'Subject : {} \nMessage: {}'.format(subject, message)
+        try:
+            send_mail(subject=sub, message=mes, from_email=settings.EMAIL_HOST_USER, recipient_list=[email, ])
+        except Exception as e:
+            print(e, "email error")
+        return SendMail(True)
