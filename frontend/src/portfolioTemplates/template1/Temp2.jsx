@@ -7,7 +7,7 @@ import Education from "./components/Education";
 import Sidebar from "./components/Sidebar";
 import Skills from "./components/Skills";
 import WorkExp from "./components/WorkExp";
-import Background from './b.jpg'
+import Background from './b2.jpg'
 
 
 
@@ -30,7 +30,7 @@ export default function Temp2({data}) {
       <Sidebar
         firstName={firstName}
       />
-      <div style={{ paddingLeft: "280px" }}>
+      <div style={{ paddingLeft: "280px",paddingTop:"20px" }}>
         <About
           firstName={firstName}
           basicinfo={basicinfo}
@@ -41,7 +41,7 @@ export default function Temp2({data}) {
           <Skills skills={skills}/>
           <Education educations={educations}/>
           <WorkExp experience={works}/>
-          <Contact />
+          <Contact socials={socials}/>
       </div>
     </main>
   );

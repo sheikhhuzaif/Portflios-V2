@@ -5,7 +5,7 @@ import WorkIcon from '@mui/icons-material/Work';
 export default function WorkExp({experience}) {
 
   return (
-    <section id="workExp" className=" body-font bg-gray-900  flex flex-col h-screen">
+    <section id="workExp" className=" body-font bg-gray-900  min-h-screen">
       <div className="columns-2  px-10 py-20 mx-auto text-center lg:px-40">
         <div className="flex flex-col w-full mb-20">
           <WorkIcon style={{width:"50vw" , height:"10vh"}} className="mx-auto inline-block mb-4" />

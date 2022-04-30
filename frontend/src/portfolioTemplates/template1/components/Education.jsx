@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Education({educations}) {
   return (
-    <section id="education" className="  body-font flex flex-col h-screen bg-gray-900 ">
+    <section id="education" className="  body-font min-h-screen bg-gray-900 ">
       <div className="columns-2  px-10 py-20 mx-auto text-center lg:px-40">
         <div className="flex flex-col w-full mb-20">
           <SchoolIcon style={{width:"50vw" , height:"10vh"}} className="mx-auto inline-block mb-4" />

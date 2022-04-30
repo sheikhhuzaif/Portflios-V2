@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'django_countries',
     'phonenumber_field',
     'rest_framework',
-    'django_css_inline',
 
 ]
 

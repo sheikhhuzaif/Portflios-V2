@@ -6,36 +6,35 @@ import ContactForm from '../contactForm/ContactForm.jsx'
 import linkedin from '../../images/social/linkedin.png'
 import github from '../../images/social/github.png'
 import facebook from '../../images/social/facebook.png'
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
-export default function Contact(){
+
+const getSocialLinks = (socials) => {
+  return (
+    <div className="links">
+      {
+        socials && socials.map((social) => (
+          <div>
+          {social.platform == 'Facebook'? <a href={"https://facebook.com/" + social.userName} target="_blank" className="p-5 transform hover:scale-125 ease-in-out duration-500"><FacebookIcon /></a>: null }
+          {social.platform == 'Linkedn'? <a href={"https://linkedin.com/" + social.userName} target="_blank" className="p-5 transform hover:scale-125 ease-in-out duration-500"><LinkedInIcon /></a>: null }
+          {social.platform == 'Instagram'? <a href={"http://instagram.com/" + social.userName} target="_blank" className="p-5 transform hover:scale-125 ease-in-out duration-500"><InstagramIcon /></a>: null }
+          {social.platform == 'Twitter'? <a href={"https://twitter.com/" + social.userName} target="_blank" className="p-5 transform hover:scale-125 ease-in-out duration-500"><TwitterIcon /></a>: null }
+          </div>
+        ))
+      }
+    </div>
+  )
+}
+
+export default function Contact({socials}){
   return (
     <Section title="Contact" className="flex flex-col h-screen">
       <ContactForm />
       <Bounce cascade>
-        <div className="links">
-          <a
-            href="https://github.com/jigalin"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img src={github} alt="Github Logo" width="40px" />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/mjigalin/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img src={linkedin} alt="Linkedin Logo" width="40px" />
-          </a>
-
-          <a
-            href="https://www.facebook.com/matthew.jigalin/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img src={facebook} alt="Facebook Logo" width="40px" />
-          </a>
-        </div>
+      {getSocialLinks(socials)}
       </Bounce>
     </Section>
   );

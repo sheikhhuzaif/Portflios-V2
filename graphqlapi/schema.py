@@ -1,6 +1,6 @@
 import graphene
 from .mutations import UpdateBasicInfo, UpdateAddress, UpdateEducation, UpdateWork, UpdateSkill, UpdateSocial, \
-    DeleteEducation, DeleteWork, DeleteSkill, DeleteSocial, SetTemplate, SendMail
+    DeleteEducation, DeleteWork, DeleteSkill, DeleteSocial, SetTemplate, SetResume, SendMail
 from .types import UserType, BasicInfoType, AddressType, SkillType, EducationType, WorkType, SocialType, BaseDataType, \
     PortfolioType, ResumeType, BlogType
 from userprofile.models import AddressInfo
@@ -127,6 +127,7 @@ class Mutation(graphene.ObjectType):
     delete_social = DeleteSocial.Field()
     set_template = SetTemplate.Field()
     send_mail = SendMail.Field()
+    set_resume = SetResume.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

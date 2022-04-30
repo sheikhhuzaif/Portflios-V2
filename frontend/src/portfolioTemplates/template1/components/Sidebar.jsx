@@ -103,14 +103,6 @@ export default function Sidebar({firstName}) {
               <ListItemText primary="About" />
             </ListItem>
           </a>
-          <a href="#resume" >
-            <ListItem button key="resume" className='transform hover:scale-105'>
-              <ListItemIcon>
-                <FilePresentIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Resume" />
-            </ListItem>
-          </a>
           <a href="#skills" >
             <ListItem button key="skills" className='transform hover:scale-105'>
               <ListItemIcon>

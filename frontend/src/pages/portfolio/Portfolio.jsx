@@ -74,6 +74,7 @@ setTemplate(
     return (
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
+            <p className='font-extrabold text-2xl text-center pb-10'>Select Template</p>
             <div className='portfolio '>
                 <Grid container spacing={2} className='p-6'>
                     {portfolios && portfolios?.map((item) => (

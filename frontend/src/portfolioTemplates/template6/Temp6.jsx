@@ -33,7 +33,7 @@ function Temp6({ data }) {
       <Skills skills={skills} />
       <Experience experience={works} />
       <Education educations={educations} />
-      <Contact />
+      <Contact socials={socials}/>
       <TopButton />
     </div>
   )

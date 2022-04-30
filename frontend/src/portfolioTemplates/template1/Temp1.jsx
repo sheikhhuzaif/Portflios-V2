@@ -5,12 +5,9 @@ import About2 from "./components/About2";
 import Contact from "./components/Contact";
 import Education from "./components/Education";
 import Navbar from "./components/Navbar";
-import Resume from "./components/Resume";
 import Skills from "./components/Skills";
 import WorkExp from "./components/WorkExp";
 import a1 from './a1.jpg'
-import b from './b.jpg'
-
 
 
 export default function Temp1({data}) {
@@ -42,7 +39,7 @@ export default function Temp1({data}) {
           <Skills skills={skills}/>
           <Education educations={educations}/>
           <WorkExp experience={works}/>
-          <Contact />
+          <Contact socials={socials}/>
         </main>
       );
 }
