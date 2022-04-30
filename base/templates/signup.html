@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+{%  load static %}
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tailwind CSS Sign up Form with Image on Left Side Example</title>
+    <title>SignUp for PRTFOLIOS</title>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">
 
     <div class="flex h-full max-w-4xl mx-auto justify-center  mb-16 ">
-        <a class="" href="">
-            <img class="w-55 h-40 " src="logo.png">
-            <!-- <h1 class="mt-7">PRTFOLIOS</h1> -->
+        <a href="/index">
+            <img class="w-55 h-40 " src="{% static 'images\logo.png' %}">
         </a>
     </div>
     <div class="flex items-center bg-gray-100 ">
-        <div class="flex-1 h-full max-w-4xl mx-auto bg-white shadow-md hover:shadow-2xl rounded-lg ">
+        <div class="flex-1 h-full max-w-4xl mx-auto ">
             <div class="flex justify-center md:flex-row">
 
-                <div class="flex items-center justify-center p-3 sm:p-12 md:w-1/2">
-                    <form class="w-full" method="POST">
+                <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2 border-2 bg-white shadow-md hover:shadow-2xl rounded-lg">
+                    <form class="" method="POST">
                         {% csrf_token %}
                         <div class="flex justify-center">
 
@@ -64,7 +64,7 @@
 
                         <div class="mt-4 text-center">
                             <p class="text-sm">Have an account?
-                                <a href={% url 'login' %} class="text-blue-600 hover:underline"> Log in.</a>
+                                <a href="/login" class="text-blue-600 hover:underline"> Log in.</a>
                             </p>
                         </div>
 

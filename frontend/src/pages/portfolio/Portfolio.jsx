@@ -89,7 +89,6 @@ setTemplate(
                                     />
                                 </Tooltip>
                                 <CardActions >
-                                    <Button size="small">Demo</Button>
                                     <Link to={{
                                         pathname: `/view/${username}`
                                     }}

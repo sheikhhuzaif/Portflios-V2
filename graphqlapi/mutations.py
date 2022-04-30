@@ -242,8 +242,8 @@ class SetResume(graphene.Mutation):
     class Arguments:
         resume_id = graphene.UUID()
 
-    def mutate(self, info, template_id):
-        template = Resumes.objects.filter(id=template_id).first()
+    def mutate(self, info, resume_id):
+        template = Resumes.objects.filter(id=resume_id).first()
         if template:
             user = info.context.user
             if user.is_authenticated and not user.is_superuser:

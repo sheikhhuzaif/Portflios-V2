@@ -25,6 +25,7 @@ export default function Portfolio() {
     const GET_RESUMES = gql`
     query getResumes{
         resumes{
+        id
             templateName
             paid
             imagePath
@@ -77,7 +78,6 @@ setResume(
                                     />
                                 </Tooltip>
                                 <CardActions >
-                                    <Button size="small">Demo</Button>
                                     <Link to={{
                                         pathname: `/resume`
                                     }}
