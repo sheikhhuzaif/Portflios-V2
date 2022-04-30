@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path, include
+from django.views.decorators.csrf import csrf_exempt
 
 from .views import UserSignUp, LoginView, LogoutView, LandingPage, DashboardView, ResumeParserView, GenerateResume
 
