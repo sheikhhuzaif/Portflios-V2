@@ -45,8 +45,11 @@ class AddressInfo(BaseModel):
     pincode = models.CharField(blank=True, null=True, max_length=16)
     objects = AddressManager()
 
+    def get_address(self):
+        return self.address + " " + self.state + " " + self.country.name
+
     def __str__(self):
-        return self.country + self.pincode
+        return self.country.name + self.pincode
 
 
 class Skill(BaseModel):

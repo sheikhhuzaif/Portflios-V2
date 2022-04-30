@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { Grid, Input } from '@mui/material';
 import "./FormComponent.css"
+import axios from 'axios';
 
 const style = {
     position: 'absolute',
@@ -24,13 +25,29 @@ export default function Popup() {
     const handleClose = () => setOpen(false);
 
     const [uploadFile, setUploadFile] = React.useState();
+    const [parsedResume, setParsedResume] = React.useState();
+    const getResumeData = () => {
+    const data = new FormData();
+    data.append('file_uploaded', uploadFile)
+    axios({
+        method: 'POST',
+        url: '/parse_resume/',
+        xsrfHeaderName: "X-CSRFToken",
+        headers:{
+                'Content-Type': 'multipart/form-data',
+            },
+        data }).then((response) => {
+            setParsedResume(response.data);console.log(response.data)}).catch((error) => {
+            console.log("failure");
+        });
+    };
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Resume Uploadedf");
-        console.log(uploadFile);
+        getResumeData();
         handleClose();
+        console.log("parsed resume", parsedResume)
     };
     return (
         <div >
@@ -54,7 +71,7 @@ export default function Popup() {
                                     type="file"
                                     name="upload"
                                     label="Upload your Resume"
-                                    onChange={(e) => setUploadFile(e.target.files)}
+                                    onChange={(e) => setUploadFile(e.target.files[0])}
                                 />
                             </form>
                         </Grid>

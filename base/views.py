@@ -143,18 +143,35 @@ class ResumeParserView(ViewSet):
 
 
 
-class GeneratePdf(TemplateView):
-    template_name = "resume2.html"
+class GenerateResume(TemplateView):
+    def name_mapping(self, key):
+        mapping = {"Blue Sphere": "blue_sphere.html",
+                   "Bold Monogram": "bold_monogram.html",
+                   "Minimalist": "minimalist.html",
+                   }
+        return mapping.get(key, None)
+
+    def get_template_names(self):
+        user = self.request.user
+        basic_info = user.basicinfo
+        resume = basic_info.resume
+        template = self.name_mapping(resume.template_name)
+        print(template)
+        return [template]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         context['email'] = user.username
+        context['name'] = user.get_full_name()
+        context['profession'] = user.basicinfo.profession
+        context['summary'] = user.basicinfo.about
+        context['skills'] = user.skills.all()
+        context['address'] = user.address.all().first().get_address()
+        context['phone'] = user.basicinfo.phone
+        context['links'] = user.socials.all()
+        context['works'] = user.works.all()
+        context['educations'] = user.education.all()
+        print(context)
         return context
-    # def get(self, request, *args, **kwargs):
-    #     # getting the template
-    #     resume_info = {"email": "sheikhhuzaif007@gmail.com", 'pagesize': 'A4', }
-    #     pdf = html_to_pdf('resume_temp1.html', resume_info)
-    #
-    #     # rendering the template
-    #     return HttpResponse(pdf, content_type='application/pdf')
+

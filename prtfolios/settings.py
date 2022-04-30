@@ -157,7 +157,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 other_settings = [
     'configurations/graphql.py',
     'configurations/react.py',
+    'configurations/email.py',
 ]
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
 
 DJANGO_CSS_INLINE_ENABLE = not DEBUG
 
