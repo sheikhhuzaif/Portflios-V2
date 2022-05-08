@@ -10,9 +10,9 @@ from django.conf import settings
 class Command(BaseCommand):
     def get_resume_data(self):
         return [
-            {"name": "Blue Sphere 1", "image": "resume-demos/blue_sphere.png"},
-            {"name": "Bold Monogram 1", "image": "resume-demos/bold_monogram.png"},
-            {"name": "Minimalist 1", "image": "resume-demos/minimalist.png"},
+            {"name": "Blue Sphere", "image": "resume-demos/blue_sphere.png"},
+            {"name": "Bold Monogram", "image": "resume-demos/bold_monogram.png"},
+            {"name": "Minimalist", "image": "resume-demos/minimalist.png"},
         ]
 
     def handle(self, *args, **options):

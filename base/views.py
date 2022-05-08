@@ -155,8 +155,9 @@ class GenerateResume(TemplateView):
         user = self.request.user
         basic_info = user.basicinfo
         resume = basic_info.resume
+        print(resume.template_name)
         template = self.name_mapping(resume.template_name)
-        print(template)
+        
         return [template]
 
     def get_context_data(self, **kwargs):
@@ -172,6 +173,6 @@ class GenerateResume(TemplateView):
         context['links'] = user.socials.all()
         context['works'] = user.works.all()
         context['educations'] = user.education.all()
-        print(context)
+    
         return context
 
