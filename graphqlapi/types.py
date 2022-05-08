@@ -2,7 +2,7 @@ import graphene
 from django.contrib.auth.models import User
 from graphene.types.generic import GenericScalar
 from graphene_django import DjangoObjectType
-
+import datetime
 from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, Social
 from portfolio.models import Portfolio
 from resumes.models import Resumes
@@ -32,13 +32,19 @@ class BaseDataType(graphene.ObjectType):
         return final
 
 
-class UserType(DjangoObjectType):
-    class Meta:
-        model = User
-
-
 class BasicInfoType(DjangoObjectType):
     gender = graphene.String()
+    age = graphene.String()
+    email = graphene.String()
+
+    def resolve_email(self, info):
+        return self.user.username
+
+    def resolve_age(self, info):
+        cuur_year = datetime.date.today().year
+        dob_year = self.dob.year
+        age = cuur_year-dob_year
+        return str(age)
 
     def resolve_gender(self, info):
         return self.gender
@@ -77,11 +83,35 @@ class EducationType(DjangoObjectType):
 
 
 class WorkType(DjangoObjectType):
+    start_date = graphene.String()
+    end_date = graphene.String()
+    s_date = graphene.String()
+    e_date = graphene.String()
+
+    def resolve_s_date(self, info):
+        return self.start_date
+
+    def resolve_e_date(self, info):
+        return self.end_date
+
+    def resolve_start_date(self, info):
+        return self.start_date.strftime("%m-%Y") if self.start_date else None
+
+    def resolve_end_date(self, info):
+        return self.end_date.strftime("%m-%Y") if self.end_date else None
+
     class Meta:
         model = Work
 
 
 class SocialType(DjangoObjectType):
+    link = graphene.String(source="link")
+    platform = graphene.String()
+
+    def resolve_platform(self, info):
+        return self.platform
+
+    
     class Meta:
         model = Social
 
@@ -114,3 +144,36 @@ class BlogType(DjangoObjectType):
 
     class Meta:
         model = Blog
+
+class UserType(DjangoObjectType):
+    basic_info = graphene.Field(BasicInfoType)
+    socials = graphene.List(SocialType)
+    works = graphene.List(WorkType)
+    educations = graphene.List(EducationType)
+    skills = graphene.List(SkillType)
+    address = graphene.Field(AddressType)
+    template_name = graphene.String()
+
+    def resolve_template_name(self, info):
+        return self.basicinfo.portfolio.template_name
+
+    def resolve_skills(self, info):
+        return self.skills.all()
+
+    def resolve_address(self, info):
+        return AddressInfo.objects.filter(user=self).first()
+
+    def resolve_works(self, info):
+        return self.works.all()
+
+    def resolve_educations(self, info):
+        return self.education.all()
+
+    def resolve_socials(self, info):
+        return self.socials.all()
+
+    def resolve_basic_info(self, info):
+        return self.basic_info
+
+    class Meta:
+        model = User

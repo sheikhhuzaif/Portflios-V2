@@ -8,6 +8,8 @@ import React, { useState } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
 import PropTypes from 'prop-types';
 import { useQuery, gql } from "@apollo/client";
+import resume from "..\\..\\images\\resume.jpg"
+import portfolio from "..\\..\\images\\portfolio.png"
 
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -53,7 +55,7 @@ export default function Home() {
     const profileCompletion = data && data.profileCompletion;
     setProgress(profileCompletion);
   }, [data]);
-  
+
 
 
 
@@ -61,15 +63,25 @@ export default function Home() {
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <DrawerHeader />
       <div className="home " >
-        <div className="type mt-10">
+        <div className="flex mt-10">
 
-          <Link to="" className="res typeItem text hover:shadow-xl p-28 m-6  " >
-            <h1 className="transboxRes">Download Your Resume</h1>
+          <Link to="" className="res typeItem text p-44 m-6  relative border-2 rounded-md">
+            <div className="a absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: `url(${resume})` }}></div>
+            <div className="b opacity-0 hover:opacity-100 duration-300 absolute inset-0 z-10 flex justify-center items-center text-xl text-black font-semibold">Download Your Resume</div>
           </Link>
 
-          <Link to="" className="typeItem text hover:shadow-xl p-28 m-6 port " >
-            <p className="transboxPort ">Go to your Portfolio</p>
+          <Link to="" className="port typeItem text p-44 m-6  relative rounded-md">
+            <div className="c absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: `url(${portfolio})` }}></div>
+            <div className="d opacity-0 hover:opacity-100 duration-300 absolute inset-0 z-10 flex justify-center items-center text-xl text-black font-semibold">Go to your Portfolio</div>
           </Link>
+
+          {/* <Link to="" className="res typeItem text hover:shadow-xl p-28 m-6  " >
+            <h1 className="transboxRes text-black">Download Your Resume</h1>
+          </Link>
+
+          <Link to="" className="typeItem text hover:shadow-xl p-28 m-6  port" >
+            <p className="transboxPort text-black">Go to your Portfolio</p>
+          </Link> */}
         </div>
 
         <Box className="rad bg-gray-100 pt-20 pb-20 pl-10 pr-10 m-6 mt-10 mb-10">

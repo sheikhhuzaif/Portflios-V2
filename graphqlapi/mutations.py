@@ -1,10 +1,13 @@
 import graphene
+from django.conf import settings
 from graphene.types.generic import GenericScalar
-
+from django.core.mail import send_mail
 from userprofile.models import BasicInfo, AddressInfo, Skill, Education, Work, Social
 
 from .types import BasicInfoType, AddressType, SkillType, SocialType, WorkType, EducationType
 from .utils import create_date, DJANGO_FORMAT
+from portfolio.models import Portfolio
+from resumes.models import Resumes
 
 
 class UpdateBasicInfo(graphene.Mutation):
@@ -112,11 +115,11 @@ class UpdateEducation(graphene.Mutation):
             if data.get('pk'):
                 education = Education.objects.filter(id=data.get('pk')).first()
                 if education and education.user == user:
-                    Education.objects.update_skill(data.pk, course_name=data['courseName'],
-                                                   university=data['university'],
-                                                   start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
-                                                   end_date=create_date(data['endDate'][0:10], DJANGO_FORMAT),
-                                                   gpa=data['gpa'])
+                    Education.objects.update_education(data.get('pk'), course_name=data['courseName'],
+                                                       university=data['university'],
+                                                       start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
+                                                       end_date=create_date(data['endDate'][0:10], DJANGO_FORMAT),
+                                                       gpa=data['gpa'])
             else:
                 education = Education.objects.create_education(user, course_name=data['courseName'],
                                                                university=data['university'],
@@ -163,7 +166,7 @@ class UpdateWork(graphene.Mutation):
                                                 start_date=create_date(data['startDate'][:10], DJANGO_FORMAT),
                                                 end_date=create_date(data['endDate'][:10], DJANGO_FORMAT))
 
-        return UpdateWork(user.works.all(), False)
+        return UpdateWork(user.works.all(), True)
 
 
 class DeleteWork(graphene.Mutation):
@@ -194,11 +197,11 @@ class UpdateSocial(graphene.Mutation):
             if data.get('pk'):
                 social = Social.objects.filter(id=data.get('pk')).first()
                 if social and social.user == user:
-                    Social.objects.update_social(data['pk'], platform=data['platform'], user_name=data['username'])
+                    Social.objects.update_social(data['pk'], platform=data['platform'], user_name=data['userName'])
             else:
-                social = Social.objects.create_social(user, platform=data['platform'], user_name=data['username'])
+                social = Social.objects.create_social(user, platform=data['platform'], user_name=data['userName'])
 
-        return UpdateSocial(None, False)
+        return UpdateSocial(None, True)
 
 
 class DeleteSocial(graphene.Mutation):
@@ -214,3 +217,57 @@ class DeleteSocial(graphene.Mutation):
             social.delete()
             return DeleteSkill(True)
         return DeleteSkill(False)
+
+
+class SetTemplate(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        template_id = graphene.UUID()
+
+    def mutate(self, info, template_id):
+        template = Portfolio.objects.filter(id=template_id).first()
+        if template:
+            user = info.context.user
+            if user.is_authenticated and not user.is_superuser:
+                basicinfo = user.basicinfo
+                basicinfo.portfolio = template
+                basicinfo.save()
+                return SetTemplate(success=True)
+
+
+class SetResume(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        resume_id = graphene.UUID()
+
+    def mutate(self, info, resume_id):
+        template = Resumes.objects.filter(id=resume_id).first()
+        if template:
+            user = info.context.user
+            if user.is_authenticated and not user.is_superuser:
+                basicinfo = user.basicinfo
+                basicinfo.resume = template
+                basicinfo.save()
+                return SetTemplate(success=True)
+
+
+class SendMail(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        subject = graphene.String()
+        message = graphene.String()
+        sender = graphene.String()
+        receiver = graphene.String()
+
+    def mutate(self, info, subject, message, sender, receiver):
+        email = receiver
+        sub = 'Message on your Portfolio by {}'.format(sender)
+        mes = 'Subject : {} \nMessage: {}'.format(subject, message)
+        try:
+            send_mail(subject=sub, message=mes, from_email=settings.EMAIL_HOST_USER, recipient_list=[email, ])
+        except Exception as e:
+            print(e, "email error")
+        return SendMail(True)

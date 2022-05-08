@@ -98,7 +98,7 @@ class WorkManager(models.Manager):
 
     def create_work(self, user, title, company, start_date, end_date=None):
         work, created = self.get_or_create(user=user, title=title, company=company, start_date=start_date)
-        self.update_work(work.id)
+        self.update_work(work.id, end_date=end_date)
         return work
 
 

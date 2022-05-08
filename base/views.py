@@ -9,7 +9,10 @@ from rest_framework.fields import FileField
 from rest_framework.serializers import Serializer
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
-
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.views.generic import View
 from resume_parser.app import predict_
 from .forms import LoginForm, SignupForm
 
@@ -136,3 +139,39 @@ class ResumeParserView(ViewSet):
         response = predict_(file_uploaded)
         response = self.format_data(response)
         return Response(response)
+
+
+
+
+class GenerateResume(TemplateView):
+    def name_mapping(self, key):
+        mapping = {"Blue Sphere": "blue_sphere.html",
+                   "Bold Monogram": "bold_monogram.html",
+                   "Minimalist": "minimalist.html",
+                   }
+        return mapping.get(key, None)
+
+    def get_template_names(self):
+        user = self.request.user
+        basic_info = user.basicinfo
+        resume = basic_info.resume
+        template = self.name_mapping(resume.template_name)
+        print(template)
+        return [template]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['email'] = user.username
+        context['name'] = user.get_full_name()
+        context['profession'] = user.basicinfo.profession
+        context['summary'] = user.basicinfo.about
+        context['skills'] = user.skills.all()
+        context['address'] = user.address.all().first().get_address()
+        context['phone'] = user.basicinfo.phone
+        context['links'] = user.socials.all()
+        context['works'] = user.works.all()
+        context['educations'] = user.education.all()
+        print(context)
+        return context
+

@@ -27,8 +27,7 @@ SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -139,7 +138,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets"), os.path.join(BASE_DIR, "base/static/")]
 STATIC_ROOT = os.path.join(BASE_DIR, "static").replace("\\", "//")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media_root").replace("\\", "//")
 
@@ -158,6 +157,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 other_settings = [
     'configurations/graphql.py',
     'configurations/react.py',
+    'configurations/email.py',
 ]
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
+
+DJANGO_CSS_INLINE_ENABLE = not DEBUG
 
 include(*other_settings)

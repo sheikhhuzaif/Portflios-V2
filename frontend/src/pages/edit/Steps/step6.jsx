@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from "@mui/material/InputLabel";
+import { useNavigate } from "react-router-dom";
 
 function getBaseData(baseData) {
   const basicData = baseData ? baseData.baseData : {};
@@ -119,10 +120,11 @@ mutation deleteSocial($pk: UUID) {
     console.log("form submitted");
   };
 
+  let navigate = useNavigate();
   function handle(e) {
     handleSubmit(e);
     handleMutation(e);
-    handleNext();
+    navigate('/dashboard')
   }
 
   const handleChangeInput = (id, event) => {
@@ -172,7 +174,7 @@ mutation deleteSocial($pk: UUID) {
                 fullWidth
                 name="userName"
                 label="User Name"
-                value={social.link}
+                value={social.userName}
                 onChange={event => handleChangeInput(social.id, event)}
               />
             </Grid>
@@ -191,7 +193,7 @@ mutation deleteSocial($pk: UUID) {
         ))}
 
         <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
-          {/* <Box ml={2}>
+          <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handlePrev}
@@ -199,14 +201,14 @@ mutation deleteSocial($pk: UUID) {
             >
               Back
             </Button>
-          </Box> */}
+          </Box>
           <Box ml={2}>
-            <Button
-              variant="outlined"
-              onClick={handle}
-              color="primary">
-              Finish
-            </Button>
+              <Button
+                variant="outlined"
+                onClick={handle}
+                color="primary">
+                Finish
+              </Button>
           </Box>
         </Grid>
       </Paper>

@@ -1,0 +1,19 @@
+
+  .skill {
+    position: relative;
+    background-color: #2c323f;
+    
+  }
+  .section-title {
+    font-size: 40pt;
+    margin-bottom: 10px;
+  }
+  .underline {
+    border-top: 4px solid #0be779;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    width: 70px;
+  }
+  .color{
+    background: linear-gradient(to top, rgb(7, 66, 38),rgb(132, 223, 170));
+  }

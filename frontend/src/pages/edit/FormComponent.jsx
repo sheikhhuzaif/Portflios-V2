@@ -128,7 +128,7 @@ class FormComponent extends Component {
       <div className="head">
         <DrawerHeader />
         
-        <Popup/>
+        <Popup />
         <div className="formContainer" >
 
 

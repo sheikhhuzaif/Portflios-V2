@@ -1,22 +1,10 @@
-
 .container{
     display: flex;
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 
 
 .link{
     text-decoration: none;
     color: inherit;
-}
-
-.backgroundImage{
-    /* background-image: url('.\\images\\d.jpg'); */
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    /* width: 100vw;
-    height: 100vh; */
-    
 }

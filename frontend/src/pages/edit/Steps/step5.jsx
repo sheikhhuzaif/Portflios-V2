@@ -22,8 +22,8 @@ export default function Step5({
     id
     title
     company
-    startDate
-    endDate
+    startDate:sDate
+    endDate:eDate
   }
   }
   `
@@ -195,7 +195,7 @@ mutation deleteWork($pk: UUID) {
         ))}
 
         <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
-          {/* <Box ml={2}>
+          <Box ml={2}>
             <Button
               variant="outlined"
               onClick={handlePrev}
@@ -203,7 +203,7 @@ mutation deleteWork($pk: UUID) {
             >
               Back
             </Button>
-          </Box> */}
+          </Box>
           <Box ml={2}>
             <Button
               variant="outlined"

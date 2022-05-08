@@ -1,6 +1,6 @@
 import graphene
 from .mutations import UpdateBasicInfo, UpdateAddress, UpdateEducation, UpdateWork, UpdateSkill, UpdateSocial, \
-    DeleteEducation, DeleteWork, DeleteSkill, DeleteSocial
+    DeleteEducation, DeleteWork, DeleteSkill, DeleteSocial, SetTemplate, SetResume, SendMail
 from .types import UserType, BasicInfoType, AddressType, SkillType, EducationType, WorkType, SocialType, BaseDataType, \
     PortfolioType, ResumeType, BlogType
 from userprofile.models import AddressInfo
@@ -8,6 +8,7 @@ from userprofile.models import AddressInfo
 from portfolio.models import Portfolio
 from resumes.models import Resumes
 from blogs.models import Blog
+from django.contrib.auth.models import User
 
 
 class Query(graphene.ObjectType):
@@ -23,6 +24,12 @@ class Query(graphene.ObjectType):
     resumes = graphene.List(ResumeType)
     profile_completion = graphene.Int()
     blogs = graphene.List(BlogType)
+    template_data = graphene.Field(UserType, username=graphene.String())
+
+    def resolve_template_data(self, info, username):
+        user = User.objects.filter(username=username).first()
+        if user:
+            return user
 
     def resolve_blogs(self, info):
         return Blog.objects.all()
@@ -118,6 +125,9 @@ class Mutation(graphene.ObjectType):
     delete_skill = DeleteSkill.Field()
     update_social = UpdateSocial.Field()
     delete_social = DeleteSocial.Field()
+    set_template = SetTemplate.Field()
+    send_mail = SendMail.Field()
+    set_resume = SetResume.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
