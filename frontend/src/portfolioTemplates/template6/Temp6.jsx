@@ -19,6 +19,7 @@ function Temp6({ data }) {
   const skills = data && data.skills;
   const socials = data && data.socials;
   const works = data && data.works;
+  const email = basicinfo && basicinfo.email;
   return (
     <div >
       <Navbar />
@@ -33,7 +34,7 @@ function Temp6({ data }) {
       <Skills skills={skills} />
       <Experience experience={works} />
       <Education educations={educations} />
-      <Contact socials={socials}/>
+      <Contact socials={socials} email={email}/>
       <TopButton />
     </div>
   )

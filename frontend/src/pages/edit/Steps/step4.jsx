@@ -9,6 +9,7 @@ import { useQuery, useMutation, gql } from "@apollo/client";
 // SKILLS STEP
 
 export default function Step4({
+  state,
   handleNext,
   handlePrev,
 }) {
@@ -54,17 +55,33 @@ export default function Step4({
   });
 
   React.useEffect(() => {
-    const skills = data && data.skills;
-    const length = skills && skills.reduce((a, obj) => a + Object.keys(obj).length, 0);
-    if (length) {
-      let skill = skills && skills.map(obj => ({
-        pk: obj.id,
-        id: obj.id,
-        name: obj.name,
-      }));
-      skill && setSkills(skill);
+    if (state.parsedResume.hasOwnProperty("Skills")) {
+      const skills = state && state.parsedResume.Skills;
+      const length = skills.length;
+      if (length) {
+        let skill = skills && skills.map(obj => ({
+          pk: null,
+          id: uuidv4(),
+          name: obj,
+        }));
+        skill && setSkills(skill);
+      }
+
     }
-  }, [data]);
+    else {
+
+      const skills = data && data.skills;
+      const length = skills && skills.reduce((a, obj) => a + Object.keys(obj).length, 0);
+      if (length) {
+        let skill = skills && skills.map(obj => ({
+          pk: obj.id,
+          id: obj.id,
+          name: obj.name,
+        }));
+        skill && setSkills(skill);
+      }
+    }
+  }, [data, state.parsedResume]);
 
   const handleMutation = (e) => {
     console.log("skills", skills)

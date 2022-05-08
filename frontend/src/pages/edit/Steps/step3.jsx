@@ -14,6 +14,7 @@ import { useQuery, useMutation, gql } from "@apollo/client";
 // Qual STEP
 
 export default function Step3({
+  state,
   handleNext,
   handlePrev,
 }) {
@@ -63,21 +64,40 @@ export default function Step3({
   });
 
   React.useEffect(() => {
-    const educations = data && data.educations;
-    const length = educations && educations.reduce((a, obj) => a + Object.keys(obj).length, 0);
-    if (length) {
-      let education = educations && educations.map(obj => ({
-        pk: obj.id,
-        id: obj.id,
-        startDate: obj.startDate,
-        endDate: obj.endDate,
-        courseName: obj.courseName,
-        university: obj.university,
-        gpa: obj.gpa
-      }));
-      education && setQualifications(education);
+    if (state.parsedResume.hasOwnProperty("Degree")) {
+      const educations = state && state.parsedResume.Degree;
+      const length = educations.length;
+      if (length) {
+        let education = educations && educations.map(obj => ({
+          pk: null,
+          id: uuidv4(),
+          startDate: new Date(),
+          endDate: new Date(),
+          courseName: obj,
+          university: '',
+          gpa: ''
+        }));
+        education && setQualifications(education);
+      }
     }
-  }, [data]);
+    else {
+      const educations = data && data.educations;
+      const length = educations && educations.reduce((a, obj) => a + Object.keys(obj).length, 0);
+      if (length) {
+        let education = educations && educations.map(obj => ({
+          pk: obj.id,
+          id: obj.id,
+          startDate: obj.startDate,
+          endDate: obj.endDate,
+          courseName: obj.courseName,
+          university: obj.university,
+          gpa: obj.gpa
+        }));
+        education && setQualifications(education);
+      }
+    }
+
+  }, [data, state.parsedResume]);
 
   const handleMutation = (e) => {
     e.preventDefault();

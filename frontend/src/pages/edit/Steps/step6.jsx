@@ -56,7 +56,6 @@ export default function Step6({
   baseData
   {
     lists
-    profile
   }
   }
 `

@@ -38,7 +38,6 @@ export default function Step1({ state, handleNext }) {
   baseData
   {
     lists
-    profile
   }
   }
   `
@@ -78,6 +77,7 @@ export default function Step1({ state, handleNext }) {
     }
   `
   React.useEffect(() => {
+    console.log(state.parsedResume)
     const basicInfo = data && data.basicInfo;
     const phone = basicInfo && basicInfo.phone;
     const gender = basicInfo && basicInfo.gender;
@@ -85,10 +85,20 @@ export default function Step1({ state, handleNext }) {
     const profession = basicInfo && basicInfo.profession;
     const about = basicInfo && basicInfo.about;
     const picture = basicInfo && basicInfo.picture;
+    
+    if(state.parsedResume.hasOwnProperty?.Designation){
+      const Designation = state && state.parsedResume.Designation;
+      personal.profession = Designation;
+      Designation && setPersonal({ ...personal });
+    }
+    else{
+      personal.profession = profession;
+      setPersonal({ ...personal });
+    }
+    setPersonal({ ...personal, gender: gender, phone: phone, about: about, picture: '', dob: dob });
 
-    setPersonal({ gender: gender, phone: phone, profession: profession, about: about, picture: '', dob: dob });
 
-  }, [data]);
+  }, [data, state.parsedResume]);
 
 
   const [updateBasicInfo, { data1 }] = useMutation(UPDATE_BASIC_INFO, {

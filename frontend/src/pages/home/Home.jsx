@@ -42,6 +42,18 @@ export default function Home() {
 
   const [progress, setProgress] = useState();
 
+  const GET_USERNAME = gql`
+  query getUsername{
+      userData{
+          username
+  }
+  }
+  `
+
+const { data: userData } = useQuery(GET_USERNAME);
+const userData1 = userData && userData.userData;
+const username = userData1 && userData1.username;
+
   const GET_PROFILE_COMPLETION = gql`
   query getProfileCompletion{
     profileCompletion
@@ -65,12 +77,12 @@ export default function Home() {
       <div className="home " >
         <div className="flex mt-10">
 
-          <Link to="" className="res typeItem text p-44 m-6  relative border-2 rounded-md">
+          <Link to={{ pathname: `/resume`}} target="_blank" className="res typeItem text p-44 m-6  relative border-2 rounded-md">
             <div className="a absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: `url(${resume})` }}></div>
             <div className="b opacity-0 hover:opacity-100 duration-300 absolute inset-0 z-10 flex justify-center items-center text-xl text-black font-semibold">Download Your Resume</div>
           </Link>
 
-          <Link to="" className="port typeItem text p-44 m-6  relative rounded-md">
+          <Link to={{ pathname: `/view/${username}` }} target="_blank" className="port typeItem text p-44 m-6  relative rounded-md">
             <div className="c absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: `url(${portfolio})` }}></div>
             <div className="d opacity-0 hover:opacity-100 duration-300 absolute inset-0 z-10 flex justify-center items-center text-xl text-black font-semibold">Go to your Portfolio</div>
           </Link>

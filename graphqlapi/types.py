@@ -27,8 +27,15 @@ class BaseDataType(graphene.ObjectType):
 
     def resolve_profile(self, info):
         user = info.context.user
-        final = {'username': user.username, "has_portfolio": True if user.basicinfo.portfolio else False,
-                 "has_resume": True if user.basicinfo.resume else False}
+        portfolio, resume = None, None
+        try:
+            basic_info = user.basicinfo
+            portfolio = basic_info.portfolio
+            resume = basic_info.resume
+        except:
+            pass
+        final = {'username': user.username, "has_portfolio": True if portfolio else False,
+                    "has_resume": True if resume else False}
         return final
 
 

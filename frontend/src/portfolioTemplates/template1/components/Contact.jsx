@@ -4,6 +4,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { useMutation, gql } from "@apollo/client";
 
 const getSocialLinks = (socials) => {
   return (
@@ -22,7 +23,47 @@ const getSocialLinks = (socials) => {
   )
 }
 
-export default function Contact({ socials }) {
+export default function Contact({ socials, email }) {
+
+
+  const [Mail, setMail] = React.useState(
+    { subject: '', email: '', message: ''},
+  );
+
+  const SEND_MAIL = gql`
+  mutation sendMail($subject: String, $receiver: String, $sender: String, $message: String){
+  sendMail(
+      subject: $subject,
+      receiver: $receiver,
+      sender: $sender,
+      message: $message,
+  )
+  {
+    success
+  }
+  }
+`
+
+const [sendMail, { data1 }] = useMutation(SEND_MAIL, {
+  variables: {}
+});
+
+const handleMutation = (e) => {
+  e.preventDefault();
+  sendMail({
+    variables: {
+      subject: Mail.subject,
+      receiver: email,
+      sender: Mail.email,
+      message: Mail.message,
+    }
+  });
+}
+function handleChange(evt) {
+  const value = evt.target.value;
+  setMail({ ...Mail, [evt.target.name]: value });
+}
+
   return (
     <section id="contact" className="  min-h-screen pt-56">
       <div className="container py-20 ">
@@ -42,12 +83,14 @@ export default function Contact({ socials }) {
           </h2>
           <div className="relative mb-4">
             <label htmlFor="name" className="leading-7 text-sm ">
-              Name
+              Subject
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="subject"
+              name="subject"
+              value={Mail.subject}
+              onChange={handleChange}
               className="w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none  py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
@@ -59,6 +102,8 @@ export default function Contact({ socials }) {
               type="email"
               id="email"
               name="email"
+              value={Mail.email}
+              onChange={handleChange}
               className="w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none  py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
@@ -71,11 +116,14 @@ export default function Contact({ socials }) {
             <textarea
               id="message"
               name="message"
+              value={Mail.message}
+              onChange={handleChange}
               className="w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
             />
           </div>
           <button
             type="submit"
+            onClick={handleMutation}
             className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
             Submit
           </button>

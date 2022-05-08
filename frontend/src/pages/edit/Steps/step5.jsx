@@ -12,6 +12,7 @@ import { useQuery, useMutation, gql } from "@apollo/client";
 // WORK exp STEP
 
 export default function Step5({
+  state,
   handleNext,
   handlePrev,
 }) {
@@ -61,20 +62,37 @@ mutation deleteWork($pk: UUID) {
   });
 
   React.useEffect(() => {
-    const works = data && data.works;
-    const length = works && works.reduce((a, obj) => a + Object.keys(obj).length, 0);
-    if (length) {
-      let work = works && works.map(obj => ({
-        pk: obj.id,
-        id: obj.id,
-        startDate: obj.startDate,
-        endDate: obj.endDate,
-        title: obj.title,
-        company: obj.company,
-      }));
-      work && setExperience(work);
+    if (state.parsedResume.hasOwnProperty("Companies worked at")) {
+      const works = state && state.parsedResume["Companies worked at"];
+      const length = works.length;
+      if (length) {
+        let work = works && works.map(obj => ({
+          pk: null,
+          id: uuidv4(),
+          startDate: new Date(),
+          endDate: new Date(),
+          title: '',
+          company: obj,
+        }));
+        work && setExperience(work);
+      }
     }
-  }, [data]);
+    else {
+      const works = data && data.works;
+      const length = works && works.reduce((a, obj) => a + Object.keys(obj).length, 0);
+      if (length) {
+        let work = works && works.map(obj => ({
+          pk: obj.id,
+          id: obj.id,
+          startDate: obj.startDate,
+          endDate: obj.endDate,
+          title: obj.title,
+          company: obj.company,
+        }));
+        work && setExperience(work);
+      }
+    }
+  }, [data, state.parsedResume]);
 
 
   const handleMutation = (e) => {

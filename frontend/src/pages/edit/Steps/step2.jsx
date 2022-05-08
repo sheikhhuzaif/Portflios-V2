@@ -27,14 +27,13 @@ function getCountries(baseData) {
 }
 
 // ADDress DETAILS STEP
-export default function Step2({ handleNext, handlePrev, }) {
+export default function Step2({ state: appState, handleNext, handlePrev, }) {
 
   const BASIC_DATA = gql`
   query baseData{
   baseData
   {
     lists
-    profile
   }
   }
 `
@@ -91,9 +90,21 @@ export default function Step2({ handleNext, handlePrev, }) {
     const pincode = address && address.pincode;
     const city = address && address.city;
 
-    setPersonal({ city: city, state: state, pincode: pincode, country: country, address: streetAddress });
+    if(appState.parsedResume?.Location){
+      const Location = appState && appState.parsedResume.Location;
+      console.log(appState.parsedResume.Location)
+      personal.address = Location;
+      Location && setPersonal({ ...personal });
+    }
+    else{
+      console.log("husjahdjkasd", appState)
+      personal.address = streetAddress;
+      setPersonal({ ...personal });
+    }
 
-  }, [data]);
+    setPersonal({ ...personal, city: city, state: state, pincode: pincode, country: country});
+
+  }, [data, appState.parsedResume]);
 
   const handleMutation = (e) => {
     e.preventDefault();

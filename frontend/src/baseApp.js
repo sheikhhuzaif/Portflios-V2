@@ -5,12 +5,22 @@ import { BrowserRouter as Router, Routes, Route, useRoutes } from "react-router-
 import FormComponent from "./pages/edit/FormComponent";
 import Portfolio from "./pages/portfolio/Portfolio";
 import Resume from "./pages/resume/Resume";
+import { useQuery, gql } from "@apollo/client";
+
+const GET_BASIC_INFO = gql`
+{
+profileCompletion
+}
+`
 
 const Routing = () => {
 
+    const { loading, error, data } = useQuery(GET_BASIC_INFO);
+    const showPopup = data?.profileCompletion;
+
     const routes = useRoutes([
         { path: "/", element: <Home /> },
-        { path: "/edit", element: <FormComponent /> },
+        { path: "/edit", element: <FormComponent showPopup={showPopup} /> },
         { path: "/portfolio", element: <Portfolio /> },
         { path: "/resume", element: <Resume /> },
 

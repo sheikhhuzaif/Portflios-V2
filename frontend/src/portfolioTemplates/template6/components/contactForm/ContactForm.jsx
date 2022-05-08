@@ -3,6 +3,7 @@ import './ContactForm.css'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
+import { useMutation, gql } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
   email: {
@@ -64,10 +65,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function ContactForm(){
+export default function ContactForm({email}){
+
+
   const [status, setStatus] = useState('')
   const [emailText, setEmailText] = useState('')
   const [messageText, setMessageText] = useState('')
+  const [subjectText, setSubjectText] = useState('')
+
+  const [Mail, setMail] = React.useState(
+    { subject: '', email: '', message: ''},
+  );
+
+  const SEND_MAIL = gql`
+  mutation sendMail($subject: String, $receiver: String, $sender: String, $message: String){
+  sendMail(
+      subject: $subject,
+      receiver: $receiver,
+      sender: $sender,
+      message: $message,
+  )
+  {
+    success
+  }
+  }
+`
+
+const [sendMail, { data1 }] = useMutation(SEND_MAIL, {
+  variables: {}
+});
+
+const handleMutation = (e) => {
+  e.preventDefault();
+  sendMail({
+    variables: {
+      subject: subjectText,
+      receiver: email,
+      sender: emailText,
+      message: messageText,
+    }
+  });
+}
 
   const classes = useStyles()
 
@@ -102,6 +140,11 @@ export default function ContactForm(){
     setMessageText(input)
   }
 
+  const handleSubjectChange = (event) => {
+    const input = String(event.target.value)
+    setSubjectText(input)
+  }
+
   return (
     <div className="contact-form-wrapper">
       <form
@@ -120,6 +163,15 @@ export default function ContactForm(){
           variant="filled"
         />
         <TextField
+          className={classes.email}
+          type="subject"
+          name="subject"
+          label="Subject"
+          value={subjectText}
+          onChange={handleSubjectChange}
+          variant="filled"
+        />
+        <TextField
           className={classes.message}
           type="text"
           name="message"
@@ -133,7 +185,7 @@ export default function ContactForm(){
         {status === 'SUCCESS' ? (
           <p className="email-success">Thanks!</p>
         ) : (
-          <Button className={classes.submit} type="submit" variant="contained">
+          <Button className={classes.submit} type="submit" onClick={handleMutation} variant="contained">
             Submit
           </Button>
         )}

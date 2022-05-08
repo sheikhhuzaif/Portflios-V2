@@ -29,10 +29,10 @@ const getSocialLinks = (socials) => {
   )
 }
 
-export default function Contact({socials}){
+export default function Contact({socials, email}){
   return (
     <Section title="Contact" className="flex flex-col h-screen">
-      <ContactForm />
+      <ContactForm email={email} />
       <Bounce cascade>
       {getSocialLinks(socials)}
       </Bounce>

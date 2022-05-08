@@ -16,6 +16,7 @@ import FinalStep from "./Steps/FinalStep";
 import { styled } from '@mui/material/styles';
 import Popup from "./Popup";
 
+
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -27,7 +28,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 class FormComponent extends Component {
-
+  
   state = {
     steps: [
       { label: "Personal Details" },
@@ -38,8 +39,15 @@ class FormComponent extends Component {
       { label: "Social" },
     ],
     stepCount: 0,
+    parsedResume:{},
   };
   render() {
+
+
+    const setParsedResume = (parsedResume) =>{
+      this.setState({parsedResume: parsedResume})
+    }
+
     const handleSubmit = (e) => {
       e.preventDefault();
       console.log("form submitted");
@@ -56,7 +64,7 @@ class FormComponent extends Component {
       stepCount = stepCount - 1;
       this.setState({ stepCount });
     };
-
+    console.log(this.props.showPopup)
     const getStepContent = (step) => {
       switch (step) {
         case 0:
@@ -127,8 +135,10 @@ class FormComponent extends Component {
       // <DrawerHeader />
       <div className="head">
         <DrawerHeader />
-        
-        <Popup />
+        {
+          !this.props.showPopup &&
+        <Popup parsedResume={this.state.parsedResume} setParsedResume={setParsedResume}/>
+        }
         <div className="formContainer" >
 
 

@@ -19,13 +19,13 @@ const style = {
     borderRadius: 4,
 };
 
-export default function Popup() {
+const Popup = ({parsedResume, setParsedResume}) => {
     const [open, setOpen] = React.useState(true);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const [uploadFile, setUploadFile] = React.useState();
-    const [parsedResume, setParsedResume] = React.useState();
+    
     const getResumeData = () => {
     const data = new FormData();
     data.append('file_uploaded', uploadFile)
@@ -37,7 +37,7 @@ export default function Popup() {
                 'Content-Type': 'multipart/form-data',
             },
         data }).then((response) => {
-            setParsedResume(response.data);console.log(response.data)}).catch((error) => {
+            setParsedResume(response.data);}).catch((error) => {
             console.log("failure");
         });
     };
@@ -120,3 +120,5 @@ export default function Popup() {
         </div>
     );
 }
+export default Popup;
+// export {parsed_data};

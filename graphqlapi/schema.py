@@ -38,38 +38,41 @@ class Query(graphene.ObjectType):
         user = info.context.user
         if user.is_authenticated:
             total = 0
-            if user.basicinfo:
-                total += 25
-            if user.address:
-                total += 15
-            if skill_count := user.skills.all().count():
-                skill_val = 3 * skill_count
-                if skill_count < 15:
-                    total += skill_val
-                else:
+            try:
+                if user.basicinfo:
+                    total += 25
+                if user.address:
                     total += 15
-            if education_count := user.education.all().count():
-                edu_val = 5 * education_count
-                if edu_val < 15:
-                    total += edu_val
+                if skill_count := user.skills.all().count():
+                    skill_val = 3 * skill_count
+                    if skill_count < 15:
+                        total += skill_val
+                    else:
+                        total += 15
+                if education_count := user.education.all().count():
+                    edu_val = 5 * education_count
+                    if edu_val < 15:
+                        total += edu_val
+                    else:
+                        total += 15
+                if work_count := user.works.all().count():
+                    work_val = 5 * work_count
+                    if work_val < 15:
+                        total += work_val
+                    else:
+                        total += 15
+                if socials_count := user.socials.all().count():
+                    socials_val = 4 * socials_count
+                    if socials_val < 15:
+                        total += socials_val
+                    else:
+                        total += 15
+                if total<100:
+                    return total
                 else:
-                    total += 15
-            if work_count := user.works.all().count():
-                work_val = 5 * work_count
-                if work_val < 15:
-                    total += work_val
-                else:
-                    total += 15
-            if socials_count := user.socials.all().count():
-                socials_val = 4 * socials_count
-                if socials_val < 15:
-                    total += socials_val
-                else:
-                    total += 15
-            if total<100:
-                return total
-            else:
-                return 100
+                    return 100
+            except:
+                return 0
 
     def resolve_resumes(self, info):
         return Resumes.objects.all()

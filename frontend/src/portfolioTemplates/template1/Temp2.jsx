@@ -20,6 +20,7 @@ export default function Temp2({data}) {
   const skills = data && data.skills;
   const socials = data && data.socials;
   const works = data && data.works;
+  const email = basicinfo && basicinfo.email;
 
   console.log(works)
   return (
@@ -41,7 +42,7 @@ export default function Temp2({data}) {
           <Skills skills={skills}/>
           <Education educations={educations}/>
           <WorkExp experience={works}/>
-          <Contact socials={socials}/>
+          <Contact socials={socials} email={email}/>
       </div>
     </main>
   );
