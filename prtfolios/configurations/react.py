@@ -9,7 +9,7 @@ CREATE_REACT_APP = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': REACT_BUILD,
         'FRONT_END_SERVER': "http://localhost:3000/",
-        'is_dev': True,
+        'is_dev': False,
     }
 }
 

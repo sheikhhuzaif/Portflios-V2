@@ -13,7 +13,7 @@ from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views.generic import View
-from resume_parser.app import predict_
+#from resume_parser.app import predict_
 from .forms import LoginForm, SignupForm
 
 
@@ -112,33 +112,33 @@ class UploadSerializer(Serializer):
         fields = ['file_uploaded']
 
 
-class ResumeParserView(ViewSet):
-    serializer_class = UploadSerializer
-
-    def list(self, request):
-        return Response("GET API")
-
-    def format_data(self, ml_response):
-        predictions = ml_response.get('predictions', None)
-        initial_data = {}
-        if predictions:
-            for prediction in predictions:
-                if initial_data.get(prediction.get('entity'), None):
-                    if isinstance(initial_data.get(prediction.get('entity')), list):
-                        initial_data.get(prediction.get('entity')).append(prediction.get('text'))
-                    else:
-                        initial_data[prediction.get('entity')] = []
-                        initial_data.get(prediction.get('entity')).append(prediction.get('entity'))
-                        initial_data.get(prediction.get('entity')).append(prediction.get('text'))
-                else:
-                    initial_data[prediction.get('entity')] = prediction.get('text')
-            return initial_data
-
-    def create(self, request):
-        file_uploaded = request.FILES.get('file_uploaded')
-        response = predict_(file_uploaded)
-        response = self.format_data(response)
-        return Response(response)
+#class ResumeParserView(ViewSet):
+#    serializer_class = UploadSerializer
+#
+#    def list(self, request):
+#        return Response("GET API")
+#
+#    def format_data(self, ml_response):
+#        predictions = ml_response.get('predictions', None)
+#        initial_data = {}
+#        if predictions:
+#            for prediction in predictions:
+#                if initial_data.get(prediction.get('entity'), None):
+#                    if isinstance(initial_data.get(prediction.get('entity')), list):
+#                        initial_data.get(prediction.get('entity')).append(prediction.get('text'))
+#                    else:
+#                        initial_data[prediction.get('entity')] = []
+#                        initial_data.get(prediction.get('entity')).append(prediction.get('entity'))
+#                        initial_data.get(prediction.get('entity')).append(prediction.get('text'))
+#                else:
+#                    initial_data[prediction.get('entity')] = prediction.get('text')
+#            return initial_data
+#
+#    def create(self, request):
+#        file_uploaded = request.FILES.get('file_uploaded')
+#        response = predict_(file_uploaded)
+#        response = self.format_data(response)
+#        return Response(response)
 
 
 

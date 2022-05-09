@@ -3,7 +3,8 @@ GRAPHENE = {
 }
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
+     'http://localhost:3000',
+     'http://143.244.134.97/',
 ]
 
 REST_FRAMEWORK = {

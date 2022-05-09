@@ -16,13 +16,12 @@ MAX_LEN = 500
 NUM_LABELS = 14
 DEVICE = torch.device("cpu")
 MODEL_PATH = 'bert-base-uncased'
-model = os.path.join(BASE_DIR, "resume_parser\\model-state.bin")
+model = os.path.join(BASE_DIR, "resume_parser/model-state.bin")
 STATE_DICT = torch.load(model, map_location=DEVICE)
-vocab = os.path.join(BASE_DIR, "resume_parser\\vocab\\vocab.txt")
+vocab = os.path.join(BASE_DIR, "resume_parser/vocab/vocab.txt")
 TOKENIZER = BertTokenizerFast(vocab, lowercase=True)
 
-model = BertForTokenClassification.from_pretrained(
-    'bert-base-uncased', state_dict=STATE_DICT['model_state_dict'], num_labels=NUM_LABELS)
+model = BertForTokenClassification.from_pretrained('bert-base-uncased', state_dict=STATE_DICT['model_state_dict'], num_labels=NUM_LABELS)
 model.to(DEVICE)
 
 

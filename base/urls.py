@@ -2,11 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path, include
 from django.views.decorators.csrf import csrf_exempt
 
-from .views import UserSignUp, LoginView, LogoutView, LandingPage, DashboardView, ResumeParserView, GenerateResume
+from .views import UserSignUp, LoginView, LogoutView, LandingPage, DashboardView, GenerateResume
 
 from rest_framework import routers
-router = routers.DefaultRouter()
-router.register(r'parse_resume', ResumeParserView, basename='resume-parser')
+#router = routers.DefaultRouter()
+#router.register(r'parse_resume', ResumeParserView, basename='resume-parser')
 
 urlpatterns = [
     path('signup/', UserSignUp.as_view(), name='signup'),
@@ -17,5 +17,5 @@ urlpatterns = [
     path('dashboard/<path:resource>/', login_required(DashboardView.as_view()), name="dashboard"),
     path('view/<path:resource>/', DashboardView.as_view(), name="view"),
     path('resume/', GenerateResume.as_view(), name="resume"),
-    path('', include(router.urls))
+#    path('', include(router.urls))
 ]

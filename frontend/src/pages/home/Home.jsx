@@ -8,8 +8,8 @@ import React, { useState } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
 import PropTypes from 'prop-types';
 import { useQuery, gql } from "@apollo/client";
-import resume from "..\\..\\images\\resume.jpg"
-import portfolio from "..\\..\\images\\portfolio.png"
+import resume from "../../images/resume.jpg"
+import portfolio from "../../images/portfolio.png"
 
 
 const DrawerHeader = styled('div')(({ theme }) => ({
