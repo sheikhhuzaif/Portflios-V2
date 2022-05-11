@@ -2023,13 +2023,12 @@ fieldset:disabled a.btn {
   pointer-events: none;
 }
 .btn-primary {
-  color: #fff;
-  background: var(--primaryGradiant);
+  color: #000;
   border-color: var(--primary);
   box-shadow: none;
 }
 .btn-primary:hover {
-  color: #fff;
+  color: #000;
   background: var(--secondary)
     linear-gradient(180deg, var(--secondary), var(--primary)) repeat-x;
   border-color: var(--secondary);
