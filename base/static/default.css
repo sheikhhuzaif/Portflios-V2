@@ -1,0 +1,39 @@
+:root {
+  --blue: #3369d6;
+  --indigo: #5603ad;
+  --purple: #801096;
+  --pink: #e36397;
+  --red: #f03;
+  --orange: #ff3b00;
+  --yellow: #ffd600;
+  --green: #00c759;
+  --teal: #73e9ef;
+  --cyan: #2bffc6;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --light: #dee2e6;
+  --lighter: #f8f9fa;
+  --primary: #f05d7d;
+  --secondary: #f5895c;
+  --primaryGradiant: var(--secondary)
+    linear-gradient(180deg, var(--primary), var(--secondary)) repeat-x;
+  --success: #00c759;
+  --info: #73e9ef;
+  --warning: #ff3b00;
+  --danger: #f03;
+  --light: #e9ecef;
+  --dark: #343a40;
+  --tertiary: #192b3f;
+  --link-hover: #0066db;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}

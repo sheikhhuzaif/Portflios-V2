@@ -223,7 +223,9 @@ export default function Sidebar() {
                 <ListItemText primary="Edit" />
               </ListItem>
               {/* </Link> */}
-              <ListItem button sx={{ pl: 4 }}>
+              <ListItem button key ="reset" onClick={() => {
+                window.location = "http://www.portfolios.works/change-password"
+              }} sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <PasswordIcon />
                 </ListItemIcon>
