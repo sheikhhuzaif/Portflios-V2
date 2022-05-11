@@ -123,7 +123,7 @@ export default function About({ firstName, basicinfo, address }) {
             <img
               className=" scale-75  transform hover:scale-90 ease-in-out duration-500"
               alt="hero"
-              src={pic}
+                src={"https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"}
             />
           </div>
         </Fade>

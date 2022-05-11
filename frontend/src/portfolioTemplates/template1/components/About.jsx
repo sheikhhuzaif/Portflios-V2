@@ -1,5 +1,4 @@
 import React from "react";
-import pic from "./photo.jpg";
 export default function About({firstName, basicinfo}) {
 
   return (
@@ -21,7 +20,7 @@ export default function About({firstName, basicinfo}) {
           <img
             className="object-cover object-center rounded  transform hover:scale-125 ease-in-out duration-500"
             alt="hero"
-            src={pic}
+            src="https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
           />
         </div>
       </div>
