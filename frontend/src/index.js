@@ -8,7 +8,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-	uri: 'http://143.244.134.97/graphql/',
+	uri: 'https://www.portfolios.works/graphql/',
   cache: new InMemoryCache()
 });
 
